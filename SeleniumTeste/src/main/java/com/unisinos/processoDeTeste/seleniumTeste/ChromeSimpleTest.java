@@ -26,7 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.unisinos.processoDeTeste.seleniumTeste.pages.GooglePage;
 
 @RunWith(BlockJUnit4ClassRunner.class)
-public class ChromeTest extends TestCase {
+public class ChromeSimpleTest extends TestCase {
 
 	private static ChromeDriverService service;
 	private WebDriver driver;
