@@ -1,4 +1,4 @@
-package com.unisinos.processoDeTeste.seleniumTeste.pages;
+package com.unisinos.processoDeTeste.selenium.google.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

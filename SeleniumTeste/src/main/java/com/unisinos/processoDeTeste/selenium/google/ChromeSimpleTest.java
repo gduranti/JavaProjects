@@ -1,4 +1,4 @@
-package com.unisinos.processoDeTeste.seleniumTeste;
+package com.unisinos.processoDeTeste.selenium.google;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +24,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.unisinos.processoDeTeste.seleniumTeste.pages.GooglePage;
+import com.unisinos.processoDeTeste.selenium.google.pages.GooglePage;
 
 @RunWith(BlockJUnit4ClassRunner.class)
 public class ChromeSimpleTest extends TestCase {
@@ -52,6 +53,33 @@ public class ChromeSimpleTest extends TestCase {
 	@After
 	public void quitDriver() {
 		driver.quit();
+	}
+	
+	@Test
+	public void testSimples1() {
+		
+		driver.get("C:\\Users\\Usuario\\Desktop\\teste.html");
+		
+		WebElement nome = driver.findElement(By.id("nome"));
+		nome.sendKeys("Gabriel");
+		
+		WebElement idade = driver.findElement(By.id("idade"));
+		idade.sendKeys("21");
+		
+		WebElement endereco = driver.findElement(By.id("endereco"));
+		endereco.sendKeys("Rua xis, numero 2");
+		
+		WebElement telefone = driver.findElement(By.id("telefone"));
+		telefone.sendKeys("51 8888 7777");
+		
+		WebElement btnSalvar = driver.findElement(By.id("btnSalvar"));
+		btnSalvar.click();
+		
+		FluentWait<WebDriver> wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.alertIsPresent());
+		
+		Alert alert = driver.switchTo().alert();
+		assertEquals("Bem vindo", alert.getText());
 	}
 
 	@Test
