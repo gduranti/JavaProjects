@@ -166,10 +166,11 @@ public class TestesAvaliador {
 				public void evaluate() throws Throwable {
 					try {
 						statement.evaluate();
+						driver.quit();
 					} catch (Throwable t) {
 						captureScreenshot(frameworkMethod.getName());
-						throw t; // rethrow to allow the failure to be reported
-									// to JUnit
+						driver.quit();
+						throw t; // rethrow to allow the failure to be reported to JUnit
 					}
 				}
 
