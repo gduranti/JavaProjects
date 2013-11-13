@@ -147,7 +147,7 @@ public class TestesAvaliador {
 
 	@After
 	public void tearDown() throws Exception {
-		driver.quit();
+//		driver.quit();
 	}
 
 	private boolean isElementPresent(By by) {
