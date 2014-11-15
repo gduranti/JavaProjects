@@ -1,6 +1,7 @@
 package br.unisinos.unitunes.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,10 +23,17 @@ public class Media extends GenericModel {
 	@NotNull
 	private Double value;
 
+	private Integer duration;
+
+	@Lob
 	private byte[] thumb;
 
+	@Lob
 	@NotNull
 	private byte[] content;
+
+	@NotNull
+	private String fileName;
 
 	@NotNull
 	private MediaType type;
@@ -58,6 +66,14 @@ public class Media extends GenericModel {
 		this.value = value;
 	}
 
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
 	public byte[] getThumb() {
 		return thumb;
 	}
@@ -88,6 +104,14 @@ public class Media extends GenericModel {
 
 	public void setType(MediaType type) {
 		this.type = type;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }

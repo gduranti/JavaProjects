@@ -11,7 +11,7 @@
 <ui:composition template="templates/layout.xhtml">
 	<ui:define name="content">
 
-		<p:panel header="Acessar" rendered="#{not sessionController.logged}" >
+		<p:panel header="Acessar" rendered="#{not sessionController.loged}" >
 			<h:form id="form-loggon" >
 				<p:messages autoUpdate="true" globalOnly="true" />
 			
@@ -29,7 +29,7 @@
 			</h:form>
 		</p:panel>
 		
-		<p:panel header="Abra uma conta" rendered="#{not sessionController.logged}" >
+		<p:panel header="Abra uma conta" rendered="#{not sessionController.loged}" >
 			<h:form id="form-new-user" >
 				<f:event listener="#{userController.init()}" type="preRenderView" />
 				

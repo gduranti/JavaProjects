@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import br.unisinos.unitunes.business.movement.MovementFacade;
 import br.unisinos.unitunes.business.user.UserFacade;
 import br.unisinos.unitunes.infra.session.SessionController;
 import br.unisinos.unitunes.model.User;
@@ -19,6 +20,9 @@ public class LogonController implements Serializable {
 
 	@Inject
 	private SessionController sessionController;
+
+	@Inject
+	private MovementFacade movementFacade;
 
 	@Inject
 	private UserFacade userFacade;
@@ -47,7 +51,8 @@ public class LogonController implements Serializable {
 
 	public String loggin() {
 		User user = userFacade.loggin(email, password);
-		sessionController.loggin(user);
+		sessionController.login(user);
+		sessionController.setBalance(movementFacade.getUserBalance(user));
 		return "user-home?faces-redirect=true";
 	}
 

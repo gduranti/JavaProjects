@@ -12,9 +12,6 @@
 	<ui:define name="content">
 	
 		<f:view>
-			<f:metadata>
-				<f:viewParam name="id" value="#{userController.id}" converter="javax.faces.Long" />
-			</f:metadata>
 			<f:event listener="#{userController.init()}" type="preRenderView" />
 	
 			<p:panel header="Minha Conta" >
@@ -24,9 +21,9 @@
 					<p:commandButton value="Adquirir Créditos" action="credit-form?faces-redirect=true" immediate="true" />
 					<p:separator />
 					
-					<p:messages autoUpdate="true" globalOnly="true" />
+					<p:growl id="growl" autoUpdate="true" showDetail="true" globalOnly="true" />
 					
-					<p:fieldset legend="Dados cadastrais">
+					<p:fieldset legend="Meus Dados cadastrais">
 						
 						<p:panelGrid columns="3">
 							<p:outputLabel value="Nome:" />
@@ -49,7 +46,7 @@
 					
 					<p:spacer />
 					
-					<p:fieldset legend="Movimentos">
+					<p:fieldset legend="Meus Movimentos">
 						<p:outputLabel value="Saldo Atual: R$ #{userController.balance}" />
 						<p:spacer />
 						

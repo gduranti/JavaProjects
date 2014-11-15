@@ -27,8 +27,8 @@ public abstract class GenericController<T extends Model> implements Controller<T
 	}
 
 	@Override
-	public void setFacade(Facade<T> service) {
-		this.facade = service;
+	public void setFacade(Facade<T> facade) {
+		this.facade = facade;
 	}
 
 	@Override

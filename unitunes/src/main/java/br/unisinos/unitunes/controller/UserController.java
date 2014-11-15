@@ -40,6 +40,9 @@ public class UserController extends FormController<User> {
 	@PostConstruct
 	public void setFacade() {
 		super.setFacade(facade);
+		if (sessionController.getUser() != null) {
+			setId(sessionController.getUser().getId());
+		}
 	}
 
 	@NotNull
@@ -90,7 +93,7 @@ public class UserController extends FormController<User> {
 		super.save();
 
 		if (isInclusion()) {
-			sessionController.loggin(getModel());
+			sessionController.login(getModel());
 		} else {
 			FacesUtil.addInfoMessage("Dados cadastrais alterados com sucesso.");
 		}

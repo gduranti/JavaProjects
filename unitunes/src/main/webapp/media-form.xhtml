@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+			<f:metadata>
+				<f:viewParam name="id" value="#{mediaFormController.id}" converter="javax.faces.Long" />
+			</f:metadata>
+			<f:event listener="#{mediaFormController.init()}" type="preRenderView" />
+	
+			<p:panel header="#{mediaFormController.viewTitle}" >
+				<h:form id="form" prependId="false">
+					
+					<p:commandButton value="Salvar" action="#{mediaFormController.saveAndClose()}" update="@form" />
+					<p:separator />
+					
+					<p:messages autoUpdate="true" globalOnly="true" closable="true" />
+					
+					<p:panelGrid columns="3">
+						
+						<p:outputLabel value="Conteúdo:" />
+						<h:panelGroup id="fileContentContainer">
+							<p:fileUpload id="fileContent" fileUploadListener="#{mediaFormController.handleFileUpload}"
+										mode="advanced" auto="true" update="fileContentContainer" rendered="#{empty mediaFormController.model.fileName}"
+										sizeLimit="25000000" />
+							<p:outputLabel id="fileName" value="#{mediaFormController.model.fileName}" rendered="#{not empty mediaFormController.model.fileName}" />
+						</h:panelGroup>
+						<p:message for="fileContent" />
+						
+						<p:outputLabel value="Imagem:" />
+						<h:panelGroup id="thumbContainer">
+						<p:fileUpload id="thumb" fileUploadListener="#{mediaFormController.handleThumbUpload}"
+									mode="advanced" auto="true" update="thumbContainer" rendered="#{empty mediaFormController.thumbFileName and mediaFormController.inclusion}"
+									sizeLimit="200000" />
+						<p:outputLabel id="thumFileName" value="#{mediaFormController.thumbFileName}" rendered="#{not empty mediaFormController.thumbFileName}" />
+						</h:panelGroup>
+						<p:message for="thumb" />
+						
+						<p:outputLabel value="Tipo:" />
+				        <p:selectOneButton id="mediaType" value="#{mediaFormController.model.type}" >
+				            <f:selectItems value="#{mediaFormController.mediaTypes}" var="t" itemLabel="#{t.description}" />
+				        </p:selectOneButton>
+						<p:message for="mediaType" />
+
+						<p:outputLabel value="Nome:" />
+						<p:inputText id="name" value="#{mediaFormController.model.name}" />
+						<p:message for="name" />
+
+						<p:outputLabel value="Descrição:" />
+						<p:inputText id="description" value="#{mediaFormController.model.description}" />
+						<p:message for="description" />
+
+						<p:outputLabel value="Valor:" />
+						<pe:inputNumber id="mediaValue" value="#{mediaFormController.model.value}"
+								decimalSeparator="," symbol="R$ " decimalPlaces="2" />
+						<p:message for="mediaValue" />
+
+						<p:outputLabel value="Duração:" />
+						<pe:inputNumber id="durantion" value="#{mediaFormController.model.duration}"
+								decimalPlaces="0" required="#{mediaFormController.model.type.hasDuration()}" />
+						<p:message for="durantion" />
+						
+					</p:panelGrid>
+				</h:form>
+			</p:panel>
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

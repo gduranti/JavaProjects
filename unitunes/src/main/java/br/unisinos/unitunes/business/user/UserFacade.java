@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import br.unisinos.unitunes.infra.exception.BusinessException;
 import br.unisinos.unitunes.infra.impl.GenericFacade;
 import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.UserType;
+import br.unisinos.unitunes.model.event.MediaAddedEvent;
+import br.unisinos.unitunes.model.event.UserInfoChangedEvent;
 
 @Stateless
 public class UserFacade extends GenericFacade<User> {
@@ -17,15 +21,26 @@ public class UserFacade extends GenericFacade<User> {
 	@Inject
 	private UserDAO userDAO;
 
+	@Inject
+	private Event<UserInfoChangedEvent> userInfoChangedEvent;
+
 	@PostConstruct
 	public void init() {
 		super.setDao(userDAO);
 	}
 
 	@Override
-	public User add(User model) {
-		model.setType(UserType.ACADEMIC);
-		return super.add(model);
+	public User add(User user) {
+		user.setType(UserType.ACADEMIC);
+		user = super.add(user);
+		return user;
+	}
+
+	@Override
+	public User update(User user) {
+		user = super.update(user);
+		userInfoChangedEvent.fire(new UserInfoChangedEvent(user));
+		return user;
 	}
 
 	public User loggin(String email, String password) {
@@ -37,6 +52,14 @@ public class UserFacade extends GenericFacade<User> {
 			return list.get(0);
 		}
 		throw new BusinessException("Usuário ou senha incorreta.");
+	}
+
+	public void observeMedias(@Observes MediaAddedEvent mediaAddedEvent) {
+		User user = mediaAddedEvent.getMedia().getAuthor();
+		if (user.getType() == UserType.ACADEMIC) {
+			user.setType(UserType.AUTHOR);
+			update(user);
+		}
 	}
 
 }
