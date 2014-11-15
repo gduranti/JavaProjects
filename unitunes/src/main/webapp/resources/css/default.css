@@ -1,0 +1,122 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+}
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.footer {
+	/*background-color: blue;
+	color: white;*/
+	text-align: center;
+}
+
+.ui-datatable-even {
+    background: none;
+    background-color: #555555;
+}
+
+.ui-datatable-odd {
+    background: none;
+    background-color: #606060;
+}
+
+.ui-fieldset .ui-fieldset-legend {
+	background-color: transparent;
+	border-color: transparent;
+	padding: 0em 0.5em !important;
+}
+
+.north {
+	display: table
+}
+
+.header {
+	font-size: 2em;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.menu {
+	padding-left: 5em;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.ui-selectonebutton .ui-button .ui-button-text {
+    padding: 0.3em 0.9em;
+}
+
+.title-box {
+    font-size: 1.4em !important;
+}
+
+.ui-panelgrid TBODY TD, .ui-panelgrid TR {
+    border-style: none;
+    padding: 1px 2px;
+}
+
+.accountExtractPanel .ui-panel-title {
+	font-size: 1.1em;
+	text-align: center;
+}
+
+.accountExtractPanel .ui-panel-content  {
+	padding: 0 0 !important;
+}
+
+.accounts-grid .ui-datagrid-content > TABLE > TBODY > TR > TD {
+	vertical-align: top;
+}
+
+.movementsTable .balance-row {
+	background-color: #3D3D3D;
+}
+	
+/* Credito impar */
+.movementsTable .ui-datatable-even.credit-row {
+	background-color: #4FB14F;
+}
+
+/* Credito par */
+.movementsTable .ui-datatable-odd.credit-row {
+	background-color: #479147;
+}
+
+/* Debito impar */
+.movementsTable .ui-datatable-even.debit-row {
+	background-color: #E4A158;
+}
+
+/* Debito par */
+.movementsTable .ui-datatable-odd.debit-row {
+	background-color: #C28D53;
+}
+
+.no-header table thead tr {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

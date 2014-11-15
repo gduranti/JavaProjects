@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+
+		<p:panel header="Acessar" rendered="#{not sessionController.logged}" >
+			<h:form id="form-loggon" >
+				<p:messages autoUpdate="true" globalOnly="true" />
+			
+				<p:panelGrid columns="3">
+					<p:outputLabel value="E-mail:" />
+					<p:inputText id="email" value="#{logonController.email}" />
+					<p:message for="email" />
+					
+					<p:outputLabel value="Senha:" />
+					<p:password id="pass" value="#{logonController.password}" />
+					<p:message for="pass" />
+				</p:panelGrid>
+				
+				<p:commandButton value="OK" action="#{logonController.loggin()}" update="@form" />
+			</h:form>
+		</p:panel>
+		
+		<p:panel header="Abra uma conta" rendered="#{not sessionController.logged}" >
+			<h:form id="form-new-user" >
+				<f:event listener="#{userController.init()}" type="preRenderView" />
+				
+				<p:messages autoUpdate="true" globalOnly="true" />
+				
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Nome:" />
+					<p:inputText id="name" value="#{userController.model.name}" />
+					<p:message for="name" />
+					
+					<p:outputLabel value="E-mail:" />
+					<p:inputText id="email" value="#{userController.model.email}" />
+					<p:message for="email" />
+					
+					<p:outputLabel value="Senha:" />
+					<p:password id="pass" value="#{userController.model.password}" />
+					<p:message for="pass" />
+					
+					<p:outputLabel value="Confirmar Senha:" />
+					<p:password id="confirmPass" value="#{userController.confirmPassword}" />
+					<p:message for="confirmPass" />
+				</p:panelGrid>
+					
+				<p:separator />
+				<p:commandButton value="Abrir uma conta" action="#{userController.save()}" update="@form" />
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+</ui:composition>
+
+</html>

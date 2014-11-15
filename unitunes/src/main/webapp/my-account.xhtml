@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+			<f:metadata>
+				<f:viewParam name="id" value="#{userController.id}" converter="javax.faces.Long" />
+			</f:metadata>
+			<f:event listener="#{userController.init()}" type="preRenderView" />
+	
+			<p:panel header="Minha Conta" >
+				<h:form id="form" prependId="false">
+						
+					<p:commandButton value="Alterar dados" action="#{userController.save()}" update="@form" />
+					<p:commandButton value="Adquirir Créditos" action="credit-form?faces-redirect=true" immediate="true" />
+					<p:separator />
+					
+					<p:messages autoUpdate="true" globalOnly="true" />
+					
+					<p:fieldset legend="Dados cadastrais">
+						
+						<p:panelGrid columns="3">
+							<p:outputLabel value="Nome:" />
+							<p:inputText id="name" value="#{userController.model.name}" />
+							<p:message for="name" />
+							
+							<p:outputLabel value="E-mail:" />
+							<p:inputText id="email" value="#{userController.model.email}" />
+							<p:message for="email" />
+							
+							<p:outputLabel value="Senha:" />
+							<p:password id="pass" value="#{userController.model.password}" />
+							<p:message for="pass" />
+							
+							<p:outputLabel value="Confirmar Senha:" />
+							<p:password id="confirmPass" value="#{userController.confirmPassword}" />
+							<p:message for="confirmPass" />
+						</p:panelGrid>
+					</p:fieldset>
+					
+					<p:spacer />
+					
+					<p:fieldset legend="Movimentos">
+						<p:outputLabel value="Saldo Atual: R$ #{userController.balance}" />
+						<p:spacer />
+						
+						<p:dataTable value="#{userController.movements}" var="m" >
+							<p:column headerText="Data">
+								<p:outputLabel value="#{m.date.time}" >
+								    <f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:outputLabel>
+							</p:column>
+							<p:column headerText="Origem">
+								<p:outputLabel value="#{m.source}" />
+							</p:column>
+							<p:column headerText="Valor">
+								<p:outputLabel value="#{m.value}" rendered="#{m.type eq 'CREDIT'}" />
+								<p:outputLabel value="- #{m.value}" rendered="#{m.type eq 'DEBIT'}" />
+							</p:column>
+						</p:dataTable>
+						
+					</p:fieldset>
+				</h:form>
+			</p:panel>
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

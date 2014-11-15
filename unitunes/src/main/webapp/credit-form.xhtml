@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+	
+			<p:panel header="Aquisição de Crédito" >
+				<h:form id="form" prependId="false">
+					
+					<p:messages autoUpdate="true" globalOnly="true" />
+					
+					<p:panelGrid columns="3">
+						<p:outputLabel value="Valor" />
+						<p:inputText id="value" value="#{creditPurchaseController.value}" />
+						<p:message for="value" />
+						
+						<p:outputLabel value="Forma de pagamento:" />
+				        <p:selectOneButton id="paymentType" value="#{creditPurchaseController.paymentType}">
+				            <f:selectItems value="#{creditPurchaseController.paymentTypes}" var="pay" />
+				        </p:selectOneButton>
+						<p:message for="paymentType" />
+					</p:panelGrid>
+						
+					<p:separator />
+					<p:commandButton value="Finalizar" action="#{creditPurchaseController.save()}" update="@form" />
+				</h:form>
+			</p:panel>
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<div id="menu" class="menu">
+	
+		<p:megaMenu>
+			<p:menuitem value="Home" url="/" />
+			
+			<p:menuitem value="Entrar" url="loggon.xhtml" rendered="#{not sessionController.logged}" />
+			<p:menuitem value="Cadastrar-se" url="user-form.xhtml" rendered="#{not sessionController.logged}" />
+			
+			<p:menuitem value="Mídias" url="my-medias.xhtml" rendered="#{sessionController.logged}" />
+			<p:menuitem value="Minhas Mídias" url="my-medias.xhtml" rendered="#{sessionController.logged}" />
+			<p:menuitem value="Minha Conta" url="my-account.xhtml?id=#{sessionController.user.id}" rendered="#{sessionController.logged}" />
+			
+			<p:menuitem value="Sair" action="#{sessionController.loggoff()}" url="index.xhtml" rendered="#{sessionController.logged}" />
+		</p:megaMenu>
+
+	</div>
+	
+	<p:outputLabel value="Saldo atual: R$ 1233.32" rendered="#{sessionController.logged}" />
+
+</ui:composition>
+
+</html>

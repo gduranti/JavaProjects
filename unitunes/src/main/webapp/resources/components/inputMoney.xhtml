@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+
+	<composite:attribute name="value" required="true" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<pe:inputNumber id="#{cc.clientId}_input" value="#{cc.attrs.value}" decimalSeparator="," symbol="R$ " decimalPlaces="2" />
+
+</composite:implementation>
+</html>
