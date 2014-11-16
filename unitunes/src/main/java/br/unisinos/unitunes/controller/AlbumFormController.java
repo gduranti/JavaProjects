@@ -47,6 +47,7 @@ public class AlbumFormController extends FormController<Album> {
 	@Override
 	public void init() {
 		super.init();
+		editing = isInclusion();
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package br.unisinos.unitunes.controller;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
@@ -97,7 +99,13 @@ public class UserFormController extends FormController<User> {
 		super.save();
 
 		if (isInclusion()) {
-			sessionController.login(getModel());
+			User user = facade.loggin(getModel().getEmail(), getModel().getPassword());
+			sessionController.login(user);
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("media-list.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} else {
 			FacesUtil.addInfoMessage("Dados cadastrais alterados com sucesso.");
 		}
@@ -105,7 +113,7 @@ public class UserFormController extends FormController<User> {
 
 	@Override
 	public String close() {
-		return "user-home?faces-redirect=true";
+		return "media-list?faces-redirect=true";
 	}
 
 }

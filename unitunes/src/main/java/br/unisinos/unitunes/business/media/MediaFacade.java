@@ -48,6 +48,7 @@ public class MediaFacade extends GenericFacade<Media> {
 	@Override
 	public Media add(Media media) {
 		media.setInclusionDate(Calendar.getInstance());
+		media.setStatus(Status.ACTIVE);
 		media = super.add(media);
 		mediaEvent.fire(new MediaChangedEvent(media));
 		userFacade.addPublishedMedia(media, media.getAuthor());

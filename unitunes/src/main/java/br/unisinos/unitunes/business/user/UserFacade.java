@@ -40,6 +40,7 @@ public class UserFacade extends GenericFacade<User> {
 	@Override
 	public User add(User user) {
 		validateUniqueEmail(user);
+		user.setStatus(Status.ACTIVE);
 		user.setType(UserType.ACADEMIC);
 		user = super.add(user);
 		return user;
