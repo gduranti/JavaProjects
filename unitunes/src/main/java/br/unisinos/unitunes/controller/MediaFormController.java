@@ -1,8 +1,5 @@
 package br.unisinos.unitunes.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,8 +10,8 @@ import org.primefaces.event.FileUploadEvent;
 import br.unisinos.unitunes.business.media.MediaFacade;
 import br.unisinos.unitunes.infra.faces.FacesUtil;
 import br.unisinos.unitunes.infra.impl.FormController;
-import br.unisinos.unitunes.infra.session.SessionController;
 import br.unisinos.unitunes.model.Media;
+import br.unisinos.unitunes.model.MediaContent;
 import br.unisinos.unitunes.model.MediaType;
 
 @Named
@@ -29,6 +26,7 @@ public class MediaFormController extends FormController<Media> {
 	@Inject
 	private SessionController sessionController;
 
+	private MediaType mediaType;
 	private String thumbFileName;
 
 	@PostConstruct
@@ -36,12 +34,22 @@ public class MediaFormController extends FormController<Media> {
 		setFacade(facade);
 	}
 
-	public List<MediaType> getMediaTypes() {
-		return Arrays.asList(MediaType.values());
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
 	}
 
 	public String getThumbFileName() {
 		return thumbFileName;
+	}
+
+	@Override
+	public void setModel(Media model) {
+		super.setModel(model);
+		mediaType = model.getCategory().getType();
 	}
 
 	@Override
@@ -52,7 +60,9 @@ public class MediaFormController extends FormController<Media> {
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
-		getModel().setContent(event.getFile().getContents());
+		MediaContent mediaContent = new MediaContent();
+		mediaContent.setContent(event.getFile().getContents());
+		getModel().setContent(mediaContent);
 		getModel().setFileName(event.getFile().getFileName());
 	}
 
@@ -78,6 +88,11 @@ public class MediaFormController extends FormController<Media> {
 	@Override
 	public String getViewTitle() {
 		return isInclusion() ? "Nova Mídia" : "Mídia";
+	}
+
+	@Override
+	public String close() {
+		return "media-list?faces-redirect=true";
 	}
 
 }

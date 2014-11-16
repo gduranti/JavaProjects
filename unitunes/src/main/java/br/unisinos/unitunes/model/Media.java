@@ -1,6 +1,7 @@
 package br.unisinos.unitunes.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,18 +29,19 @@ public class Media extends GenericModel {
 	@Lob
 	private byte[] thumb;
 
-	@Lob
 	@NotNull
-	private byte[] content;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private MediaContent content;
 
 	@NotNull
 	private String fileName;
 
 	@NotNull
-	private MediaType type;
-
 	@ManyToOne
+	private MediaCategory category;
+
 	@NotNull
+	@ManyToOne
 	private User author;
 
 	public String getName() {
@@ -82,11 +84,11 @@ public class Media extends GenericModel {
 		this.thumb = thumb;
 	}
 
-	public byte[] getContent() {
+	public MediaContent getContent() {
 		return content;
 	}
 
-	public void setContent(byte[] content) {
+	public void setContent(MediaContent content) {
 		this.content = content;
 	}
 
@@ -98,12 +100,12 @@ public class Media extends GenericModel {
 		this.author = author;
 	}
 
-	public MediaType getType() {
-		return type;
+	public MediaCategory getCategory() {
+		return category;
 	}
 
-	public void setType(MediaType type) {
-		this.type = type;
+	public void setCategory(MediaCategory category) {
+		this.category = category;
 	}
 
 	public String getFileName() {

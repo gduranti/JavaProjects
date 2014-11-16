@@ -1,7 +1,8 @@
 package br.unisinos.unitunes.business.movement;
 
+import javax.persistence.Query;
+
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import br.unisinos.unitunes.infra.impl.GenericDAO;
@@ -12,13 +13,25 @@ class MovementDAO extends GenericDAO<Movement> {
 
 	public Double getUserBalance(User user) {
 
-		DetachedCriteria criteria = DetachedCriteria.forClass(Movement.class);
-		criteria.add(Restrictions.eq("user", user));
-		criteria.setProjection(Projections.sum("value"));
+		StringBuilder hql = new StringBuilder();
+		hql.append(" select sum ( case when m.type = 0 then m.value");
+		hql.append("              else - m.value end )");
+		hql.append(" from Movement m ");
+		hql.append(" where m.user = :user ");
 
-		Double balance = findUniqueResultByCriteria(criteria);
+		Query query = getEntityManager().createQuery(hql.toString());
+		query.setParameter("user", user);
+		Object singleResult = query.getSingleResult();
+		return (Double) singleResult;
+	}
 
-		return balance != null ? balance : 0.0;
+	@Override
+	protected void addRestrictions(Movement example, DetachedCriteria criteria) {
+		super.addRestrictions(example, criteria);
+
+		if (example.getUser() != null) {
+			criteria.add(Restrictions.eq("user", example.getUser()));
+		}
 	}
 
 }

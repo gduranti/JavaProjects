@@ -22,6 +22,7 @@
 				<h:form id="form" prependId="false">
 					
 					<p:commandButton value="Salvar" action="#{mediaFormController.saveAndClose()}" update="@form" />
+					<p:commandButton value="Fechar" action="#{mediaFormController.close()}" immediate="true" />
 					<p:separator />
 					
 					<p:messages autoUpdate="true" globalOnly="true" closable="true" />
@@ -37,20 +38,28 @@
 						</h:panelGroup>
 						<p:message for="fileContent" />
 						
-						<p:outputLabel value="Imagem:" />
-						<h:panelGroup id="thumbContainer">
-						<p:fileUpload id="thumb" fileUploadListener="#{mediaFormController.handleThumbUpload}"
-									mode="advanced" auto="true" update="thumbContainer" rendered="#{empty mediaFormController.thumbFileName and mediaFormController.inclusion}"
-									sizeLimit="200000" />
-						<p:outputLabel id="thumFileName" value="#{mediaFormController.thumbFileName}" rendered="#{not empty mediaFormController.thumbFileName}" />
+						<p:outputLabel value="Imagem:" rendered="#{mediaFormController.inclusion}" />
+						<h:panelGroup id="thumbContainer" rendered="#{mediaFormController.inclusion}" >
+							<p:fileUpload id="thumb" fileUploadListener="#{mediaFormController.handleThumbUpload}"
+										mode="advanced" auto="true" update="thumbContainer" sizeLimit="200000" 
+										rendered="#{empty mediaFormController.model.thumb}" />
+							<p:outputLabel id="thumFileName" value="#{mediaFormController.thumbFileName}" rendered="#{not empty mediaFormController.thumbFileName}" />
 						</h:panelGroup>
-						<p:message for="thumb" />
+						<p:message for="thumb" rendered="#{mediaFormController.inclusion}" />
 						
 						<p:outputLabel value="Tipo:" />
-				        <p:selectOneButton id="mediaType" value="#{mediaFormController.model.type}" >
-				            <f:selectItems value="#{mediaFormController.mediaTypes}" var="t" itemLabel="#{t.description}" />
+				        <p:selectOneButton id="mediaType" value="#{mediaFormController.mediaType}" >
+				        	<p:ajax event="change" process="@this" update="category" />
+				            <f:selectItems value="#{listsController.mediaTypes}" var="t" itemLabel="#{t.description}" />
 				        </p:selectOneButton>
 						<p:message for="mediaType" />
+						
+						<p:outputLabel value="Categoria:" />
+				        <p:selectOneMenu id="category" value="#{mediaFormController.model.category}" >
+				        	<f:selectItem itemLabel=" " itemValue=" "/>
+				            <f:selectItems value="#{listsController.getMediaCategories(mediaFormController.mediaType)}" var="t" itemLabel="#{t.name}" />
+				        </p:selectOneMenu>
+						<p:message for="category" />
 
 						<p:outputLabel value="Nome:" />
 						<p:inputText id="name" value="#{mediaFormController.model.name}" />
@@ -67,7 +76,7 @@
 
 						<p:outputLabel value="Duração:" />
 						<pe:inputNumber id="durantion" value="#{mediaFormController.model.duration}"
-								decimalPlaces="0" required="#{mediaFormController.model.type.hasDuration()}" />
+								decimalPlaces="0" required="#{mediaFormController.model.category.type.hasDuration()}" />
 						<p:message for="durantion" />
 						
 					</p:panelGrid>

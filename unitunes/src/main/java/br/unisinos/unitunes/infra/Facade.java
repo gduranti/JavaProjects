@@ -11,8 +11,10 @@ public interface Facade<T extends Model> {
 	T update(T model);
 
 	void remove(Long id);
-	
+
 	void remove(T model);
+
+	Long count(T example);
 
 	List<T> list(T example);
 

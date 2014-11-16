@@ -50,6 +50,11 @@ public abstract class GenericFacade<T extends Model> implements Facade<T> {
 	}
 
 	@Override
+	public Long count(T example) {
+		return dao.count(example);
+	}
+
+	@Override
 	public List<T> list(T example) {
 		return dao.list(example);
 	}

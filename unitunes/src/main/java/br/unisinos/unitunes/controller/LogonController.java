@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 import br.unisinos.unitunes.business.movement.MovementFacade;
 import br.unisinos.unitunes.business.user.UserFacade;
-import br.unisinos.unitunes.infra.session.SessionController;
 import br.unisinos.unitunes.model.User;
 
 @Named
@@ -53,7 +52,7 @@ public class LogonController implements Serializable {
 		User user = userFacade.loggin(email, password);
 		sessionController.login(user);
 		sessionController.setBalance(movementFacade.getUserBalance(user));
-		return "user-home?faces-redirect=true";
+		return "my-media-list?faces-redirect=true";
 	}
 
 }

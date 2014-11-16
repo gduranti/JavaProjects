@@ -2,11 +2,11 @@ package br.unisinos.unitunes.model.event;
 
 import br.unisinos.unitunes.model.Media;
 
-public class MediaAddedEvent {
+public class MediaChangedEvent {
 
 	private Media media;
 
-	public MediaAddedEvent(Media media) {
+	public MediaChangedEvent(Media media) {
 		this.media = media;
 	}
 

@@ -30,6 +30,10 @@ public abstract class GenericDAO<T extends Model> implements DAO<T> {
 		entityManager.persist(entity);
 	}
 
+	protected void add(Object entity) {
+		entityManager.persist(entity);
+	}
+
 	@Override
 	public void update(T entity) {
 		entityManager.merge(entity);
@@ -63,8 +67,12 @@ public abstract class GenericDAO<T extends Model> implements DAO<T> {
 
 	private DetachedCriteria createCriteriaForExample(T example) {
 		DetachedCriteria criteria = createCriteria();
-		criteria.add(Example.create(example));
+		addRestrictions(example, criteria);
 		return criteria;
+	}
+
+	protected void addRestrictions(T example, DetachedCriteria criteria) {
+		criteria.add(Example.create(example));
 	}
 
 	protected DetachedCriteria createCriteria() {

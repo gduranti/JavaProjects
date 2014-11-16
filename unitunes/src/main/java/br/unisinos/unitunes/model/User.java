@@ -3,6 +3,8 @@ package br.unisinos.unitunes.model;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,12 +33,15 @@ public class User extends GenericModel {
 	private UserType type;
 
 	@ManyToMany
+	@JoinTable(name = "USER_PUBLISHED_MEDIAS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEDIA_ID") })
 	private List<Media> publishedMedias;
 
 	@ManyToMany
+	@JoinTable(name = "USER_PURCHASED_MEDIAS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEDIA_ID") })
 	private List<Media> purchasedMedias;
 
 	@ManyToMany
+	@JoinTable(name = "USER_FAVORITE_MEDIAS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEDIA_ID") })
 	private List<Media> favoritesMedias;
 
 	@OneToMany(mappedBy = "author")
@@ -72,6 +77,42 @@ public class User extends GenericModel {
 
 	public void setType(UserType type) {
 		this.type = type;
+	}
+
+	public boolean isAdmin() {
+		return type == UserType.ADMIN;
+	}
+
+	public List<Media> getPublishedMedias() {
+		return publishedMedias;
+	}
+
+	public void setPublishedMedias(List<Media> publishedMedias) {
+		this.publishedMedias = publishedMedias;
+	}
+
+	public List<Media> getPurchasedMedias() {
+		return purchasedMedias;
+	}
+
+	public void setPurchasedMedias(List<Media> purchasedMedias) {
+		this.purchasedMedias = purchasedMedias;
+	}
+
+	public List<Media> getFavoritesMedias() {
+		return favoritesMedias;
+	}
+
+	public void setFavoritesMedias(List<Media> favoritesMedias) {
+		this.favoritesMedias = favoritesMedias;
+	}
+
+	public List<Album> getPublishedAlbums() {
+		return publishedAlbums;
+	}
+
+	public void setPublishedAlbums(List<Album> publishedAlbums) {
+		this.publishedAlbums = publishedAlbums;
 	}
 
 }

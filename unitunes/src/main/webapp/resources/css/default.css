@@ -65,49 +65,34 @@ body {
     padding: 1px 2px;
 }
 
-.accountExtractPanel .ui-panel-title {
-	font-size: 1.1em;
-	text-align: center;
-}
-
-.accountExtractPanel .ui-panel-content  {
-	padding: 0 0 !important;
-}
-
-.accounts-grid .ui-datagrid-content > TABLE > TBODY > TR > TD {
-	vertical-align: top;
-}
-
-.movementsTable .balance-row {
-	background-color: #3D3D3D;
-}
-	
-/* Credito impar */
-.movementsTable .ui-datatable-even.credit-row {
-	background-color: #4FB14F;
-}
-
-/* Credito par */
-.movementsTable .ui-datatable-odd.credit-row {
-	background-color: #479147;
-}
-
-/* Debito impar */
-.movementsTable .ui-datatable-even.debit-row {
-	background-color: #E4A158;
-}
-
-/* Debito par */
-.movementsTable .ui-datatable-odd.debit-row {
-	background-color: #C28D53;
-}
-
 .no-header table thead tr {
     display: none;
 }
 
+.unitunes-toolbar {
+	text-align: center;
+}
 
+.ui-toolbar-group-left {
+	float: none !important;
+}
 
+.ui-toolbar-group-left div {
+	vertical-align: middle;
+}
+
+.media-box {
+	width: 200px;
+	text-align: center !important;
+}
+
+.media-box .ui-panel-footer {
+	text-align: center !important;
+}
+
+.media-box .ui-widget-content {
+	/*height: 250px;*/
+}
 
 
 

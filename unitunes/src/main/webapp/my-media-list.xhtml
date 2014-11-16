@@ -14,17 +14,27 @@
 	<ui:define name="content">
 	
 		<f:view>
-			<f:event listener="#{mediaListController.init()}" type="preRenderView" />
+			<f:event listener="#{myMediaListController.init()}" type="preRenderView" />
 			
-			<p:panel header="#{mediaListController.viewTitle}" >
+			<p:panel header="#{myMediaListController.viewTitle}" >
 				<h:form id="form" prependId="false">
 
 				    <p:growl id="messages" globalOnly="true" />
 					
 				    <p:toolbar styleClass="unitunes-toolbar" >
 				        <f:facet name="left">
-					        <p:selectOneButton value="#{mediaListController.model.typeFilter}" >
-								<p:ajax event="change" listener="#{mediaListController.clearList()}" process="@this" update="@form" />
+				        
+					        <p:selectOneButton value="#{myMediaListController.model.myMediaFilter}" >
+								<p:ajax event="change" process="@this" update="@form" />
+								<f:selectItems value="#{listsController.myMediaFilterTypes}" var="t" itemLabel="#{t.description}" />
+					        </p:selectOneButton>
+							
+							<span class="ui-separator">
+				                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+				            </span>
+				        	
+					        <p:selectOneButton value="#{myMediaListController.model.typeFilter}" >
+								<p:ajax event="change" listener="#{myMediaListController.clearList()}" process="@this" update="@form" />
 								<f:selectItems value="#{listsController.mediaTypes}" var="t" itemLabel="#{t.description}" />
 					        </p:selectOneButton>
 							
@@ -32,10 +42,10 @@
 				                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 				            </span>
 							
-							<p:selectOneMenu value="#{mediaListController.model.categoryFilter}" >
-								<p:ajax event="change" listener="#{mediaListController.clearList()}" process="@this" update="@form" />
+							<p:selectOneMenu value="#{myMediaListController.model.categoryFilter}" >
+								<p:ajax event="change" listener="#{myMediaListController.clearList()}" process="@this" update="@form" />
 								<f:selectItem itemLabel="Todas Categorias" itemValue=" " />
-								<f:selectItems value="#{listsController.getMediaCategories(mediaListController.model.typeFilter)}"
+								<f:selectItems value="#{listsController.getMediaCategories(myMediaListController.model.typeFilter)}"
 											var="c" itemLabel="#{c.name}" />
 							</p:selectOneMenu>
 				        </f:facet>
@@ -43,7 +53,7 @@
 					
 					<pe:fluidGrid hasImages="true" hGutter="5" vGutter="5" >
 						
-						<c:forEach items="#{mediaListController.list()}" var="m" >
+						<c:forEach items="#{myMediaListController.list()}" var="m" >
 							<pe:fluidGridItem styleClass="media-box" >
 								<p:panel>
 									
@@ -51,30 +61,30 @@
 										<p:link value="#{m.name}" href="media-form.xhtml?id=#{m.id}" />
 									</f:facet>
 									
-									<p:graphicImage value="#{mediaListController.getThumb()}" cache="false">
+									<p:graphicImage value="#{myMediaListController.getThumb()}" cache="false">
 										<f:param name="media-id" value="#{m.id}" />
 									</p:graphicImage>
 									
 									<f:facet name="footer">
-									
-										<p:commandButton icon="ui-icon-star" action="#{mediaListController.addFavoriteMedia(m)}" update="@form"
+										
+										<p:commandButton icon="ui-icon-star" action="#{myMediaListController.addFavoriteMedia(m)}" update="@form"
 														title="Adicionar mídia como favorita"
-														rendered="#{not sessionController.isUserFavoriteMedia(m) and sessionController.loged}" />
-									
-										<p:commandButton icon="ui-icon-cancel" action="#{mediaListController.removeFavoriteMedia(m)}" update="@form"
+														rendered="#{not sessionController.isUserFavoriteMedia(m)}" />
+										
+										<p:commandButton icon="ui-icon-cancel" action="#{myMediaListController.removeFavoriteMedia(m)}" update="@form"
 														title="Remover mídia dos favoritos"
-														rendered="#{sessionController.isUserFavoriteMedia(m) and sessionController.loged}" />
-														
-										<p:commandButton value="#{mediaListController.formatMediaValue(m)}" icon="ui-icon-cart" 
-														action="#{mediaListController.purchaseMedia(m)}" update="@form"
+														rendered="#{sessionController.isUserFavoriteMedia(m)}" />
+										
+										<p:commandButton value="#{myMediaListController.formatMediaValue(m)}" icon="ui-icon-cart" 
+														action="#{myMediaListController.purchaseMedia(m)}" update="@form"
 														rendered="#{not sessionController.isUserPurchasedMedia(m) and sessionController.loged}" >
-									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaListController.formatMediaValue(m)}?"
+									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{myMediaListController.formatMediaValue(m)}?"
 									        			 header="Atenção" icon="ui-icon-cart" />
 										</p:commandButton>
 										
 										<p:commandButton value="Executar" icon="ui-icon-arrowthickstop-1-s"
-														rendered="#{sessionController.isUserPurchasedMedia(m) and sessionController.loged}" ajax="false" >
-											<p:fileDownload value="#{mediaListController.executeMedia(m)}" />
+														rendered="#{sessionController.isUserPurchasedMedia(m)}" ajax="false" >
+											<p:fileDownload value="#{myMediaListController.executeMedia(m)}" />
 										</p:commandButton>
 									</f:facet>
 									
@@ -83,11 +93,6 @@
 						</c:forEach>
 						
 					</pe:fluidGrid>
-					
-				    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-				    </p:confirmDialog>
 					
 				</h:form>
 			</p:panel>

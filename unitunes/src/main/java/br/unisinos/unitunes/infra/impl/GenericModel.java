@@ -46,6 +46,6 @@ public abstract class GenericModel implements Model {
 
 	@Override
 	public String toString() {
-		return String.format("[%s: %s - %s] ", getClass().getSimpleName(), getId());
+		return String.format("[%s: %s] ", getClass().getSimpleName(), getId());
 	}
 }

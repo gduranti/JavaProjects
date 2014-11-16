@@ -14,7 +14,6 @@ import br.unisinos.unitunes.business.user.UserFacade;
 import br.unisinos.unitunes.infra.exception.BusinessException;
 import br.unisinos.unitunes.infra.faces.FacesUtil;
 import br.unisinos.unitunes.infra.impl.FormController;
-import br.unisinos.unitunes.infra.session.SessionController;
 import br.unisinos.unitunes.model.Movement;
 import br.unisinos.unitunes.model.MovementType;
 import br.unisinos.unitunes.model.User;

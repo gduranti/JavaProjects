@@ -1,4 +1,4 @@
-package br.unisinos.unitunes.infra.session;
+package br.unisinos.unitunes.controller;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -7,6 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Named;
 
+import br.unisinos.unitunes.model.Media;
 import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.event.BalanceChangedEvent;
 
@@ -49,6 +50,18 @@ public class SessionController implements Serializable {
 
 	public void setBalance(Double balance) {
 		this.balance = balance;
+	}
+
+	public boolean isUserPurchasedMedia(Media media) {
+		return user.getPurchasedMedias().contains(media);
+	}
+
+	public boolean isUserPublishedMedia(Media media) {
+		return user.getPublishedMedias().contains(media);
+	}
+
+	public boolean isUserFavoriteMedia(Media media) {
+		return user.getFavoritesMedias().contains(media);
 	}
 
 	public void observeBalance(@Observes BalanceChangedEvent balanceChangedEvent) {

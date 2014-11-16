@@ -2,8 +2,6 @@ package br.unisinos.unitunes.infra.impl;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
-
 import br.unisinos.unitunes.infra.Controller;
 import br.unisinos.unitunes.infra.Facade;
 import br.unisinos.unitunes.infra.Model;
@@ -16,11 +14,6 @@ public abstract class GenericController<T extends Model> implements Controller<T
 	Facade<T> facade;
 
 	private T model;
-
-	@PostConstruct
-	public void initModel() {
-		// resetModel();
-	}
 
 	@Override
 	public void init() {
