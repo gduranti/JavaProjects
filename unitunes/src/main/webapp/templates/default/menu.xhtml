@@ -13,11 +13,27 @@
 			<p:menuitem value="Home" url="/" rendered="#{not sessionController.loged}" />
 			
 			<p:menuitem value="Mídias" url="media-list.xhtml" />
-			
 			<p:menuitem value="Minhas Mídias" url="my-media-list.xhtml" rendered="#{sessionController.loged}" />
-			<p:menuitem value="Nova Mídia" url="media-form.xhtml" rendered="#{sessionController.loged}" />
-			<p:menuitem value="Novo Álbum" url="album-form.xhtml" rendered="#{sessionController.loged}" />
+			
+		 	<p:submenu label="Adicionar" rendered="#{sessionController.loged}" >
+		 		<p:column>
+				 	<p:submenu>
+						<p:menuitem value="Nova Mídia" url="media-form.xhtml" />
+						<p:menuitem value="Novo Álbum" url="album-form.xhtml" />
+				 	</p:submenu>
+		 		</p:column>
+		 	</p:submenu>
+			
 			<p:menuitem value="Minha Conta" url="my-account.xhtml?id=#{sessionController.user.id}" rendered="#{sessionController.loged}" />
+		 	
+		 	<p:submenu label="Admin" rendered="#{sessionController.user.admin}" >
+		 		<p:column>
+				 	<p:submenu>
+		                <p:menuitem value="Usuários" url="user-list.xhtml" />
+		                <p:menuitem value="Resumo de Vendas" url="media-summary.xhtml" />
+				 	</p:submenu>
+		 		</p:column>
+            </p:submenu>
 			
 			<p:menuitem value="Sair" url="logoff.xhtml" rendered="#{sessionController.loged}" />
 		</p:megaMenu>

@@ -6,6 +6,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:cc="http://java.sun.com/jsf/composite/components">
 
 <ui:composition template="templates/layout.xhtml">
@@ -20,12 +21,12 @@
 					
 					<p:panelGrid columns="3">
 						<p:outputLabel value="Valor" />
-						<p:inputText id="value" value="#{creditPurchaseController.value}" />
+						<pe:inputNumber id="value" value="#{creditPurchaseController.value}" decimalSeparator="," symbol="R$ " decimalPlaces="2" />
 						<p:message for="value" />
 						
 						<p:outputLabel value="Forma de pagamento:" />
 				        <p:selectOneButton id="paymentType" value="#{creditPurchaseController.paymentType}">
-				            <f:selectItems value="#{creditPurchaseController.paymentTypes}" var="pay" />
+				            <f:selectItems value="#{creditPurchaseController.paymentTypes}" var="pay" itemLabel="#{pay.description}" />
 				        </p:selectOneButton>
 						<p:message for="paymentType" />
 					</p:panelGrid>

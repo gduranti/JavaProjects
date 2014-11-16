@@ -87,21 +87,21 @@
 									
 									<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
 													title="Adicionar mídia como favorita" immediate="true"
-													rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
-								
+													rendered="#{mediaHelper.showAddFavoriteButton(m)}" />
+									
 									<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
 													title="Remover mídia dos favoritos" immediate="true"
-													rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
-													
+													rendered="#{mediaHelper.showRemoveFavoriteButton(m)}" />
+									
 									<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart" immediate="true"
 													actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
-													rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+													rendered="#{mediaHelper.showPurchaseButton(m)}" >
 								        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
 								        			 header="Atenção" icon="ui-icon-cart" />
 									</p:commandButton>
 									
 									<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
-													rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+													rendered="#{mediaHelper.showExecuteButton(m)}" >
 										<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
 									</p:commandButton>
 								</p:panelGrid>
@@ -136,21 +136,21 @@
 										
 										<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
 														title="Adicionar mídia como favorita" immediate="true"
-														rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
+														rendered="#{mediaHelper.showAddFavoriteButton(m)}" />
 									
 										<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
 														title="Remover mídia dos favoritos" immediate="true"
-														rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
+														rendered="#{mediaHelper.showRemoveFavoriteButton(m)}" />
 														
 										<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart"  immediate="true"
 														actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
-														rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+														rendered="#{mediaHelper.showPurchaseButton(m)}" >
 									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
 									        			 header="Atenção" icon="ui-icon-cart" />
 										</p:commandButton>
 										
 										<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
-														rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+														rendered="#{mediaHelper.showExecuteButton(m)}" >
 											<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
 										</p:commandButton>
 									</f:facet>

@@ -1,5 +1,6 @@
 package br.unisinos.unitunes.controller;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +21,7 @@ import br.unisinos.unitunes.model.User;
 
 @Named
 @ViewAccessScoped
-public class UserController extends FormController<User> {
+public class UserFormController extends FormController<User> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +62,10 @@ public class UserController extends FormController<User> {
 
 	public Double getBalance() {
 		return balance;
+	}
+
+	public String formatValue(Double value) {
+		return "R$ " + new DecimalFormat("#0.00").format(value);
 	}
 
 	@Override

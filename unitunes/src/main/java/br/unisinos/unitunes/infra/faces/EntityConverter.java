@@ -10,7 +10,7 @@ import javax.faces.convert.FacesConverter;
 
 import br.unisinos.unitunes.infra.impl.GenericModel;
 
-@FacesConverter(forClass = GenericModel.class, value = "entityConverter")
+@FacesConverter(forClass = GenericModel.class)
 public class EntityConverter implements Converter {
 
 	private static final String CONVERTER_KEY = "com.gcd.debub.web.EntityConverter#Map";

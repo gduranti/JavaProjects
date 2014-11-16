@@ -57,7 +57,7 @@ public abstract class GenericDAO<T extends Model> implements DAO<T> {
 		return listByCriteria(criteria);
 	}
 
-	protected List<T> listByCriteria(DetachedCriteria criteria) {
+	protected <R> List<R> listByCriteria(DetachedCriteria criteria) {
 		return criteria.getExecutableCriteria(getSession()).list();
 	}
 

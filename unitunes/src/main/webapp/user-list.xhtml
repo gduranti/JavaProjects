@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+			<f:event listener="#{userListController.init()}" type="preRenderView" />
+			
+			<p:panel header="#{userListController.viewTitle}" >
+				<h:form id="form" prependId="false">
+
+				    <p:growl id="messages" globalOnly="true" />
+					
+					<p:dataTable id="users-table" value="#{userListController.list()}" var="u" >
+						<p:column headerText="Código" >
+							<p:outputLabel value="#{u.id}" />
+						</p:column>
+
+						<p:column headerText="Nome" >
+							<p:outputLabel value="#{u.name}" />
+						</p:column>
+
+						<p:column headerText="E-mail" >
+							<p:outputLabel value="#{u.email}" />
+						</p:column>
+
+						<p:column headerText="Tipo" >
+							<p:outputLabel value="#{u.type.description}" />
+						</p:column>
+
+						<p:column headerText="Status" >
+							<p:outputLabel value="#{u.status.description}" />
+						</p:column>
+
+						<p:column headerText="Inativar" >
+							<p:commandButton action="#{userListController.remove(u.id)}" immediate="true" icon="ui-icon-cancel" 
+									disabled="#{u.status eq 'INACTIVE'}" title="Inativar usuário" update="users-table" >
+								<p:confirm message="Tem certeza que deseja inativar este usuário?" header="Atenção" icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					
+				    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				    </p:confirmDialog>
+					
+				</h:form>
+			</p:panel>
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

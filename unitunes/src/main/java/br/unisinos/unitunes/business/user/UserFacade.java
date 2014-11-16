@@ -13,6 +13,7 @@ import org.hibernate.Hibernate;
 import br.unisinos.unitunes.infra.exception.BusinessException;
 import br.unisinos.unitunes.infra.impl.GenericFacade;
 import br.unisinos.unitunes.model.Media;
+import br.unisinos.unitunes.model.Status;
 import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.UserType;
 import br.unisinos.unitunes.model.event.MediaChangedEvent;
@@ -97,14 +98,22 @@ public class UserFacade extends GenericFacade<User> {
 		example.setEmail(email);
 		example.setPassword(password);
 		List<User> list = userDAO.list(example);
+
 		if (!list.isEmpty()) {
+
 			User user = list.get(0);
+
+			if (user.getStatus() == Status.INACTIVE) {
+				throw new BusinessException("Este usuário está inativo.");
+			}
+
 			Hibernate.initialize(user.getPublishedMedias());
 			Hibernate.initialize(user.getFavoritesMedias());
 			Hibernate.initialize(user.getPurchasedMedias());
 			Hibernate.initialize(user.getPublishedAlbums());
 			return user;
 		}
+
 		throw new BusinessException("Usuário ou senha incorreta.");
 	}
 
@@ -123,6 +132,12 @@ public class UserFacade extends GenericFacade<User> {
 		if (count > 0) {
 			throw new BusinessException("Este e-mail já está cadastrado.");
 		}
+	}
+
+	@Override
+	public void remove(User user) {
+		user.setStatus(Status.INACTIVE);
+		update(user);
 	}
 
 }

@@ -58,7 +58,7 @@ public class SessionController implements Serializable {
 	}
 
 	public boolean isUserPublishedMedia(Media media) {
-		return user.getPublishedMedias().contains(media);
+		return media.getAuthor().equals(user);
 	}
 
 	public boolean isUserFavoriteMedia(Media media) {

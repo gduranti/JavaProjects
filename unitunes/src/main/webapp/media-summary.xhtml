@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+			
+			<p:panel header="Resumo de Compras de Mídias" >
+				<h:form id="form" prependId="false">
+
+				    <p:growl id="messages" globalOnly="true" />
+				    
+				    <p:outputLabel value="Período:" />
+				    <p:calendar value="#{mediaSummaryController.initialDate.time}" showOn="button" pattern="dd/MM/yyyy" />
+				    <p:outputLabel value=" até " />
+				    <p:calendar value="#{mediaSummaryController.finalDate.time}" showOn="button" pattern="dd/MM/yyyy" />
+				    <p:spacer width="5px" />
+					<p:commandButton value="Pesquisar" icon="ui-icon-refresh" action="#{mediaSummaryController.clearList()}" update="summary-table" />
+					<p:separator />
+					
+					<p:dataTable id="summary-table" value="#{mediaSummaryController.list()}" var="s" >
+						
+						<p:column headerText="Código da Mídia" width="150" style="text-align: center;" >
+						    <p:outputLabel value="#{s.mediaId}" />
+						</p:column>
+						
+						<p:column headerText="Nome da Mídia" >
+						    <p:outputLabel value="#{s.mediaName}" />
+						</p:column>
+						
+						<p:column headerText="Quantidade de Vendas" footerText="#{mediaSummaryController.totalSales}" width="150" style="text-align: right;" >
+						    <p:outputLabel value="#{s.totalSales}" />
+						</p:column>
+						
+						<p:column headerText="Valor Vendido" footerText="#{mediaSummaryController.formatMediaValue(mediaSummaryController.totalValue)}" 
+									width="150" style="text-align: right;" >
+						    <p:outputLabel value="#{mediaSummaryController.formatMediaValue(s.totalValue)}" />
+						</p:column>
+						
+					</p:dataTable>
+					
+				</h:form>
+			</p:panel>
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

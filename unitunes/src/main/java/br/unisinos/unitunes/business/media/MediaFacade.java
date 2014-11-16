@@ -1,6 +1,7 @@
 package br.unisinos.unitunes.business.media;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -16,6 +17,8 @@ import br.unisinos.unitunes.infra.exception.BusinessException;
 import br.unisinos.unitunes.infra.impl.GenericFacade;
 import br.unisinos.unitunes.model.Media;
 import br.unisinos.unitunes.model.MediaContent;
+import br.unisinos.unitunes.model.MediaSummaryDTO;
+import br.unisinos.unitunes.model.Status;
 import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.event.MediaChangedEvent;
 
@@ -66,8 +69,8 @@ public class MediaFacade extends GenericFacade<Media> {
 		}
 
 		userFacade.removeUserMedias(media);
-		super.remove(media);
-		mediaEvent.fire(new MediaChangedEvent(media));
+		media.setStatus(Status.INACTIVE);
+		update(media);
 	}
 
 	public void purchaseMedia(Media media, User user) {
@@ -100,6 +103,10 @@ public class MediaFacade extends GenericFacade<Media> {
 		media = find(media.getId());
 		Hibernate.initialize(media.getContent());
 		return media.getContent();
+	}
+
+	public List<MediaSummaryDTO> listSummary(Calendar initialDate, Calendar finalDate) {
+		return dao.listSummary(initialDate, finalDate);
 	}
 
 }

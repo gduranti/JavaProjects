@@ -15,8 +15,8 @@ public class Movement extends GenericModel {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
 	@NotNull
+	@ManyToOne
 	private User user;
 
 	@NotNull
@@ -35,6 +35,9 @@ public class Movement extends GenericModel {
 	private MovementSource source;
 
 	private PaymentType paymentType;
+
+	@ManyToOne
+	private Media media;
 
 	public User getUser() {
 		return user;
@@ -90,6 +93,14 @@ public class Movement extends GenericModel {
 
 	public void setPaymentType(PaymentType paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public Media getMedia() {
+		return media;
+	}
+
+	public void setMedia(Media media) {
+		this.media = media;
 	}
 
 }

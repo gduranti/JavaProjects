@@ -62,21 +62,21 @@
 									
 									<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
 													title="Adicionar mídia como favorita" immediate="true"
-													rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
+													rendered="#{mediaHelper.showAddFavoriteButton(m)}" />
 								
 									<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
 													title="Remover mídia dos favoritos" immediate="true"
-													rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
+													rendered="#{mediaHelper.showRemoveFavoriteButton(m)}" />
 													
 									<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart" immediate="true"
 													actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
-													rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+													rendered="#{mediaHelper.showPurchaseButton(m)}" >
 								        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
 								        			 header="Atenção" icon="ui-icon-cart" />
 									</p:commandButton>
 									
 									<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
-													rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+													rendered="#{mediaHelper.showExecuteButton(m)}" >
 										<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
 									</p:commandButton>
 								</p:panelGrid>
@@ -96,29 +96,31 @@
 										<p:link value="#{m.name}" href="media-form.xhtml?id=#{m.id}" />
 									</f:facet>
 									
-									<p:graphicImage value="#{myMediaListController.getThumb()}" cache="false">
-										<f:param name="media-id" value="#{m.id}" />
-									</p:graphicImage>
+									<p:link href="media-form.xhtml?id=#{m.id}" >
+										<p:graphicImage value="#{myMediaListController.getThumb()}" cache="false">
+											<f:param name="media-id" value="#{m.id}" />
+										</p:graphicImage>
+									</p:link>
 									
 									<f:facet name="footer">
 										
 										<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
 														title="Adicionar mídia como favorita" immediate="true"
-														rendered="#{not sessionController.isUserFavoriteMedia(m)}" />
+														rendered="#{mediaHelper.showAddFavoriteButton(m)}" />
 										
 										<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
 														title="Remover mídia dos favoritos" immediate="true"
-														rendered="#{sessionController.isUserFavoriteMedia(m)}" />
+														rendered="#{mediaHelper.showRemoveFavoriteButton(m)}" />
 										
 										<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart" immediate="true"
 														action="#{mediaHelper.purchaseMedia(m)}" update="@form" title="Comprar mídia"
-														rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+														rendered="#{mediaHelper.showPurchaseButton(m)}" >
 									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
 									        			 header="Atenção" icon="ui-icon-cart" />
 										</p:commandButton>
 										
 										<p:commandButton icon="ui-icon-play" title="Executar mídia" immediate="true"
-														rendered="#{sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m)}" ajax="false" >
+														rendered="#{mediaHelper.showExecuteButton(m)}" ajax="false" >
 											<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
 										</p:commandButton>
 									</f:facet>

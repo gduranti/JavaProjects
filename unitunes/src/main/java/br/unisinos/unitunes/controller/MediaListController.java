@@ -22,7 +22,7 @@ import br.unisinos.unitunes.model.Album;
 import br.unisinos.unitunes.model.Media;
 import br.unisinos.unitunes.model.MediaFilter;
 import br.unisinos.unitunes.model.MediaType;
-import br.unisinos.unitunes.model.User;
+import br.unisinos.unitunes.model.Status;
 import br.unisinos.unitunes.model.event.MediaChangedEvent;
 
 @Named
@@ -51,6 +51,7 @@ public class MediaListController extends ListController<Media> {
 	protected MediaFilter createModelInstance() {
 		MediaFilter model = new MediaFilter();
 		model.setTypeFilter(MediaType.BOOK);
+		model.setStatus(Status.ACTIVE);
 		return model;
 	}
 
@@ -115,10 +116,11 @@ public class MediaListController extends ListController<Media> {
 	}
 
 	public void observeMedias(@Observes MediaChangedEvent mediaChangedEvent) {
-		User user = mediaChangedEvent.getMedia().getAuthor();
-		if (user.equals(sessionController.getUser())) {
-			clearList();
-		}
+		// User user = mediaChangedEvent.getMedia().getAuthor();
+		// if (user.equals(sessionController.getUser()) ||
+		// sessionController.getUser().isAdmin()) {
+		clearList();
+		// }
 	}
 
 }

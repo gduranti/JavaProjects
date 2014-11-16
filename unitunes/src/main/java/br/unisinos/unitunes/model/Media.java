@@ -53,6 +53,9 @@ public class Media extends GenericModel {
 	@ManyToOne
 	private User author;
 
+	@NotNull
+	private Status status;
+
 	public String getName() {
 		return name;
 	}
@@ -139,6 +142,18 @@ public class Media extends GenericModel {
 
 	public void setInclusionDate(Calendar inclusionDate) {
 		this.inclusionDate = inclusionDate;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public boolean isActive() {
+		return status == Status.ACTIVE;
 	}
 
 }

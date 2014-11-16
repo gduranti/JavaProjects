@@ -29,6 +29,26 @@ public class MediaHelper implements Serializable {
 	@Inject
 	private UserFacade userFacade;
 
+	public boolean showAddFavoriteButton(Media media) {
+		return sessionController.isLoged() && !sessionController.isUserFavoriteMedia(media) && media.isActive();
+	}
+
+	public boolean showRemoveFavoriteButton(Media media) {
+		return sessionController.isLoged() && sessionController.isUserFavoriteMedia(media) && media.isActive();
+	}
+
+	public boolean showPurchaseButton(Media media) {
+		return sessionController.isLoged() && !sessionController.isUserPurchasedMedia(media) && !sessionController.isUserPublishedMedia(media)
+				&& !sessionController.getUser().isAdmin() && media.isActive();
+	}
+
+	public boolean showExecuteButton(Media media) {
+		return sessionController.isLoged()
+				&& media.isActive()
+				&& (sessionController.isUserPurchasedMedia(media) || sessionController.isUserPublishedMedia(media) || sessionController.getUser()
+						.isAdmin());
+	}
+
 	public void addFavoriteMedia(Media media) {
 		userFacade.addFavoriteMedia(media, sessionController.getUser());
 	}

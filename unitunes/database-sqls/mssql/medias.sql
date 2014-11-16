@@ -1,0 +1,62 @@
+USE [unitunes]
+GO
+
+/****** Object:  Table [dbo].[MEDIAS]    Script Date: 11/16/2014 20:08:20 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[MEDIAS](
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[description] [varchar](255) NOT NULL,
+	[name] [varchar](255) NOT NULL,
+	[value] [float] NULL,
+	[author_id] [bigint] NOT NULL,
+	[duration] [int] NULL,
+	[fileName] [varchar](255) NOT NULL,
+	[thumb] [varbinary](max) NULL,
+	[category_id] [bigint] NOT NULL,
+	[content_id] [bigint] NOT NULL,
+	[pageCount] [int] NULL,
+	[inclusionDate] [datetime2](7) NULL,
+	[status] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[MEDIAS]  WITH CHECK ADD  CONSTRAINT [FK8751810F185706BA] FOREIGN KEY([category_id])
+REFERENCES [dbo].[MEDIAS_CATEGORIES] ([id])
+GO
+
+ALTER TABLE [dbo].[MEDIAS] CHECK CONSTRAINT [FK8751810F185706BA]
+GO
+
+ALTER TABLE [dbo].[MEDIAS]  WITH CHECK ADD  CONSTRAINT [FK8751810F6A733ADE] FOREIGN KEY([author_id])
+REFERENCES [dbo].[USERS] ([id])
+GO
+
+ALTER TABLE [dbo].[MEDIAS] CHECK CONSTRAINT [FK8751810F6A733ADE]
+GO
+
+ALTER TABLE [dbo].[MEDIAS]  WITH CHECK ADD  CONSTRAINT [FK8751810F80059D5A] FOREIGN KEY([content_id])
+REFERENCES [dbo].[MEDIAS_CONTENTS] ([id])
+GO
+
+ALTER TABLE [dbo].[MEDIAS] CHECK CONSTRAINT [FK8751810F80059D5A]
+GO
+
+ALTER TABLE [dbo].[MEDIAS] ADD  DEFAULT ((0)) FOR [status]
+GO
+

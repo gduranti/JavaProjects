@@ -34,4 +34,9 @@ public abstract class ListController<T extends Model> extends GenericController<
 		return facade.list(example);
 	}
 
+	public void remove(Long id) {
+		getFacade().remove(id);
+		clearList();
+	}
+
 }

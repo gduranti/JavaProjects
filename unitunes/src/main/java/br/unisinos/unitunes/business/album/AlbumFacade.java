@@ -1,6 +1,7 @@
 package br.unisinos.unitunes.business.album;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;

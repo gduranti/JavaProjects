@@ -1,13 +1,13 @@
 package br.unisinos.unitunes.model;
 
-public enum MovementType {
+public enum Status {
 
-	CREDIT ("Crédito"),
-	DEBIT  ("Débito");
+	ACTIVE   ("Ativo"),
+	INACTIVE ("Inativo");
 	
 	private String description;
-	
-	private MovementType(String description) {
+
+	private Status(String description) {
 		this.description = description;
 	}
 

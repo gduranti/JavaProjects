@@ -58,6 +58,7 @@ public class MovementFacade extends GenericFacade<Movement> {
 		Calendar now = Calendar.getInstance();
 
 		Movement creditAuthorMovement = new Movement();
+		creditAuthorMovement.setMedia(media);
 		creditAuthorMovement.setDate(now);
 		creditAuthorMovement.setDescription("Venda de mídia");
 		creditAuthorMovement.setSource(MovementSource.SOLD_MEDIA);
@@ -67,6 +68,7 @@ public class MovementFacade extends GenericFacade<Movement> {
 		add(creditAuthorMovement);
 
 		Movement creditComissionMovement = new Movement();
+		creditComissionMovement.setMedia(media);
 		creditComissionMovement.setDate(now);
 		creditComissionMovement.setDescription("Comissão de venda de mídia");
 		creditComissionMovement.setSource(MovementSource.COMMISION);
@@ -76,6 +78,7 @@ public class MovementFacade extends GenericFacade<Movement> {
 		add(creditComissionMovement);
 
 		Movement debitMovement = new Movement();
+		debitMovement.setMedia(media);
 		debitMovement.setDate(now);
 		debitMovement.setDescription("Compra de mídia");
 		debitMovement.setSource(MovementSource.PURCHASED_MEDIA);

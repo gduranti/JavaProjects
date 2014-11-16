@@ -34,6 +34,9 @@ public class User extends GenericModel {
 	@NotNull
 	private UserType type;
 
+	@NotNull
+	private Status status;
+
 	@ManyToMany
 	@JoinTable(name = "USER_PUBLISHED_MEDIAS", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = { @JoinColumn(name = "MEDIA_ID") })
 	private List<Media> publishedMedias;
@@ -83,6 +86,14 @@ public class User extends GenericModel {
 
 	public boolean isAdmin() {
 		return type == UserType.ADMIN;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public List<Media> getPublishedMedias() {

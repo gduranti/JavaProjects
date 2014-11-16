@@ -31,30 +31,30 @@
 		
 		<p:panel header="Abra uma conta" rendered="#{not sessionController.loged}" >
 			<h:form id="form-new-user" >
-				<f:event listener="#{userController.init()}" type="preRenderView" />
+				<f:event listener="#{userFormController.init()}" type="preRenderView" />
 				
 				<p:messages autoUpdate="true" globalOnly="true" />
 				
 				<p:panelGrid columns="3">
 					<p:outputLabel value="Nome:" />
-					<p:inputText id="name" value="#{userController.model.name}" />
+					<p:inputText id="name" value="#{userFormController.model.name}" />
 					<p:message for="name" />
 					
 					<p:outputLabel value="E-mail:" />
-					<p:inputText id="email" value="#{userController.model.email}" />
+					<p:inputText id="email" value="#{userFormController.model.email}" />
 					<p:message for="email" />
 					
 					<p:outputLabel value="Senha:" />
-					<p:password id="pass" value="#{userController.model.password}" />
+					<p:password id="pass" value="#{userFormController.model.password}" />
 					<p:message for="pass" />
 					
 					<p:outputLabel value="Confirmar Senha:" />
-					<p:password id="confirmPass" value="#{userController.confirmPassword}" />
+					<p:password id="confirmPass" value="#{userFormController.confirmPassword}" />
 					<p:message for="confirmPass" />
 				</p:panelGrid>
 					
 				<p:separator />
-				<p:commandButton value="Abrir uma conta" action="#{userController.save()}" update="@form" />
+				<p:commandButton value="Abrir uma conta" action="#{userFormController.save()}" update="@form" />
 			</h:form>
 		</p:panel>
 
