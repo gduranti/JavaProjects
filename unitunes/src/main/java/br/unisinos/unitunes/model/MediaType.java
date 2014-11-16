@@ -2,17 +2,19 @@ package br.unisinos.unitunes.model;
 
 public enum MediaType {
 
-	MUSIC   ("Música",   true),
-	BOOK    ("Livro",    false),
-	MOVIE   ("Filme",    true),
-	PODCAST ("Podacast", true);
+	MUSIC   ("Música",   true, false),
+	BOOK    ("Livro",    false, true),
+	MOVIE   ("Filme",    true, false),
+	PODCAST ("Podacast", true, false);
 
 	private String description;
 	private boolean hasDuration;
+	private boolean hasPages;
 
-	private MediaType(String description, boolean hasDuration) {
+	private MediaType(String description, boolean hasDuration, boolean hasPages) {
 		this.description = description;
 		this.hasDuration = hasDuration;
+		this.hasPages = hasPages;
 	}
 
 	public String getDescription() {
@@ -21,6 +23,10 @@ public enum MediaType {
 
 	public boolean hasDuration() {
 		return hasDuration;
+	}
+
+	public boolean hasPages() {
+		return hasPages;
 	}
 
 }

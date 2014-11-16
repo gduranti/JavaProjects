@@ -25,10 +25,8 @@ class MediaDAO extends GenericDAO<Media> {
 			if (mediaFilter.getCategoryFilter() != null) {
 				criteria.add(Restrictions.eq("category", mediaFilter.getCategoryFilter()));
 			}
-
 			if (mediaFilter.getTypeFilter() != null) {
-				criteria.createAlias("category", "c");
-				criteria.add(Restrictions.eq("c.type", mediaFilter.getTypeFilter()));
+				criteria.createCriteria("category").add(Restrictions.eq("type", mediaFilter.getTypeFilter()));
 			}
 		}
 	}

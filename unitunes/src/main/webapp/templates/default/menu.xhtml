@@ -10,14 +10,13 @@
 	<div id="menu" class="menu">
 	
 		<p:megaMenu>
-			<p:menuitem value="Home" url="/" />
-			<p:menuitem value="Entrar" url="logon.xhtml" rendered="#{not sessionController.loged}" />
-			<p:menuitem value="Cadastrar-se" url="user-form.xhtml" rendered="#{not sessionController.loged}" />
+			<p:menuitem value="Home" url="/" rendered="#{not sessionController.loged}" />
 			
 			<p:menuitem value="Mídias" url="media-list.xhtml" />
 			
 			<p:menuitem value="Minhas Mídias" url="my-media-list.xhtml" rendered="#{sessionController.loged}" />
 			<p:menuitem value="Nova Mídia" url="media-form.xhtml" rendered="#{sessionController.loged}" />
+			<p:menuitem value="Novo Álbum" url="album-form.xhtml" rendered="#{sessionController.loged}" />
 			<p:menuitem value="Minha Conta" url="my-account.xhtml?id=#{sessionController.user.id}" rendered="#{sessionController.loged}" />
 			
 			<p:menuitem value="Sair" url="logoff.xhtml" rendered="#{sessionController.loged}" />
@@ -25,8 +24,6 @@
 
 	</div>
 	
-	<p:outputLabel value="Saldo atual: R$ #{sessionController.balance}" rendered="#{sessionController.loged}" />
-
 </ui:composition>
 
 </html>

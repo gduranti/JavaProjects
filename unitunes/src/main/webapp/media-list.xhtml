@@ -25,15 +25,15 @@
 				        <f:facet name="left">
 					        <p:selectOneButton value="#{mediaListController.model.typeFilter}" >
 								<p:ajax event="change" listener="#{mediaListController.clearList()}" process="@this" update="@form" />
-								<f:selectItems value="#{listsController.mediaTypes}" var="t" itemLabel="#{t.description}" />
+								<f:selectItems value="#{listsController.mediaTypes}" var="t" itemLabel="#{t.description}s" />
 					        </p:selectOneButton>
 							
 							<span class="ui-separator">
 				                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 				            </span>
 							
-							<p:selectOneMenu value="#{mediaListController.model.categoryFilter}" >
-								<p:ajax event="change" listener="#{mediaListController.clearList()}" process="@this" update="@form" />
+							<p:selectOneMenu value="#{mediaListController.model.categoryFilter}" required="false" >
+								<p:ajax event="change" listener="#{mediaListController.clearList()}" update="@form" />
 								<f:selectItem itemLabel="Todas Categorias" itemValue=" " />
 								<f:selectItems value="#{listsController.getMediaCategories(mediaListController.model.typeFilter)}"
 											var="c" itemLabel="#{c.name}" />
@@ -41,40 +41,117 @@
 				        </f:facet>
 			        </p:toolbar>
 					
-					<pe:fluidGrid hasImages="true" hGutter="5" vGutter="5" >
+					<h:panelGroup styleClass="media-grouper" rendered="#{mediaListController.model.typeFilter eq 'MUSIC'}" >
+						<p:spacer width="100%" height="10px" />
+						<p:outputLabel value="Álbuns" />
+						<p:spacer width="100%" height="5px" />
+					</h:panelGroup>
+					<pe:fluidGrid id="album-grid" hasImages="true" hGutter="5" vGutter="5" rendered="#{mediaListController.model.typeFilter eq 'MUSIC'}" >
+						<c:forEach items="#{mediaListController.albuns}" var="a" >
+							<pe:fluidGridItem styleClass="album-box" >
+								<p:panel>
+									
+									<f:facet name="header">
+										<p:link value="#{a.description}" href="album-form.xhtml?id=#{a.id}" rendered="#{sessionController.loged}" />
+										<p:outputLabel value="#{a.description}" rendered="#{not sessionController.loged}" />
+									</f:facet>
+									
+									<p:link href="album-form.xhtml?id=#{a.id}" rendered="#{sessionController.loged}" >
+										<p:graphicImage value="#{mediaListController.getAlbumThumb()}" cache="false">
+											<f:param name="album-id" value="#{a.id}" />
+										</p:graphicImage>
+									</p:link>
+									
+									<p:graphicImage value="#{mediaListController.getAlbumThumb()}" cache="false" rendered="#{not sessionController.loged}" >
+										<f:param name="album-id" value="#{a.id}" />
+									</p:graphicImage>
+									
+								</p:panel>
+							</pe:fluidGridItem>
+						</c:forEach>
+					</pe:fluidGrid>
+					
+					<h:panelGroup styleClass="media-grouper" rendered="#{mediaListController.model.typeFilter eq 'MUSIC'}" >
+						<p:spacer width="100%" height="10px" />
+						<p:outputLabel value="Músicas" />
+						<p:spacer width="100%" height="5px" />
+					</h:panelGroup>
+					<pe:fluidGrid id="music-grid" hasImages="true" hGutter="25" vGutter="5" rendered="#{mediaListController.model.typeFilter eq 'MUSIC'}" >
+						
+						<c:forEach items="#{mediaListController.list()}" var="m" >
+							<pe:fluidGridItem styleClass="music-box" >
+								<p:separator />
+								<p:panelGrid columns="3">
+									<p:link value="#{m.name}" href="media-form.xhtml?id=#{m.id}" rendered="#{sessionController.loged}" />
+									<p:outputLabel value="#{m.name}" rendered="#{not sessionController.loged}" />
+									
+									<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
+													title="Adicionar mídia como favorita" immediate="true"
+													rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
+								
+									<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
+													title="Remover mídia dos favoritos" immediate="true"
+													rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
+													
+									<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart" immediate="true"
+													actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
+													rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+								        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
+								        			 header="Atenção" icon="ui-icon-cart" />
+									</p:commandButton>
+									
+									<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
+													rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+										<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
+									</p:commandButton>
+								</p:panelGrid>
+									
+							</pe:fluidGridItem>
+						</c:forEach>
+						
+					</pe:fluidGrid>
+					
+					<pe:fluidGrid id="media-grid" hasImages="true" hGutter="5" vGutter="5" rendered="#{mediaListController.model.typeFilter ne 'MUSIC'}" >
 						
 						<c:forEach items="#{mediaListController.list()}" var="m" >
 							<pe:fluidGridItem styleClass="media-box" >
 								<p:panel>
 									
 									<f:facet name="header">
-										<p:link value="#{m.name}" href="media-form.xhtml?id=#{m.id}" />
+										<p:link value="#{m.name}" href="media-form.xhtml?id=#{m.id}" rendered="#{sessionController.loged}" />
+										<p:outputLabel value="#{m.name}" rendered="#{not sessionController.loged}" />
 									</f:facet>
 									
-									<p:graphicImage value="#{mediaListController.getThumb()}" cache="false">
+									<p:link href="media-form.xhtml?id=#{m.id}" rendered="#{sessionController.loged and mediaListController.model.typeFilter ne 'MUSIC'}" >
+										<p:graphicImage value="#{mediaListController.getThumb()}" cache="false">
+											<f:param name="media-id" value="#{m.id}" />
+										</p:graphicImage>
+									</p:link>
+									
+									<p:graphicImage value="#{mediaListController.getThumb()}" cache="false" rendered="#{not sessionController.loged and mediaListController.model.typeFilter ne 'MUSIC'}" >
 										<f:param name="media-id" value="#{m.id}" />
 									</p:graphicImage>
 									
 									<f:facet name="footer">
+										
+										<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
+														title="Adicionar mídia como favorita" immediate="true"
+														rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
 									
-										<p:commandButton icon="ui-icon-star" action="#{mediaListController.addFavoriteMedia(m)}" update="@form"
-														title="Adicionar mídia como favorita"
-														rendered="#{not sessionController.isUserFavoriteMedia(m) and sessionController.loged}" />
-									
-										<p:commandButton icon="ui-icon-cancel" action="#{mediaListController.removeFavoriteMedia(m)}" update="@form"
-														title="Remover mídia dos favoritos"
-														rendered="#{sessionController.isUserFavoriteMedia(m) and sessionController.loged}" />
+										<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
+														title="Remover mídia dos favoritos" immediate="true"
+														rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
 														
-										<p:commandButton value="#{mediaListController.formatMediaValue(m)}" icon="ui-icon-cart" 
-														action="#{mediaListController.purchaseMedia(m)}" update="@form"
-														rendered="#{not sessionController.isUserPurchasedMedia(m) and sessionController.loged}" >
-									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaListController.formatMediaValue(m)}?"
+										<p:commandButton value="#{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart"  immediate="true"
+														actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
+														rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+									        <p:confirm message="Deseja comprar a mídia #{m.name} por R$ #{mediaHelper.formatMediaValue(m)}?"
 									        			 header="Atenção" icon="ui-icon-cart" />
 										</p:commandButton>
 										
-										<p:commandButton value="Executar" icon="ui-icon-arrowthickstop-1-s"
-														rendered="#{sessionController.isUserPurchasedMedia(m) and sessionController.loged}" ajax="false" >
-											<p:fileDownload value="#{mediaListController.executeMedia(m)}" />
+										<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
+														rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+											<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
 										</p:commandButton>
 									</f:facet>
 									

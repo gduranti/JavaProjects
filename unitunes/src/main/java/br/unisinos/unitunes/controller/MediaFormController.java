@@ -29,9 +29,17 @@ public class MediaFormController extends FormController<Media> {
 	private MediaType mediaType;
 	private String thumbFileName;
 
+	private boolean editing;
+
 	@PostConstruct
 	public void initFacade() {
 		setFacade(facade);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		editing = isInclusion() || userCanEdit();
 	}
 
 	public MediaType getMediaType() {
@@ -46,10 +54,24 @@ public class MediaFormController extends FormController<Media> {
 		return thumbFileName;
 	}
 
+	public boolean isEditing() {
+		return editing;
+	}
+
+	public void edit() {
+		editing = true;
+	}
+
+	public boolean userCanEdit() {
+		return sessionController.getUser().isAdmin() || sessionController.getUser().equals(getModel().getAuthor());
+	}
+
 	@Override
 	public void setModel(Media model) {
 		super.setModel(model);
-		mediaType = model.getCategory().getType();
+		if (model.getCategory() != null) {
+			mediaType = model.getCategory().getType();
+		}
 	}
 
 	@Override

@@ -21,8 +21,23 @@
 			<p:panel header="#{mediaFormController.viewTitle}" >
 				<h:form id="form" prependId="false">
 					
-					<p:commandButton value="Salvar" action="#{mediaFormController.saveAndClose()}" update="@form" />
+					<p:commandButton value="Salvar" action="#{mediaFormController.saveAndClose()}" update="@form" rendered="#{mediaFormController.editing}" />
+					
 					<p:commandButton value="Fechar" action="#{mediaFormController.close()}" immediate="true" />
+					
+					<p:commandButton value="Executar" immediate="true" rendered="#{sessionController.isUserPurchasedMedia(mediaFormController.model) or sessionController.isUserPublishedMedia(mediaFormController.model)}" ajax="false" >
+						<p:fileDownload value="#{mediaHelper.executeMedia(mediaFormController.model)}" />
+					</p:commandButton>
+					
+					<p:commandButton value="Comprar" action="#{mediaHelper.purchaseMedia(mediaFormController.model)}" immediate="true" rendered="#{not mediaFormController.editing and not sessionController.isUserPurchasedMedia(mediaFormController.model) and not sessionController.isUserPublishedMedia(mediaFormController.model)}" update="@form" >
+				        <p:confirm message="Deseja comprar esta mídia?"
+		        			 header="Atenção" icon="ui-icon-cart" />
+					</p:commandButton>
+					
+					<p:commandButton value="Remover" action="#{mediaFormController.remove()}" immediate="true" rendered="#{not mediaFormController.inclusion and mediaFormController.userCanEdit()}" >
+				        <p:confirm message="Tem certeza que deseja remover esta mídia?" header="Atenção" icon="ui-icon-cart" />
+					</p:commandButton>
+					
 					<p:separator />
 					
 					<p:messages autoUpdate="true" globalOnly="true" closable="true" />
@@ -48,40 +63,61 @@
 						<p:message for="thumb" rendered="#{mediaFormController.inclusion}" />
 						
 						<p:outputLabel value="Tipo:" />
-				        <p:selectOneButton id="mediaType" value="#{mediaFormController.mediaType}" >
+				        <p:selectOneButton id="mediaType" value="#{mediaFormController.mediaType}" disabled="#{not mediaFormController.editing}" >
 				        	<p:ajax event="change" process="@this" update="category" />
 				            <f:selectItems value="#{listsController.mediaTypes}" var="t" itemLabel="#{t.description}" />
 				        </p:selectOneButton>
 						<p:message for="mediaType" />
 						
 						<p:outputLabel value="Categoria:" />
-				        <p:selectOneMenu id="category" value="#{mediaFormController.model.category}" >
+				        <p:selectOneMenu id="category" value="#{mediaFormController.model.category}" disabled="#{not mediaFormController.editing}" >
 				        	<f:selectItem itemLabel=" " itemValue=" "/>
 				            <f:selectItems value="#{listsController.getMediaCategories(mediaFormController.mediaType)}" var="t" itemLabel="#{t.name}" />
 				        </p:selectOneMenu>
 						<p:message for="category" />
 
 						<p:outputLabel value="Nome:" />
-						<p:inputText id="name" value="#{mediaFormController.model.name}" />
+						<p:inputText id="name" value="#{mediaFormController.model.name}" readonly="#{not mediaFormController.editing}" />
 						<p:message for="name" />
 
 						<p:outputLabel value="Descrição:" />
-						<p:inputText id="description" value="#{mediaFormController.model.description}" />
+						<p:inputText id="description" value="#{mediaFormController.model.description}" readonly="#{not mediaFormController.editing}" />
 						<p:message for="description" />
 
 						<p:outputLabel value="Valor:" />
 						<pe:inputNumber id="mediaValue" value="#{mediaFormController.model.value}"
-								decimalSeparator="," symbol="R$ " decimalPlaces="2" />
+								decimalSeparator="," symbol="R$ " decimalPlaces="2" readonly="#{not mediaFormController.editing}" />
 						<p:message for="mediaValue" />
 
 						<p:outputLabel value="Duração:" />
-						<pe:inputNumber id="durantion" value="#{mediaFormController.model.duration}"
+						<pe:inputNumber id="durantion" value="#{mediaFormController.model.duration}" readonly="#{not mediaFormController.editing}" 
 								decimalPlaces="0" required="#{mediaFormController.model.category.type.hasDuration()}" />
 						<p:message for="durantion" />
-						
+
+						<p:outputLabel value="Páginas:" />
+						<pe:inputNumber id="pageCount" value="#{mediaFormController.model.pageCount}" readonly="#{not mediaFormController.editing}" 
+								decimalPlaces="0" required="#{mediaFormController.model.category.type.hasPages()}" />
+						<p:message for="pageCount" />
+
+						<p:outputLabel value="Autor:" rendered="#{not mediaFormController.inclusion}" />
+						<p:inputText id="author" value="#{mediaFormController.model.author.name}" readonly="true" rendered="#{not mediaFormController.inclusion}" />
+						<p:message for="author" rendered="#{not mediaFormController.inclusion}" />
+
+						<p:outputLabel value="Data inclusão:" rendered="#{not mediaFormController.inclusion}" />
+						<p:inputText id="inclusionDate" value="#{mediaFormController.model.inclusionDate.time}" readonly="true" rendered="#{not mediaFormController.inclusion}" >
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>    
+						</p:inputText>
+						<p:message for="inclusionDate" rendered="#{not mediaFormController.inclusion}" />
+
 					</p:panelGrid>
 				</h:form>
 			</p:panel>
+			
+		    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+			
 		</f:view>
 
 	</ui:define>

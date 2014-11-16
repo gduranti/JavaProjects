@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,6 +27,9 @@ public class Album extends GenericModel {
 	@ManyToOne
 	@NotNull
 	private User author;
+
+	@Lob
+	private byte[] thumb;
 
 	@ManyToMany
 	private List<Media> medias;
@@ -60,6 +64,14 @@ public class Album extends GenericModel {
 
 	public void setMedias(List<Media> medias) {
 		this.medias = medias;
+	}
+
+	public byte[] getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(byte[] thumb) {
+		this.thumb = thumb;
 	}
 
 }

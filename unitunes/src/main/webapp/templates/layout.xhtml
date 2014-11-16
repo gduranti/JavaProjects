@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Unitunes</title>
+	<title>uniTunes</title>
 	<h:outputStylesheet name="default.css" library="css" />
 </h:head>
 
@@ -20,6 +20,17 @@
 					<div id="north" class="north">
 						<ui:include src="/templates/default/header.xhtml" />
 						<ui:include src="/templates/default/menu.xhtml" />
+						
+						<h:panelGrid columns="2" rendered="#{sessionController.loged}" >
+							<p:outputLabel value="Usuário: " />
+							<p:outputLabel value="#{sessionController.user.name}" />
+							
+							<h:outputText value="Saldo atual: " />
+							<h:outputText value="#{sessionController.balance}" >
+								<f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"  />
+							</h:outputText>
+						</h:panelGrid>
+						
 					</div>
 				</ui:insert>
 			</p:layoutUnit>

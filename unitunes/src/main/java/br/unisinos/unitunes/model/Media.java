@@ -1,10 +1,14 @@
 package br.unisinos.unitunes.model;
 
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.unisinos.unitunes.infra.impl.GenericModel;
@@ -21,10 +25,15 @@ public class Media extends GenericModel {
 	@NotNull
 	private String description;
 
-	@NotNull
 	private Double value;
 
 	private Integer duration;
+
+	private Integer pageCount;
+
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar inclusionDate;
 
 	@Lob
 	private byte[] thumb;
@@ -114,6 +123,22 @@ public class Media extends GenericModel {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public Integer getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(Integer pageCount) {
+		this.pageCount = pageCount;
+	}
+
+	public Calendar getInclusionDate() {
+		return inclusionDate;
+	}
+
+	public void setInclusionDate(Calendar inclusionDate) {
+		this.inclusionDate = inclusionDate;
 	}
 
 }

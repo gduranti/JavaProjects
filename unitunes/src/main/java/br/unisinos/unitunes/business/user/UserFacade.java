@@ -17,6 +17,7 @@ import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.UserType;
 import br.unisinos.unitunes.model.event.MediaChangedEvent;
 import br.unisinos.unitunes.model.event.UserInfoChangedEvent;
+import br.unisinos.unitunes.model.event.UserMediaChangedEvent;
 
 @Stateless
 public class UserFacade extends GenericFacade<User> {
@@ -26,6 +27,9 @@ public class UserFacade extends GenericFacade<User> {
 
 	@Inject
 	private Event<UserInfoChangedEvent> userInfoChangedEvent;
+
+	@Inject
+	private Event<UserMediaChangedEvent> userMediaChangedEvent;
 
 	@PostConstruct
 	public void init() {
@@ -47,22 +51,45 @@ public class UserFacade extends GenericFacade<User> {
 		return user;
 	}
 
+	public User addPublishedMedia(Media media, User user) {
+		user.getPublishedMedias().add(media);
+		return updateUserMedia(media, user);
+	}
+
 	public User addPurchasedMedia(Media media, User user) {
 		user.getPurchasedMedias().add(media);
-		update(user);
-		return user;
+		return updateUserMedia(media, user);
 	}
 
 	public User addFavoriteMedia(Media media, User user) {
 		user.getFavoritesMedias().add(media);
-		update(user);
-		return user;
+		return updateUserMedia(media, user);
 	}
 
 	public User removeFavoriteMedia(Media media, User user) {
 		user.getFavoritesMedias().remove(media);
-		update(user);
+		return updateUserMedia(media, user);
+	}
+
+	private User updateUserMedia(Media media, User user) {
+		user = update(user);
+		userMediaChangedEvent.fire(new UserMediaChangedEvent(media, user));
 		return user;
+	}
+
+	public void removeUserMedias(Media media) {
+		// TODO - Mudar regra para não carregar todos os usuários...
+		List<User> allUsers = list(new User());
+		for (User user : allUsers) {
+			boolean removed = false;
+			removed |= user.getPurchasedMedias().remove(media);
+			removed |= user.getPublishedMedias().remove(media);
+			removed |= user.getFavoritesMedias().remove(media);
+			if (removed) {
+				user = update(user);
+				userMediaChangedEvent.fire(new UserMediaChangedEvent(media, user));
+			}
+		}
 	}
 
 	public User loggin(String email, String password) {

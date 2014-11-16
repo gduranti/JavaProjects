@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:cc="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="templates/layout.xhtml">
+	<ui:define name="content">
+	
+		<f:view>
+			<f:metadata>
+				<f:viewParam name="id" value="#{albumFormController.id}" converter="javax.faces.Long" />
+			</f:metadata>
+			<f:event listener="#{albumFormController.init()}" type="preRenderView" />
+			
+			<p:panel header="#{albumFormController.viewTitle}" >
+				<h:form id="form" prependId="false">
+					
+					<p:commandButton value="Salvar" action="#{albumFormController.saveAndClose()}" update="@form" rendered="#{albumFormController.editing}" />
+					<p:commandButton value="Editar" action="#{albumFormController.edit()}" update="@form" rendered="#{not albumFormController.editing and albumFormController.userCanEdit()}" />
+					<p:commandButton value="Fechar" action="#{albumFormController.close()}" immediate="true" />
+					
+					<p:commandButton value="Remover" action="#{albumFormController.remove()}" immediate="true" rendered="#{not albumFormController.inclusion and albumFormController.userCanEdit()}" >
+				        <p:confirm message="Tem certeza que deseja remover este álbum?" header="Atenção" icon="ui-icon-cart" />
+					</p:commandButton>
+					
+					<p:separator />
+					
+					<p:messages autoUpdate="true" globalOnly="true" closable="true" />
+					
+					<p:panelGrid columns="3">
+						
+						<p:outputLabel value="Imagem:" rendered="#{albumFormController.inclusion}" />
+						<h:panelGroup id="thumbContainer" rendered="#{albumFormController.inclusion}" >
+							<p:fileUpload id="thumb" fileUploadListener="#{albumFormController.handleThumbUpload}"
+										mode="advanced" auto="true" update="thumbContainer" sizeLimit="200000" 
+										rendered="#{empty albumFormController.model.thumb}" />
+							<p:outputLabel id="thumFileName" value="#{albumFormController.thumbFileName}" rendered="#{not empty albumFormController.thumbFileName}" />
+						</h:panelGroup>
+						<p:message for="thumb" rendered="#{albumFormController.inclusion}" />
+						
+						<p:outputLabel value="Nome:" />
+						<p:inputText id="description" value="#{albumFormController.model.description}" readonly="#{not albumFormController.editing}" />
+						<p:message for="description" />
+
+						<p:outputLabel value="Autor:" rendered="#{not albumFormController.inclusion}" />
+						<p:inputText id="author" value="#{albumFormController.model.author.name}" readonly="true" rendered="#{not albumFormController.inclusion}" />
+						<p:message for="author" rendered="#{not albumFormController.inclusion}" />
+
+						<p:outputLabel value="Data inclusão:" rendered="#{not albumFormController.inclusion}" />
+						<p:inputText id="publishedDate" value="#{albumFormController.model.publishedDate.time}" readonly="true" rendered="#{not albumFormController.inclusion}" >
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>    
+						</p:inputText>
+						<p:message for="publishedDate" rendered="#{not albumFormController.inclusion}" />
+					</p:panelGrid>
+					
+					<p:pickList id="pickList" value="#{albumFormController.musicsModel}" var="m"
+								itemLabel="#{m.name}" itemValue="#{m}" converter="entityConverter"
+								rendered="#{albumFormController.editing}" >
+								
+						<f:facet name="sourceCaption">Músicas Disponíveis</f:facet>
+       					<f:facet name="targetCaption">Músicas do Álbum</f:facet>
+       					
+   					    <p:column style="width:75%">
+				            <h:outputText value="#{m.name}" />
+				        </p:column>
+				 
+				        <p:column style="width:25%;">
+				            <h:outputText value="#{m.duration} min" />
+				        </p:column>
+					</p:pickList>
+					
+					<p:dataTable value="#{albumFormController.model.medias}" var="m" rowIndexVar="row" rendered="#{not albumFormController.editing}"
+							style="width:500px;" >
+						
+						<p:column headerText="Faixa" width="30" >
+							<p:outputLabel value="#{row}" />
+						</p:column>
+						
+						<p:column headerText="Música" >
+							<p:outputLabel value="#{m.name}" />
+						</p:column>
+						
+						<p:column headerText="Duração" width="60" >
+							<p:outputLabel value="#{m.duration} min" />
+						</p:column>
+						
+						<p:column width="130" >
+							<p:commandButton icon="ui-icon-star" action="#{mediaHelper.addFavoriteMedia(m)}" update="@form"
+											title="Adicionar mídia como favorita" immediate="true"
+											rendered="#{sessionController.loged and not sessionController.isUserFavoriteMedia(m)}" />
+						
+							<p:commandButton icon="ui-icon-cancel" action="#{mediaHelper.removeFavoriteMedia(m)}" update="@form"
+											title="Remover mídia dos favoritos" immediate="true"
+											rendered="#{sessionController.loged and sessionController.isUserFavoriteMedia(m)}" />
+							
+							<p:commandButton value="R$ #{mediaHelper.formatMediaValue(m)}" icon="ui-icon-cart"  immediate="true"
+											actionListener="#{mediaHelper.purchaseMedia(m)}" update="@all" title="Comprar mídia"
+											rendered="#{sessionController.loged and not sessionController.isUserPurchasedMedia(m) and not sessionController.isUserPublishedMedia(m)}" >
+						        <p:confirm message="Deseja comprar esta mídia?"
+						        			 header="Atenção" icon="ui-icon-cart" />
+							</p:commandButton>
+							
+							<p:commandButton icon="ui-icon-play" ajax="false" title="Executar mídia" immediate="true"
+											rendered="#{sessionController.loged and (sessionController.isUserPurchasedMedia(m) or sessionController.isUserPublishedMedia(m))}" >
+								<p:fileDownload value="#{mediaHelper.executeMedia(m)}" />
+							</p:commandButton>
+						</p:column>
+						
+					</p:dataTable>
+					
+				</h:form>
+			</p:panel>
+			
+		    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+			
+		</f:view>
+
+	</ui:define>
+</ui:composition>
+
+</html>

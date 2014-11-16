@@ -2,7 +2,8 @@ package br.unisinos.unitunes.model;
 
 public enum MyMediaFilter {
  
-	ALL       ("Todas"),
+	PUBLISHED ("Publicadas"),
+	PURCHASED ("Compradas"),
 	FAVORITES ("Favoritas");
 	
 	private String description;

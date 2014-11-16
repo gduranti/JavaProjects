@@ -1,7 +1,8 @@
 package br.unisinos.unitunes.controller;
 
 import java.io.ByteArrayInputStream;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -14,11 +15,11 @@ import javax.inject.Named;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import br.unisinos.unitunes.business.album.AlbumFacade;
 import br.unisinos.unitunes.business.media.MediaFacade;
-import br.unisinos.unitunes.business.user.UserFacade;
 import br.unisinos.unitunes.infra.impl.ListController;
+import br.unisinos.unitunes.model.Album;
 import br.unisinos.unitunes.model.Media;
-import br.unisinos.unitunes.model.MediaContent;
 import br.unisinos.unitunes.model.MediaFilter;
 import br.unisinos.unitunes.model.MediaType;
 import br.unisinos.unitunes.model.User;
@@ -37,7 +38,9 @@ public class MediaListController extends ListController<Media> {
 	private MediaFacade facade;
 
 	@Inject
-	private UserFacade userFacade;
+	private AlbumFacade albumFacade;
+
+	private List<Album> albuns;
 
 	@PostConstruct
 	public void initFacade() {
@@ -61,28 +64,20 @@ public class MediaListController extends ListController<Media> {
 		return "Pesquisar Mídias";
 	}
 
-	public void addFavoriteMedia(Media media) {
-		userFacade.addFavoriteMedia(media, sessionController.getUser());
+	@Override
+	public void clearList() {
+		super.clearList();
+		albuns = null;
 	}
 
-	public void removeFavoriteMedia(Media media) {
-		userFacade.removeFavoriteMedia(media, sessionController.getUser());
-	}
-
-	public void purchaseMedia(Media media) {
-		facade.purchaseMedia(media, sessionController.getUser());
-	}
-
-	public StreamedContent executeMedia(Media media) {
-		MediaContent mediaContent = facade.loadContent(media);
-		DefaultStreamedContent streamedContent = new DefaultStreamedContent();
-		streamedContent.setStream(new ByteArrayInputStream(mediaContent.getContent()));
-		streamedContent.setName(media.getFileName());
-		return streamedContent;
-	}
-
-	public String formatMediaValue(Media media) {
-		return new DecimalFormat("#0.00").format(media.getValue());
+	public List<Album> getAlbuns() {
+		if (getModel().getTypeFilter() != MediaType.MUSIC) {
+			return new ArrayList<>();
+		}
+		if (albuns == null) {
+			albuns = albumFacade.list(new Album());
+		}
+		return albuns;
 	}
 
 	public StreamedContent getThumb() {
@@ -94,8 +89,25 @@ public class MediaListController extends ListController<Media> {
 		} else {
 			Long id = Long.valueOf(context.getExternalContext().getRequestParameterMap().get("media-id"));
 			for (Media media : list()) {
-				if (media.getId().equals(id)) {
+				if (media.getId().equals(id) && media.getThumb() != null) {
 					return new DefaultStreamedContent(new ByteArrayInputStream(media.getThumb()));
+				}
+			}
+			return new DefaultStreamedContent();
+		}
+	}
+
+	public StreamedContent getAlbumThumb() {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent();
+
+		} else {
+			Long id = Long.valueOf(context.getExternalContext().getRequestParameterMap().get("album-id"));
+			for (Album album : getAlbuns()) {
+				if (album.getId().equals(id)) {
+					return new DefaultStreamedContent(new ByteArrayInputStream(album.getThumb()));
 				}
 			}
 			return new DefaultStreamedContent();

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import br.unisinos.unitunes.controller.SessionController;
 import br.unisinos.unitunes.controller.UnitunesController;
+import br.unisinos.unitunes.infra.exception.BusinessException;
 import br.unisinos.unitunes.infra.impl.GenericFacade;
 import br.unisinos.unitunes.model.Media;
 import br.unisinos.unitunes.model.Movement;
@@ -51,6 +52,9 @@ public class MovementFacade extends GenericFacade<Movement> {
 	}
 
 	public Movement generateMediaPurchasedMovement(Media media) {
+
+		validateUserBalance(media.getValue());
+
 		Calendar now = Calendar.getInstance();
 
 		Movement creditAuthorMovement = new Movement();
@@ -83,6 +87,13 @@ public class MovementFacade extends GenericFacade<Movement> {
 		return debitMovement;
 	}
 
+	private void validateUserBalance(Double value) {
+		Double balance = getUserBalance(sessionController.getUser());
+		if (balance - value < 0) {
+			throw new BusinessException("Saldo insuficiente. Adquira mais créditos.");
+		}
+	}
+
 	@Override
 	public Movement add(Movement movement) {
 
@@ -95,7 +106,12 @@ public class MovementFacade extends GenericFacade<Movement> {
 	}
 
 	public Double getUserBalance(User user) {
-		return dao.getUserBalance(user);
+		Double balance = dao.getUserBalance(user);
+		if (balance != null) {
+			return balance;
+		} else {
+			return 0.0;
+		}
 	}
 
 }

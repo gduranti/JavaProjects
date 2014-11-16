@@ -1,5 +1,7 @@
 package br.unisinos.unitunes.business.media;
 
+import java.util.Calendar;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -42,8 +44,10 @@ public class MediaFacade extends GenericFacade<Media> {
 
 	@Override
 	public Media add(Media media) {
+		media.setInclusionDate(Calendar.getInstance());
 		media = super.add(media);
 		mediaEvent.fire(new MediaChangedEvent(media));
+		userFacade.addPublishedMedia(media, media.getAuthor());
 		return media;
 	}
 
@@ -52,6 +56,18 @@ public class MediaFacade extends GenericFacade<Media> {
 		media = super.update(media);
 		mediaEvent.fire(new MediaChangedEvent(media));
 		return media;
+	}
+
+	@Override
+	public void remove(Media media) {
+
+		if (!media.getAuthor().equals(sessionController.getUser()) && !sessionController.getUser().isAdmin()) {
+			throw new BusinessException("Esta mídia só pode ser removida pelo seu autor ou por um administrador.");
+		}
+
+		userFacade.removeUserMedias(media);
+		super.remove(media);
+		mediaEvent.fire(new MediaChangedEvent(media));
 	}
 
 	public void purchaseMedia(Media media, User user) {
@@ -69,9 +85,13 @@ public class MediaFacade extends GenericFacade<Media> {
 			throw new BusinessException("Deve ser informada a duração da mídia.");
 		}
 
+		if (media.getCategory().getType().hasPages() && (media.getPageCount() == null || media.getPageCount() == 0)) {
+			throw new BusinessException("Deve ser informada a quantidade de páginas da mídia.");
+		}
+
 		if (media.getId() != null) {
-			if (!media.getAuthor().equals(sessionController.getUser()) && sessionController.getUser().isAdmin()) {
-				throw new BusinessException("Esta mídia só pode ser alterada pelo seu autor ou por um administrador");
+			if (!media.getAuthor().equals(sessionController.getUser()) && !sessionController.getUser().isAdmin()) {
+				throw new BusinessException("Esta mídia só pode ser alterada pelo seu autor ou por um administrador.");
 			}
 		}
 	}

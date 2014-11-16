@@ -47,7 +47,10 @@
 					<p:spacer />
 					
 					<p:fieldset legend="Meus Movimentos">
-						<p:outputLabel value="Saldo Atual: R$ #{userController.balance}" />
+						<h:outputText value="Saldo Atual: " />
+						<h:outputText value="#{sessionController.balance}" >
+							<f:convertNumber currencySymbol="R$" type="currency" minFractionDigits="2"  />
+						</h:outputText>
 						<p:spacer />
 						
 						<p:dataTable value="#{userController.movements}" var="m" >

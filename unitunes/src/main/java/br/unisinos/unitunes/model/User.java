@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import br.unisinos.unitunes.infra.impl.GenericModel;
 
@@ -27,6 +28,7 @@ public class User extends GenericModel {
 	private String email;
 
 	@NotNull
+	@Size(min = 6, max = 30, message = "A senha deve ter de 6 a 30 caracteres.")
 	private String password;
 
 	@NotNull

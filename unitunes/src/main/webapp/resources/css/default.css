@@ -81,6 +81,37 @@ body {
 	vertical-align: middle;
 }
 
+.media-grouper {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.album-box {
+	width: 250px;
+	text-align: center !important;
+}
+
+.music-box {
+	width: 200px;
+	text-align: left !important;
+}
+
+.music-box table {
+	width: 100%;
+}
+
+.music-box td:nth-child(2),
+.music-box td:nth-child(3) {
+	width: 30px;
+}
+
+.music-box table,
+.music-box tr,
+.music-box td {
+	border: none !important;
+	padding: 0px 0px !important;
+}
+
 .media-box {
 	width: 200px;
 	text-align: center !important;

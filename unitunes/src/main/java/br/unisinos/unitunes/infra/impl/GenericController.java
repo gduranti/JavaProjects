@@ -41,7 +41,7 @@ public abstract class GenericController<T extends Model> implements Controller<T
 	}
 
 	protected void resetModel() {
-		model = createModelInstance();
+		setModel(createModelInstance());
 	}
 
 	protected T createModelInstance() {

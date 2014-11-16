@@ -10,6 +10,7 @@ import javax.inject.Named;
 import br.unisinos.unitunes.model.Media;
 import br.unisinos.unitunes.model.User;
 import br.unisinos.unitunes.model.event.BalanceChangedEvent;
+import br.unisinos.unitunes.model.event.UserMediaChangedEvent;
 
 @Named
 @SessionScoped
@@ -62,6 +63,12 @@ public class SessionController implements Serializable {
 
 	public boolean isUserFavoriteMedia(Media media) {
 		return user.getFavoritesMedias().contains(media);
+	}
+
+	public void observeUserMedia(@Observes UserMediaChangedEvent userMediaChangedEvent) {
+		if (userMediaChangedEvent.getUser().equals(user)) {
+			user = userMediaChangedEvent.getUser();
+		}
 	}
 
 	public void observeBalance(@Observes BalanceChangedEvent balanceChangedEvent) {

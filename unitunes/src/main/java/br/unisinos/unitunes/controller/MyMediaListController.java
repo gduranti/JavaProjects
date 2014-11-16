@@ -20,7 +20,7 @@ public class MyMediaListController extends MediaListController {
 	@Override
 	protected MediaFilter createModelInstance() {
 		MediaFilter model = super.createModelInstance();
-		model.setMyMediaFilter(MyMediaFilter.ALL);
+		model.setMyMediaFilter(MyMediaFilter.PURCHASED);
 		return model;
 	}
 
@@ -33,6 +33,8 @@ public class MyMediaListController extends MediaListController {
 	private List<Media> getMediaListFromSession() {
 		if (getModel().getMyMediaFilter() == MyMediaFilter.FAVORITES) {
 			return sessionController.getUser().getFavoritesMedias();
+		} else if (getModel().getMyMediaFilter() == MyMediaFilter.PUBLISHED) {
+			return sessionController.getUser().getPublishedMedias();
 		} else {
 			return sessionController.getUser().getPurchasedMedias();
 		}
