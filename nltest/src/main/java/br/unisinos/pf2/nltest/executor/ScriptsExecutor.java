@@ -1,5 +1,7 @@
 package br.unisinos.pf2.nltest.executor;
 
+import java.util.List;
+
 import org.junit.runner.notification.RunNotifier;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -22,10 +24,13 @@ public class ScriptsExecutor {
 		return ctx;
 	}
 
-	public void execute(TestSuite[] testSuites) {
+	public void execute(List<TestSuite> testSuites) {
+		System.out.println("Starting execution.");
 		for (TestSuite testSuite : testSuites) {
 			testSuite.execute(ctx);
 		}
+		System.out.println("Finishing execution.");
+		ctx.getDriver().quit();
 	}
 
 }

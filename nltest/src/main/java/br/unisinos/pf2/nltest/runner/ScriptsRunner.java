@@ -1,5 +1,7 @@
 package br.unisinos.pf2.nltest.runner;
 
+import java.util.List;
+
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
@@ -26,11 +28,14 @@ public class ScriptsRunner extends Runner {
 	public void run(RunNotifier junitNotifier) {
 
 		ScriptsParser parser = new ScriptsParser();
-		TestSuite[] testSuites = parser.parse(path);
+		List<TestSuite> testSuites = parser.parse(path);
 
 		ScriptsExecutor executor = new ScriptsExecutor(junitNotifier);
 		executor.execute(testSuites);
 
 	}
 
+	public static void main(String[] args) {
+		new ScriptsRunner("E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder").run(null);
+	}
 }

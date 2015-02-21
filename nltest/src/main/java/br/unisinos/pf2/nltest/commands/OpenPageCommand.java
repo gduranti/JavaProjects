@@ -2,16 +2,15 @@ package br.unisinos.pf2.nltest.commands;
 
 import br.unisinos.pf2.nltest.executor.ExecutionContext;
 import br.unisinos.pf2.nltest.model.Command;
-import br.unisinos.pf2.nltest.model.ParameterSet;
 
-public class OpenPageCommand implements Command {
-
-	private static final String PARAMETER_PAGE_URL = "command.parameter.PAGE_URL";
+public class OpenPageCommand extends Command {
 
 	@Override
-	public void execute(ParameterSet parameters, ExecutionContext ctx) {
+	public void execute(ExecutionContext ctx) {
 
-		String page = parameters.getParameterValue(PARAMETER_PAGE_URL);
+		System.out.println("Executing command open page");
+
+		String page = getParameterValue(0);
 		ctx.getDriver().get(page);
 
 	}
