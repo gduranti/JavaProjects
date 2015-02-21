@@ -1,29 +1,36 @@
 package br.unisinos.pf2.nltest.runner;
 
-import org.junit.runner.Description;
-
-import br.unisinos.pf2.nltest.model.Command;
-import br.unisinos.pf2.nltest.model.TestCase;
-import br.unisinos.pf2.nltest.model.TestSuite;
 
 public class DescriptionBuilder {
 
-	public Description build(TestSuite testSuite) {
-
-		// TODO
-		return null;
-	}
-
-	public Description build(TestCase testCase) {
-
-		// TODO
-		return null;
-	}
-
-	public Description build(Command command) {
-
-		// TODO
-		return null;
-	}
+	// public Description build(List<TestSuite> testSuites) {
+	// Description rootDescription =
+	// Description.createSuiteDescription("Root Description");
+	//
+	// for (TestSuite testSuite : testSuites) {
+	// Description testSuiteDescription = build(testSuite);
+	// rootDescription.addChild(testSuiteDescription);
+	//
+	// for (TestCase testCase : testSuite.peekTestCases()) {
+	// Description testCaseDescription = build(testCase);
+	// testSuiteDescription.addChild(testCaseDescription);
+	// }
+	// }
+	//
+	// return rootDescription;
+	// }
+	//
+	// private Description build(TestSuite testSuite) {
+	// return Description.createSuiteDescription(testSuite.getName());
+	// }
+	//
+	// private Description build(TestCase testCase) {
+	// return Description.createSuiteDescription(testCase.getName());
+	// }
+	//
+	// private Description build(Command command) {
+	// // TODO
+	// return null;
+	// }
 
 }

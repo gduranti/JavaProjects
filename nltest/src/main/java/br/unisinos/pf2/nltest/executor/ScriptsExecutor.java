@@ -20,8 +20,7 @@ public class ScriptsExecutor {
 	private ExecutionContext createContext(RunNotifier junitNotifier) {
 		TestCaseNotifier notifier = new TestCaseNotifier(junitNotifier);
 		WebDriver driver = new FirefoxDriver();
-		ExecutionContext ctx = new ExecutionContext(notifier, driver);
-		return ctx;
+		return new ExecutionContext(notifier, driver);
 	}
 
 	public void execute(List<TestSuite> testSuites) {

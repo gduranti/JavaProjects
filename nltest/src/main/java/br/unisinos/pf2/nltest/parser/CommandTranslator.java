@@ -29,7 +29,7 @@ public class CommandTranslator {
 
 		for (Entry<Object, Object> entry : map.entrySet()) {
 
-			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand);
+			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand.trim());
 			if (matcher.matches()) {
 				String executableName = entry.getKey().toString();
 				try {

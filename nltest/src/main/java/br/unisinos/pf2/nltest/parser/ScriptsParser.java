@@ -3,6 +3,7 @@ package br.unisinos.pf2.nltest.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class ScriptsParser {
 
 		// TODO
 
-		File[] files = ScriptsLoader.loadFiles(path);
+		Collection<File> files = ScriptsLoader.loadFiles(path);
 
 		List<TestSuite> testSuites = new ArrayList<>();
 
@@ -71,10 +72,6 @@ public class ScriptsParser {
 		}
 
 		return testSuites;
-	}
-
-	public static void main(String[] args) {
-		new ScriptsParser().parse("E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder");
 	}
 
 }

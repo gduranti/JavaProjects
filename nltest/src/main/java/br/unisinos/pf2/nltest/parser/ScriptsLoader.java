@@ -7,15 +7,15 @@ import org.apache.commons.io.FileUtils;
 
 public final class ScriptsLoader {
 
-	private static final String SCRIPT_FILE_EXTENSION = "nlt";
+	private static final String[] SCRIPT_FILE_EXTENSIONS = { "nlt" };
 
-	public static File[] loadFiles(String path) {
+	public static Collection<File> loadFiles(String path) {
 
 		File directory = new File(path);
 
-		Collection<File> listFiles = FileUtils.listFiles(directory, new String[] { SCRIPT_FILE_EXTENSION }, true);
+		Collection<File> listFiles = FileUtils.listFiles(directory, SCRIPT_FILE_EXTENSIONS, true);
 
-		return listFiles.toArray(new File[listFiles.size()]);
+		return listFiles;
 	}
 
 }

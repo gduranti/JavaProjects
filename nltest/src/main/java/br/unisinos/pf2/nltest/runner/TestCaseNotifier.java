@@ -1,35 +1,32 @@
 package br.unisinos.pf2.nltest.runner;
 
+import org.junit.runner.Description;
+import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
-
-import br.unisinos.pf2.nltest.model.Command;
 
 public class TestCaseNotifier {
 
 	private RunNotifier junitNotifier;
-	private Command currentCommand;
+	private Description currentDescription;
 
 	public TestCaseNotifier(RunNotifier junitNotifier) {
 		this.junitNotifier = junitNotifier;
 	}
 
-	public void setCurrentCommand(Command currentCommand) {
-		this.currentCommand = currentCommand;
+	public void setCurrentDescription(Description currentDescription) {
+		this.currentDescription = currentDescription;
 	}
 
 	public void started() {
-		// TODO
-
-	}
-
-	public void failed(Throwable t) {
-		// TODO
-
+		junitNotifier.fireTestStarted(currentDescription);
 	}
 
 	public void succesful() {
-		// TODO
+		junitNotifier.fireTestFinished(currentDescription);
+	}
 
+	public void failed(Throwable thrownException) {
+		junitNotifier.fireTestFailure(new Failure(currentDescription, thrownException));
 	}
 
 }
