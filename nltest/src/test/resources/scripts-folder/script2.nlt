@@ -1,6 +1,8 @@
 Suíte de Testes: Suite dois
+
 Caso de Teste: teste numero 3
 Abrir a página http://www.terra.com
 Preencher o campo autocomplete com o valor Brasileirão
+
 Caso de Teste: teste numero 4
 Abrir a página http://www.g1.com.br

@@ -49,10 +49,11 @@ public class TestCase implements Executable, Cloneable {
 	}
 
 	public TestCase copy(int index) {
-		TestCase testCase = new TestCase();
+		TestCase newTestCase = new TestCase();
 		String newDescriptionName = String.format("%s (Conjunto de dados %s)", this.description.getDisplayName(), index);
-		testCase.description = Description.createSuiteDescription(newDescriptionName);
-		return testCase;
+		newTestCase.description = Description.createSuiteDescription(newDescriptionName);
+		newTestCase.commands = new ArrayList<>();
+		return newTestCase;
 	}
 
 }

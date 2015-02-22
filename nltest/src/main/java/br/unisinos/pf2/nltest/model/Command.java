@@ -15,7 +15,7 @@ public abstract class Command implements Executable {
 
 	@Override
 	public void init(String... args) {
-		description = Description.createTestDescription(getClass(), getClass().getCanonicalName() + " " + args);
+		description = Description.createTestDescription(getClass(), getClass().getSimpleName() + " " + args);
 		simpleParameters = Arrays.asList(args);
 	}
 
@@ -46,11 +46,18 @@ public abstract class Command implements Executable {
 			Command copiedCommand = this.getClass().newInstance();
 			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
 			copiedCommand.parametersSet = parameterSet;
+			copiedCommand.description = Description.createTestDescription(getClass(), getClass().getSimpleName() + " " + parameterSet);
 			return copiedCommand;
 		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO
 			throw new RuntimeException("Erro ao copiar", e);
 		}
+	}
+
+	@Override
+	public String toString() {
+		String format = "%s. SimpleParameters: %s. ParameterSet: %s.";
+		return String.format(format, getClass().getSimpleName(), simpleParameters, parametersSet);
 	}
 
 }

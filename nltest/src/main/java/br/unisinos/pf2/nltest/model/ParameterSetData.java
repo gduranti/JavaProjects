@@ -21,4 +21,9 @@ public class ParameterSetData implements Parseable {
 		return values.get(index);
 	}
 
+	@Override
+	public String toString() {
+		return values.toString();
+	}
+
 }

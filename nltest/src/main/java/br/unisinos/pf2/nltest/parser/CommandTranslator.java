@@ -2,6 +2,8 @@ package br.unisinos.pf2.nltest.parser;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -28,11 +30,27 @@ public class CommandTranslator {
 	public Parseable interpret(String strCommand) {
 		for (Entry<Object, Object> entry : map.entrySet()) {
 			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand.trim());
+
 			if (matcher.matches()) {
 				String[] args = extractArgs(matcher);
 				String parseableName = entry.getKey().toString();
 				return createInstance(args, parseableName);
+
+			} else {
+
+				matcher.reset();
+
+				if (matcher.find()) {
+					String parseableName = entry.getKey().toString();
+					List<String> args = new ArrayList<>();
+					args.add(matcher.group(1));
+					while (matcher.find()) {
+						args.add(matcher.group(1));
+					}
+					return createInstance(args.toArray(new String[] {}), parseableName);
+				}
 			}
+
 		}
 
 		throw new ParseException("Command not mapped: " + strCommand);

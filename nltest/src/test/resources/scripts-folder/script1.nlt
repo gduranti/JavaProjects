@@ -1,7 +1,13 @@
 Suíte de Testes: Suite um
+
 Caso de Teste: teste numero 1
+Abrir a página http://www.gmail.com
+Preencher o campo Email com o valor <email>
+Dados:
+| email           |
+| bob@gmail.com   |
+| peter@gmail.com |
+
+Caso de Teste: teste numero 2
 Abrir a página http://www.google.com
 Preencher o campo gbqfq com o valor Queijo
-Caso de Teste: teste numero 2
-Abrir a página http://www.gmail.com
-Preencher o campo Email com o valor bob@gmail.com

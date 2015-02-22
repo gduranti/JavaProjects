@@ -39,8 +39,10 @@ public class ScriptsParser {
 
 			while (scanner.hasNext()) {
 				String line = scanner.nextLine();
-				Parseable parseable = commandTranslator.interpret(line);
-				builder.add(parseable);
+				if (!line.isEmpty()) {
+					Parseable parseable = commandTranslator.interpret(line);
+					builder.add(parseable);
+				}
 			}
 
 		} catch (FileNotFoundException e) {
