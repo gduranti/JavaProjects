@@ -2,14 +2,13 @@ package br.unisinos.pf2.nltest.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
-import br.unisinos.pf2.nltest.model.Command;
-import br.unisinos.pf2.nltest.model.Executable;
-import br.unisinos.pf2.nltest.model.TestCase;
+import org.apache.commons.io.IOUtils;
+
+import br.unisinos.pf2.nltest.model.Parseable;
 import br.unisinos.pf2.nltest.model.TestSuite;
 
 public class ScriptsParser {
@@ -22,56 +21,37 @@ public class ScriptsParser {
 
 	public List<TestSuite> parse(String path) {
 
-		// TODO
+		TestSuitesBuilder builder = new TestSuitesBuilder();
 
 		Collection<File> files = ScriptsLoader.loadFiles(path);
-
-		List<TestSuite> testSuites = new ArrayList<>();
-
 		for (File file : files) {
 
 			System.out.println("Reading file " + file.getName());
-
-			TestSuite testSuite = null;
-			TestCase testCase = null;
-
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(file);
-
-				while (scanner.hasNext()) {
-
-					String line = scanner.nextLine();
-
-					Executable executable = commandTranslator.translate(line);
-
-					if (executable instanceof TestSuite) {
-						testSuite = (TestSuite) executable;
-						testSuites.add(testSuite);
-					} else if (executable instanceof TestCase) {
-						testCase = (TestCase) executable;
-						testSuite.addTestCase(testCase);
-					} else if (executable instanceof Command) {
-						testCase.addCommand((Command) executable);
-					} else {
-						// TODO
-					}
-
-					// System.out.println(line);
-
-				}
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				if (scanner != null) {
-					scanner.close();
-				}
-			}
+			handleFile(builder, file);
 		}
 
-		return testSuites;
+		return builder.getResult();
+	}
+
+	private void handleFile(TestSuitesBuilder builder, File file) {
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(file);
+
+			while (scanner.hasNext()) {
+				String line = scanner.nextLine();
+				Parseable parseable = commandTranslator.translate(line);
+				builder.add(parseable);
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (scanner != null) {
+				IOUtils.closeQuietly(scanner);
+			}
+		}
 	}
 
 }

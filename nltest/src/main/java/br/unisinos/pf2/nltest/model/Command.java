@@ -1,5 +1,6 @@
 package br.unisinos.pf2.nltest.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ public abstract class Command implements Executable {
 
 	private Description description;
 	private List<String> simpleParameters;
-	private Map<String, String> currentVariableParametersSet;
+	private Map<String, String> parametersSetMap;
 
 	@Override
 	public void init(String... args) {
@@ -31,7 +32,7 @@ public abstract class Command implements Executable {
 		if (isVariableParameter(value)) {
 			value = StringUtils.removeStart(value, "<");
 			value = StringUtils.removeEnd(value, ">");
-			value = currentVariableParametersSet.get(value);
+			value = parametersSetMap.get(value);
 		}
 
 		return value;
@@ -41,8 +42,16 @@ public abstract class Command implements Executable {
 		return value.startsWith("<") && value.endsWith(">");
 	}
 
-	public void setCurrentVariableParametersSet(Map<String, String> currentVariableParametersSet) {
-		this.currentVariableParametersSet = currentVariableParametersSet;
+	public Command copyWith(ParameterSet parameterSet) {
+		try {
+			Command copiedCommand = this.getClass().newInstance();
+			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
+			copiedCommand.parametersSetMap = parameterSet.toMap();
+			return copiedCommand;
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO
+			throw new RuntimeException("Erro ao copiar", e);
+		}
 	}
 
 }

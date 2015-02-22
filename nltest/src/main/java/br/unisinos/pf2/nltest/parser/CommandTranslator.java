@@ -7,8 +7,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import br.unisinos.pf2.nltest.model.Command;
-import br.unisinos.pf2.nltest.model.Executable;
+import br.unisinos.pf2.nltest.model.Parseable;
 
 public class CommandTranslator {
 
@@ -18,48 +17,47 @@ public class CommandTranslator {
 		map = new Properties();
 		try {
 			// TODO extrair caminho do arquivo
-			map.load(new FileInputStream("E:\\Java\\GitHub\\Unisinos\\nltest\\src\\main\\resources\\command-map.properties"));
+			map.load(new FileInputStream("\\src\\main\\resources\\command-map.properties"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public Executable translate(String strCommand) {
-
+	public Parseable translate(String strCommand) {
 		for (Entry<Object, Object> entry : map.entrySet()) {
-
 			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand.trim());
 			if (matcher.matches()) {
-				String executableName = entry.getKey().toString();
-				try {
-
-					Executable executableInstance = (Executable) Class.forName(executableName).newInstance();
-
-					String[] args = new String[matcher.groupCount()];
-					for (int i = 0; i < matcher.groupCount(); i++) {
-						args[i] = matcher.group(i + 1);
-					}
-
-					executableInstance.init(args);
-
-					return executableInstance;
-
-				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				String[] args = extractArgs(matcher);
+				String parseableName = entry.getKey().toString();
+				return createInstance(args, parseableName);
 			}
-
 		}
 
 		// TODO tratar quando nao encotra
 		return null;
 	}
 
-	public Command translateCommand(String strCommand) {
-		// TODO
-		return null;
+	private Parseable createInstance(String[] args, String parseableName) {
+		try {
+
+			Parseable parseableInstance = (Parseable) Class.forName(parseableName).newInstance();
+			parseableInstance.init(args);
+			return parseableInstance;
+
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private String[] extractArgs(Matcher matcher) {
+		String[] args = new String[matcher.groupCount()];
+		for (int i = 0; i < matcher.groupCount(); i++) {
+			args[i] = matcher.group(i + 1);
+		}
+		return args;
 	}
 
 }

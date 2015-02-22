@@ -19,18 +19,16 @@ public class TestSuite implements Executable {
 		this.testCases = new ArrayList<>();
 	}
 
-	public void addTestCase(TestCase testCase) {
-		testCases.add(testCase);
-		description.addChild(testCase.getDescription());
+	public void addTestCases(List<TestCase> testCases) {
+		this.testCases.addAll(testCases);
+		for (TestCase testCase : testCases) {
+			description.addChild(testCase.getDescription());
+		}
 	}
 
 	@Override
 	public Description getDescription() {
 		return description;
-	}
-
-	public List<TestCase> peekTestCases() {
-		return new ArrayList<TestCase>(testCases);
 	}
 
 	@Override
