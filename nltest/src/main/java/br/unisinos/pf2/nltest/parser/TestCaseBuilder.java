@@ -2,6 +2,7 @@ package br.unisinos.pf2.nltest.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import br.unisinos.pf2.nltest.model.Command;
@@ -49,7 +50,7 @@ public class TestCaseBuilder {
 	public List<TestCase> build() {
 
 		if (!hasElementToBuild()) {
-			return null;
+			return Collections.emptyList();
 		}
 
 		validateBuild();

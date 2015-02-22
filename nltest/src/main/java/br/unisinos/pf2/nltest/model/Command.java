@@ -3,7 +3,6 @@ package br.unisinos.pf2.nltest.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.Description;
@@ -12,7 +11,7 @@ public abstract class Command implements Executable {
 
 	private Description description;
 	private List<String> simpleParameters;
-	private Map<String, String> parametersSetMap;
+	private ParameterSet parametersSet;
 
 	@Override
 	public void init(String... args) {
@@ -32,7 +31,7 @@ public abstract class Command implements Executable {
 		if (isVariableParameter(value)) {
 			value = StringUtils.removeStart(value, "<");
 			value = StringUtils.removeEnd(value, ">");
-			value = parametersSetMap.get(value);
+			value = parametersSet.getValue(value);
 		}
 
 		return value;
@@ -46,7 +45,7 @@ public abstract class Command implements Executable {
 		try {
 			Command copiedCommand = this.getClass().newInstance();
 			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
-			copiedCommand.parametersSetMap = parameterSet.toMap();
+			copiedCommand.parametersSet = parameterSet;
 			return copiedCommand;
 		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO

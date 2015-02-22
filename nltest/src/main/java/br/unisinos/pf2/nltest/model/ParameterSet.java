@@ -1,7 +1,5 @@
 package br.unisinos.pf2.nltest.model;
 
-import java.util.Map;
-
 public class ParameterSet {
 
 	private ParameterSetData header;
@@ -12,9 +10,9 @@ public class ParameterSet {
 		this.values = values;
 	}
 
-	public Map<String, String> toMap() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getValue(String header) {
+		int i = this.header.indexOf(header);
+		return values.get(i);
 	}
 
 }

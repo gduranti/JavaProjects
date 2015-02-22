@@ -25,22 +25,21 @@ public class ScriptsParser {
 
 		Collection<File> files = ScriptsLoader.loadFiles(path);
 		for (File file : files) {
-
 			System.out.println("Reading file " + file.getName());
-			handleFile(builder, file);
+			readFile(builder, file);
 		}
 
 		return builder.getResult();
 	}
 
-	private void handleFile(TestSuitesBuilder builder, File file) {
+	private void readFile(TestSuitesBuilder builder, File file) {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(file);
 
 			while (scanner.hasNext()) {
 				String line = scanner.nextLine();
-				Parseable parseable = commandTranslator.translate(line);
+				Parseable parseable = commandTranslator.interpret(line);
 				builder.add(parseable);
 			}
 

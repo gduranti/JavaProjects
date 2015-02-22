@@ -7,6 +7,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.unisinos.pf2.nltest.exception.ParseException;
 import br.unisinos.pf2.nltest.model.Parseable;
 
 public class CommandTranslator {
@@ -17,14 +18,14 @@ public class CommandTranslator {
 		map = new Properties();
 		try {
 			// TODO extrair caminho do arquivo
-			map.load(new FileInputStream("\\src\\main\\resources\\command-map.properties"));
+			map.load(new FileInputStream("src\\main\\resources\\command-map.properties"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public Parseable translate(String strCommand) {
+	public Parseable interpret(String strCommand) {
 		for (Entry<Object, Object> entry : map.entrySet()) {
 			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand.trim());
 			if (matcher.matches()) {
@@ -34,8 +35,7 @@ public class CommandTranslator {
 			}
 		}
 
-		// TODO tratar quando nao encotra
-		return null;
+		throw new ParseException("Command not mapped: " + strCommand);
 	}
 
 	private Parseable createInstance(String[] args, String parseableName) {

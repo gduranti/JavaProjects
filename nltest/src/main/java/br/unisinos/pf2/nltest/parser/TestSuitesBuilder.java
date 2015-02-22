@@ -13,9 +13,8 @@ import br.unisinos.pf2.nltest.model.TestSuite;
 public class TestSuitesBuilder {
 
 	private List<TestSuite> testSuites = new ArrayList<>();
-
 	private TestSuite currentTestSuite = null;
-	private TestCaseBuilder testCaseBuilder;
+	private TestCaseBuilder testCaseBuilder = new TestCaseBuilder();
 
 	public void add(Parseable parseable) {
 

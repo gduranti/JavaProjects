@@ -6,7 +6,7 @@ import br.unisinos.pf2.nltest.runner.NLTestConfigurator;
 import br.unisinos.pf2.nltest.runner.NLTestScriptsRunner;
 
 /**
- * 
+ *
  * Classe de testes...
  *
  */
