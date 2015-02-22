@@ -43,12 +43,14 @@ public class TestSuitesBuilder {
 
 	private void buildPreviusTestCase() {
 		List<TestCase> testCases = testCaseBuilder.build();
+		testCaseBuilder.reset();
 		if (!testCases.isEmpty()) {
 			currentTestSuite.addTestCases(testCases);
 		}
 	}
 
 	public List<TestSuite> getResult() {
+		buildPreviusTestCase();
 		return testSuites;
 	}
 

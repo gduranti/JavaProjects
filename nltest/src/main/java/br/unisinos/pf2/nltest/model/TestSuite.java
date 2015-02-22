@@ -39,4 +39,9 @@ public class TestSuite implements Executable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return description.getDisplayName() + ": " + testCases;
+	}
+
 }

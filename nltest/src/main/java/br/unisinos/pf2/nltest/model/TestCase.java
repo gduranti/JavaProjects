@@ -56,4 +56,9 @@ public class TestCase implements Executable, Cloneable {
 		return newTestCase;
 	}
 
+	@Override
+	public String toString() {
+		return description.getDisplayName();
+	}
+
 }

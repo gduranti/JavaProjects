@@ -22,7 +22,7 @@ public class TestCaseBuilder {
 		reset();
 	}
 
-	private void reset() {
+	public void reset() {
 		commands = new ArrayList<>();
 		parameterSetDataList = new ArrayList<>();
 		acceptParameterSet = false;
