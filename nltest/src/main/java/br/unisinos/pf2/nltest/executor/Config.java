@@ -1,4 +1,4 @@
-package br.unisinos.pf2.nltest.model;
+package br.unisinos.pf2.nltest.executor;
 
 public class Config {
 

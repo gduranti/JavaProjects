@@ -9,7 +9,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import br.unisinos.pf2.nltest.exception.NLTestException;
-import br.unisinos.pf2.nltest.model.Config;
 import br.unisinos.pf2.nltest.model.TestSuite;
 import br.unisinos.pf2.nltest.runner.TestCaseNotifier;
 

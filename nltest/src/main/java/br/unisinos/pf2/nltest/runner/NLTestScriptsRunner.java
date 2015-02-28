@@ -7,9 +7,9 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 
 import br.unisinos.pf2.nltest.exception.CommonValidator;
+import br.unisinos.pf2.nltest.executor.Config;
 import br.unisinos.pf2.nltest.executor.ScriptsExecutor;
-import br.unisinos.pf2.nltest.model.Config;
-import br.unisinos.pf2.nltest.model.Config.Browser;
+import br.unisinos.pf2.nltest.executor.Config.Browser;
 import br.unisinos.pf2.nltest.model.TestSuite;
 import br.unisinos.pf2.nltest.parser.ScriptsParser;
 
