@@ -18,4 +18,9 @@ public class TestClass implements NLTestConfigurator {
 		return "E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder";
 	}
 
+	@Override
+	public String getProjectName() {
+		return "Projeto enquanto desenvolvimento";
+	}
+
 }

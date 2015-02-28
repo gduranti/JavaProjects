@@ -4,4 +4,6 @@ public interface NLTestConfigurator {
 
 	String getScriptsPath();
 
+	String getProjectName();
+
 }

@@ -1,6 +1,6 @@
 package br.unisinos.pf2.nltest.exception;
 
-public class ParseException extends NLTesException {
+public class ParseException extends NLTestException {
 
 	private static final long serialVersionUID = 7957952293321685871L;
 
