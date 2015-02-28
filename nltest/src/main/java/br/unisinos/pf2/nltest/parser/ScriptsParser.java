@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import org.apache.commons.io.IOUtils;
 
+import br.unisinos.pf2.nltest.exception.ParseException;
 import br.unisinos.pf2.nltest.model.Parseable;
 import br.unisinos.pf2.nltest.model.TestSuite;
 
@@ -46,8 +47,7 @@ public class ScriptsParser {
 			}
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ParseException("Não foi possível encontrar o arquivo de scripts: " + file.getAbsolutePath(), e);
 		} finally {
 			if (scanner != null) {
 				IOUtils.closeQuietly(scanner);

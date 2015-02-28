@@ -3,6 +3,7 @@ package br.unisinos.pf2.nltest.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unisinos.pf2.nltest.exception.ParseException;
 import br.unisinos.pf2.nltest.model.Command;
 import br.unisinos.pf2.nltest.model.ParameterSetData;
 import br.unisinos.pf2.nltest.model.ParameterSetMaker;
@@ -37,7 +38,7 @@ public class TestSuitesBuilder {
 			testCaseBuilder.addParameterSetData((ParameterSetData) parseable);
 
 		} else {
-			// TODO
+			throw new ParseException("Linha parseável não identificada: " + parseable.getClass());
 		}
 	}
 

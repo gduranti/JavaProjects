@@ -8,4 +8,8 @@ public class ParseException extends NLTestException {
 		super(message);
 	}
 
+	public ParseException(String message, Exception cause) {
+		super(message, cause);
+	}
+
 }

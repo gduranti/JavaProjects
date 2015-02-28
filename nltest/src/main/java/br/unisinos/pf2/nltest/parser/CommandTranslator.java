@@ -10,7 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import br.unisinos.pf2.nltest.exception.ParseException;
+import br.unisinos.pf2.nltest.model.Command;
 import br.unisinos.pf2.nltest.model.Parseable;
+import br.unisinos.pf2.nltest.model.commands.UnknownCommand;
 
 public class CommandTranslator {
 
@@ -22,8 +24,7 @@ public class CommandTranslator {
 			// TODO extrair caminho do arquivo
 			map.load(new FileInputStream("src\\main\\resources\\command-map.properties"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ParseException("Ocorreu erro ao carregar o mapa de comandos: " + e.getMessage(), e);
 		}
 	}
 
@@ -50,10 +51,11 @@ public class CommandTranslator {
 					return createInstance(args.toArray(new String[] {}), parseableName);
 				}
 			}
-
 		}
 
-		throw new ParseException("Command not mapped: " + strCommand);
+		Command unknownCommand = new UnknownCommand();
+		unknownCommand.init(strCommand);
+		return unknownCommand;
 	}
 
 	private Parseable createInstance(String[] args, String parseableName) {

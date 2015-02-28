@@ -44,6 +44,10 @@ public class TestCase implements Executable, Cloneable {
 				notifier.succesful();
 			} catch (Throwable e) {
 				notifier.failed(e);
+
+				// Quando um comando do caso de teste falha, os comandos
+				// seguites nao sao executados
+				return;
 			}
 		}
 	}
