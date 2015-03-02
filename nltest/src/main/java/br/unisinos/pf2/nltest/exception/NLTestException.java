@@ -8,7 +8,7 @@ public class NLTestException extends RuntimeException {
 		super(message);
 	}
 
-	public NLTestException(String message, Exception cause) {
+	public NLTestException(String message, Throwable cause) {
 		super(message, cause);
 	}
 

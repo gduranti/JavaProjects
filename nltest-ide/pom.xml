@@ -1,29 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>br.unisinos.pf2</groupId>
 	<artifactId>nltest-ide</artifactId>
-	<version>1.0.0</version>
+	<name>nltest-ide</name>
+
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+
+	<organization>
+		<name>unisinos</name>
+	</organization>
 
 	<dependencies>
 
+		<!-- <dependency> -->
+		<!-- <groupId>com.oracle</groupId> -->
+		<!-- <artifactId>javafx</artifactId> -->
+		<!-- <version>2.2.3</version> -->
+		<!-- </dependency> -->
+
+		<!-- NLTest -->
 		<dependency>
 			<groupId>br.unisinos.pf2</groupId>
 			<artifactId>nltest</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.controlsfx</groupId>
+			<artifactId>openjfx-dialogs</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+
+		<!-- MigLayout -->
+
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout-javafx</artifactId>
+			<version>4.2</version>
+		</dependency>
+
+		<!-- Apache Commons -->
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<!-- Logging -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
+
+		<finalName>nltest-ide</finalName>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+
+					<mainClass>br.unisinos.pf2.nltest.ide.MainApp</mainClass>
+
+					<!-- only required if signing the jar file -->
+					<keyStoreAlias>example-user</keyStoreAlias>
+					<keyStorePassword>example-password</keyStorePassword>
+					<allPermissions>true</allPermissions>
+
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
