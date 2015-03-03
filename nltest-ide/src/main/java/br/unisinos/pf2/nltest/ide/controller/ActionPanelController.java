@@ -1,9 +1,10 @@
-package br.unisinos.pf2.nltest.ide;
+package br.unisinos.pf2.nltest.ide.controller;
 
 import java.io.File;
 import java.util.Optional;
 
-import javafx.beans.value.ChangeListener;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,12 +14,18 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.DirectoryChooser;
+import br.unisinos.pf2.nltest.ide.MainApp;
+import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
+import br.unisinos.pf2.nltest.ide.event.EventListener;
+import br.unisinos.pf2.nltest.ide.event.events.Event;
+import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
+import br.unisinos.pf2.nltest.ide.event.events.TestExecutionFinishedEvent;
+import br.unisinos.pf2.nltest.ide.event.events.TestExecutionStartedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
-import br.unisinos.pf2.nltest.ide.testexecution.ExecutionFireListener;
 
-public class ActionPanelController {
+public class ActionPanelController implements EventListener {
 
 	private MainApp mainApp;
 
@@ -33,20 +40,35 @@ public class ActionPanelController {
 
 	private File rootProjectDirectory;
 
-	private ExecutionFireListener executionFireListener;
-
 	@FXML
 	private void initialize() {
+		// TODO
 		sysdateLabel.setText("01/03/2015 14:41");
 		pcConfigLabel.setText("Windows 7, Intel I7, 8GB...");
-	}
 
-	public void setExecutionFireListener(ExecutionFireListener executionFireListener) {
-		this.executionFireListener = executionFireListener;
-	}
+		fileTree.getSelectionModel().selectedItemProperty().addListener(new TreeChangeEventAdapter());
 
-	public void addFileChangeListener(ChangeListener<? super TreeItem<ScriptFile>> listener) {
-		fileTree.getSelectionModel().selectedItemProperty().addListener(listener);
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws Exception {
+				int i = 0;
+				while (true) {
+					final int finalI = i;
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							System.out.println("executando... " + finalI);
+							sysdateLabel.setText("" + finalI);
+						}
+					});
+					i++;
+					Thread.sleep(1000);
+				}
+			}
+		};
+		Thread th = new Thread(task);
+		th.setDaemon(true);
+		th.start();
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -94,7 +116,7 @@ public class ActionPanelController {
 	@FXML
 	public void handleExecuteProject() {
 		handleSaveProject();
-		executionFireListener.fireExecution(rootProjectDirectory);
+		EventDispatcher.getInstance().dispatch(new ExecuteFileScriptEvent(rootProjectDirectory));
 	}
 
 	@FXML
@@ -154,6 +176,17 @@ public class ActionPanelController {
 		if (result.get() == ButtonType.OK) {
 			selectedItem.getParent().getChildren().remove(selectedItem);
 		}
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+
+		if (event instanceof TestExecutionStartedEvent) {
+			pcConfigLabel.setText("teste iniciado");
+		} else if (event instanceof TestExecutionFinishedEvent) {
+			pcConfigLabel.setText("teste concluido");
+		}
+
 	}
 
 }

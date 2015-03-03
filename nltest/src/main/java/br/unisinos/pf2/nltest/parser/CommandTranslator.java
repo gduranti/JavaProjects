@@ -1,6 +1,5 @@
 package br.unisinos.pf2.nltest.parser;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class CommandTranslator {
 		map = new Properties();
 		try {
 			// TODO extrair caminho do arquivo
-			map.load(new FileInputStream("src\\main\\resources\\command-map.properties"));
+			map.load(getClass().getResourceAsStream("command-map.properties"));
 		} catch (IOException e) {
 			throw new ParseException("Ocorreu erro ao carregar o mapa de comandos: " + e.getMessage(), e);
 		}

@@ -8,14 +8,17 @@ import br.unisinos.pf2.nltest.runner.NLTestScriptsRunner;
 @RunWith(NLTestScriptsRunner.class)
 public class TestClass implements NLTestConfigurator {
 
+	static String scriptsPath;
+	static String projectName;
+
 	@Override
 	public String getScriptsPath() {
-		return "E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder";
+		return scriptsPath;
 	}
 
 	@Override
 	public String getProjectName() {
-		return "Projeto enquanto desenvolvimento";
+		return projectName;
 	}
 
 }

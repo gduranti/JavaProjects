@@ -13,37 +13,39 @@ public class LoggingRunListener extends RunListener {
 
 	@Override
 	public void testAssumptionFailure(Failure failure) {
-		logger.debug("testAssumptionFailure" + failure);
+		logger.debug("testAssumptionFailure " + failure);
+		failure.getException().printStackTrace();
 	}
 
 	@Override
 	public void testFailure(Failure failure) throws Exception {
-		logger.debug("testFailure" + failure);
+		logger.debug("testFailure " + failure);
+		failure.getException().printStackTrace();
 	}
 
 	@Override
 	public void testFinished(Description description) throws Exception {
-		logger.debug("testFinished" + description);
+		logger.debug("testFinished " + description);
 	}
 
 	@Override
 	public void testIgnored(Description description) throws Exception {
-		logger.debug("testIgnored" + description);
+		logger.debug("testIgnored " + description);
 	}
 
 	@Override
 	public void testRunFinished(Result result) throws Exception {
-		logger.debug("testRunFinished" + result);
+		logger.debug("testRunFinished " + result);
 	}
 
 	@Override
 	public void testRunStarted(Description description) throws Exception {
-		logger.debug("testRunStarted" + description);
+		logger.debug("testRunStarted " + description);
 	}
 
 	@Override
 	public void testStarted(Description description) throws Exception {
-		logger.debug("testStarted" + description);
+		logger.debug("testStarted " + description);
 	}
 
 }

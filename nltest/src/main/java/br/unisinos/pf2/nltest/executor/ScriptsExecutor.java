@@ -27,8 +27,6 @@ public class ScriptsExecutor {
 	}
 
 	private WebDriver createDriver(Config config) {
-		System.setProperty("webdriver.ie.driver", "src\\main\\resources\\webdrivers\\IEDriverServer.exe");
-		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\webdrivers\\chromedriver.exe");
 		switch (config.getBrowser()) {
 			case IE:
 				return new InternetExplorerDriver();
