@@ -1,22 +1,22 @@
 package br.unisinos.pf2.nltest.ide.controller;
 
+import java.util.Random;
+
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeView;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
+import br.unisinos.pf2.nltest.ide.event.events.TestExecutionFinishedEvent;
+import br.unisinos.pf2.nltest.ide.event.events.TestExecutionStartedEvent;
 import br.unisinos.pf2.nltest.ide.testexecution.JUnitExecutor;
 import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
 
 public class ExecutionPanelController implements EventListener {
-
-	private static final Logger logger = LoggerFactory.getLogger(ExecutionPanelController.class);
 
 	@FXML
 	private ProgressBar progressBar;
@@ -47,12 +47,23 @@ public class ExecutionPanelController implements EventListener {
 				@Override
 				public void run() {
 					JUnitExecutor executor = new JUnitExecutor();
+					EventDispatcher.getInstance().dispatch(new TestExecutionStartedEvent());
 					executor.execute(executeFileScriptEvent.getFile());
+					EventDispatcher.getInstance().dispatch(new TestExecutionFinishedEvent());
 					executionFinished();
 				}
 			});
 			thread.setDaemon(true);
 			thread.start();
+
+			AnimationTimer timer = new AnimationTimer() {
+				@Override
+				public void handle(long now) {
+					cancelButton.setText("texto " + new Random().hashCode());
+				}
+			};
+			timer.start();
+
 		}
 	}
 

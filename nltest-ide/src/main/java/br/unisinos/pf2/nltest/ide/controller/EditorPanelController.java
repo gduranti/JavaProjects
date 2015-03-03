@@ -4,18 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ScriptChangedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 
 public class EditorPanelController implements EventListener {
-
-	private static final Logger logger = LoggerFactory.getLogger(EditorPanelController.class);
 
 	@FXML
 	private Label fileName;

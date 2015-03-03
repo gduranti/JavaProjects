@@ -19,7 +19,7 @@ public class JUnitExecutor {
 		System.setProperty("webdriver.chrome.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/chromedriver.exe");
 
 		// TODO
-		TestClass.scriptsPath = "E:/Java/GitHub/Unisinos/nltest/src/test/resources/scripts-folder";
+		TestClass.scriptsPath = "E:/Java/GitHub/Unisinos/nltest/src/test/resources/scripts-folder-simple";
 		TestClass.projectName = "Projeto enquanto desenvolvimento";
 
 		JUnitCore jUnitCore = new JUnitCore();
