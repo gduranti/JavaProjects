@@ -6,11 +6,13 @@ import org.junit.runner.JUnitCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.unisinos.pf2.nltest.ide.controller.DescriptionWrapper;
+
 public class JUnitExecutor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JUnitExecutor.class);
 
-	public void execute(File file) {
+	public void execute(DescriptionWrapper executionObserver, File file) {
 
 		LOGGER.debug("Starting execution...");
 
@@ -24,6 +26,7 @@ public class JUnitExecutor {
 
 		JUnitCore jUnitCore = new JUnitCore();
 		jUnitCore.addListener(new LoggingRunListener());
+		jUnitCore.addListener(new CaptureMainDescriptionRunListener(executionObserver));
 		jUnitCore.run(TestClass.class);
 
 		LOGGER.debug("Starting finished");

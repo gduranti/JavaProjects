@@ -17,6 +17,12 @@
       </ToolBar>
    </top>
    <center>
-      <TreeView prefHeight="360.0" prefWidth="513.0" BorderPane.alignment="CENTER" />
+      <TreeTableView fx:id="treeResult" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TreeTableColumn fx:id="testUnityColumn" prefWidth="337.0" text="Unidade" />
+          <TreeTableColumn fx:id="testResultColumn" minWidth="0.0" prefWidth="67.0" text="Resultado" />
+            <TreeTableColumn fx:id="testMessageColumn" prefWidth="195.0" text="Mensagem" />
+        </columns>
+      </TreeTableView>
    </center>
 </BorderPane>
