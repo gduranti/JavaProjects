@@ -72,6 +72,8 @@ public class MainApp extends Application implements EventListener {
 		eventDispatcher.registerListener(actionPanelController);
 		eventDispatcher.registerListener(editorPanelController);
 		eventDispatcher.registerListener(executionPanelController);
+
+		rootLayout.setCenter(this.executionPane);
 	}
 
 	@Override

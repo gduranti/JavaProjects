@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -9,39 +10,55 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.ActionPanelController">
    <children>
-      <VBox layoutX="14.0" layoutY="50.0" prefHeight="500.0" prefWidth="200.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <VBox layoutX="14.0" layoutY="50.0" prefHeight="500.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+            <HBox alignment="BOTTOM_CENTER">
                <children>
-                  <HBox alignment="BOTTOM_CENTER">
-                     <children>
-                        <Label alignment="BOTTOM_CENTER" text="NLTest">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
-                        <Label disable="true" layoutX="10.0" layoutY="10.0" text="IDE">
-                           <font>
-                              <Font name="System Italic" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Button mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" prefWidth="173.0" text="Abrir Projeto" />
-                  <Button mnemonicParsing="false" onAction="#handleSaveProject" prefHeight="25.0" prefWidth="171.0" text="Salvar Projeto" />
-                  <Button mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" prefWidth="171.0" text="Executar" />
-                  <Separator prefWidth="200.0" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Configurações" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" text="Mapa de Comandos" />
+                  <Label alignment="BOTTOM_CENTER" text="NLTest">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label disable="true" layoutX="10.0" layoutY="10.0" text="IDE">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="5.0" />
                </VBox.margin>
-            </VBox>
-            <TreeView fx:id="fileTree" prefHeight="261.0" prefWidth="170.0">
+            </HBox>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" text="Abrir Projeto">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSaveProject" prefHeight="25.0" text="Salvar Projeto">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" text="Executar">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" text="Configurações">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" text="Mapa de Comandos">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="pcConfigLabel" alignment="CENTER" layoutX="10.0" layoutY="458.0" prefHeight="17.0" prefWidth="173.0" text="Arquivos de script:">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
+            <TreeView fx:id="fileTree" maxHeight="1.7976931348623157E308" minWidth="25.0" prefHeight="261.0" prefWidth="170.0" VBox.vgrow="ALWAYS">
                <contextMenu>
                   <ContextMenu>
                     <items>
@@ -53,7 +70,7 @@
                </contextMenu>
             </TreeView>
             <Label fx:id="sysdateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="173.0" text="sysdate" />
-            <Label fx:id="pcConfigLabel" alignment="CENTER" layoutX="10.0" layoutY="458.0" prefHeight="17.0" prefWidth="173.0" text="pc" />
+            <Label fx:id="pcConfigLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="457.0" prefHeight="17.0" prefWidth="173.0" text="sysdate" />
          </children>
       </VBox>
    </children>

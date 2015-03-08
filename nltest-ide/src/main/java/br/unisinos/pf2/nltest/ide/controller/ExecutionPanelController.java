@@ -43,6 +43,7 @@ public class ExecutionPanelController implements EventListener {
 		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
 		testResultColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("result"));
 		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("message"));
+		// treeResult.getp
 	}
 
 	@Override
@@ -57,13 +58,7 @@ public class ExecutionPanelController implements EventListener {
 				@Override
 				public void run() {
 					JUnitExecutor executor = new JUnitExecutor();
-					// EventDispatcher.getInstance().dispatch(new
-					// TestExecutionStartedEvent());
 					executor.execute(descriptionWrapper, executeFileScriptEvent.getFile());
-					// EventDispatcher.getInstance().dispatch(new
-					// TestExecutionFinishedEvent());
-					// executionFinished();
-
 					System.out.println("Stoping updateUiThread.");
 					updateUiThread.stop();
 				}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -10,14 +11,14 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.EditorPanelController">
    <children>
-      <ToolBar layoutX="7.0" layoutY="5.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-            <Label text="Arquivo:">
+      <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="500.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="25.0" prefWidth="60.0" text="Arquivo:">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="fileName" text="Nome do arquivo.nlt">
+            <Label fx:id="fileName" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="200.0" text="Nome do arquivo.nlt" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -27,8 +28,11 @@
                   <Tooltip text="Executar testes deste arquivo" />
                </tooltip>
             </Button>
-        </items>
-      </ToolBar>
-      <TextArea fx:id="scriptTextEditor" layoutX="-100.0" layoutY="-40.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <TextArea fx:id="scriptTextEditor" layoutX="-100.0" layoutY="-40.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" />
    </children>
 </AnchorPane>

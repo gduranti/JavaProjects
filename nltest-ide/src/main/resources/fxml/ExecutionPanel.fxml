@@ -6,23 +6,33 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.ExecutionPanelController">
+<BorderPane prefHeight="436.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.ExecutionPanelController">
+   <center>
+      <VBox>
+         <children>
+            <TreeTableView fx:id="treeResult" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+              <columns>
+                <TreeTableColumn fx:id="testUnityColumn" editable="false"  minWidth="50.0" prefWidth="100.0" sortable="false" text="Unidade" />
+                <TreeTableColumn fx:id="testResultColumn" editable="false" maxWidth="100" minWidth="100.0" prefWidth="25.0" sortable="false" text="Resultado" />
+                  <TreeTableColumn fx:id="testMessageColumn" editable="false"  minWidth="50.0" prefWidth="100.0" sortable="false" text="Mensagem" />
+              </columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TreeTableView>
+         </children>
+      </VBox>
+   </center>
    <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-            <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="248.0" progress="0.0" />
+      <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="489.0" spacing="5.0" BorderPane.alignment="TOP_RIGHT">
+         <children>
+            <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" progress="0.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" text="Cancelar Execução" />
             <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" text="Imprimir Resultado" />
-        </items>
-      </ToolBar>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+      </HBox>
    </top>
-   <center>
-      <TreeTableView fx:id="treeResult" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TreeTableColumn fx:id="testUnityColumn" prefWidth="337.0" text="Unidade" />
-          <TreeTableColumn fx:id="testResultColumn" minWidth="0.0" prefWidth="67.0" text="Resultado" />
-            <TreeTableColumn fx:id="testMessageColumn" prefWidth="195.0" text="Mensagem" />
-        </columns>
-      </TreeTableView>
-   </center>
 </BorderPane>
