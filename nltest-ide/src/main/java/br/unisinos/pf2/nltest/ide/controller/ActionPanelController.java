@@ -3,8 +3,6 @@ package br.unisinos.pf2.nltest.ide.controller;
 import java.io.File;
 import java.util.Optional;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -15,6 +13,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.DirectoryChooser;
 import br.unisinos.pf2.nltest.ide.MainApp;
+import br.unisinos.pf2.nltest.ide.controller.thread.UpdateTimeThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
@@ -42,33 +41,9 @@ public class ActionPanelController implements EventListener {
 
 	@FXML
 	private void initialize() {
-		// TODO
-		sysdateLabel.setText("01/03/2015 14:41");
-		pcConfigLabel.setText("Windows 7, Intel I7, 8GB...");
-
+		pcConfigLabel.setText(String.format("%s, Java %s", System.getProperty("os.name"), System.getProperty("java.version")));
 		fileTree.getSelectionModel().selectedItemProperty().addListener(new TreeChangeEventAdapter());
-
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() throws Exception {
-				int i = 0;
-				while (true) {
-					final int finalI = i;
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							System.out.println("executando... " + finalI);
-							sysdateLabel.setText("" + finalI);
-						}
-					});
-					i++;
-					Thread.sleep(1000);
-				}
-			}
-		};
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
+		UpdateTimeThread.start(sysdateLabel);
 	}
 
 	public void setMainApp(MainApp mainApp) {

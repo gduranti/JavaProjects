@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.ActionPanelController">
    <children>
-      <VBox layoutX="14.0" layoutY="50.0" prefHeight="500.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox layoutX="14.0" layoutY="50.0" prefHeight="500.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox alignment="BOTTOM_CENTER">
                <children>
@@ -69,7 +69,10 @@
                   </ContextMenu>
                </contextMenu>
             </TreeView>
-            <Label fx:id="sysdateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="173.0" text="sysdate" />
+            <Label fx:id="sysdateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="173.0" text="sysdate">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin></Label>
             <Label fx:id="pcConfigLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="457.0" prefHeight="17.0" prefWidth="173.0" text="sysdate" />
          </children>
       </VBox>

@@ -43,7 +43,6 @@ public class ExecutionPanelController implements EventListener {
 		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
 		testResultColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("result"));
 		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("message"));
-		// treeResult.getp
 	}
 
 	@Override
