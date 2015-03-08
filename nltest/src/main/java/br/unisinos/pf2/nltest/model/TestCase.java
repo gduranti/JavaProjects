@@ -33,8 +33,6 @@ public class TestCase implements Executable, Cloneable {
 	@Override
 	public void execute(ExecutionContext ctx) {
 
-		System.out.println("Executing test case " + description.getDisplayName());
-
 		for (Command command : commands) {
 			TestCaseNotifier notifier = ctx.getNotifier();
 			try {

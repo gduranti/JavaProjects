@@ -6,7 +6,7 @@ import br.unisinos.pf2.nltest.runner.NLTestConfigurator;
 import br.unisinos.pf2.nltest.runner.NLTestScriptsRunner;
 
 @RunWith(NLTestScriptsRunner.class)
-public class TestClass implements NLTestConfigurator {
+public class IdeTestConfigurator implements NLTestConfigurator {
 
 	static String scriptsPath;
 	static String projectName;

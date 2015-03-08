@@ -6,11 +6,12 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import br.unisinos.pf2.nltest.ide.controller.thread.UpdateUiThread;
+import br.unisinos.pf2.nltest.ide.controller.thread.ExecuteTestsThread;
+import br.unisinos.pf2.nltest.ide.controller.thread.UpdateResultUiThread;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
-import br.unisinos.pf2.nltest.ide.testexecution.JUnitExecutor;
+import br.unisinos.pf2.nltest.ide.testexecution.IdeExecutionContext;
 import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
 
 public class ExecutionPanelController implements EventListener {
@@ -50,27 +51,18 @@ public class ExecutionPanelController implements EventListener {
 
 		if (event instanceof ExecuteFileScriptEvent) {
 			ExecuteFileScriptEvent executeFileScriptEvent = (ExecuteFileScriptEvent) event;
-			DescriptionWrapper descriptionWrapper = new DescriptionWrapper();
-			UpdateUiThread updateUiThread = new UpdateUiThread(descriptionWrapper, cancelButton, treeResult);
 
-			Thread executeTestsThread = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					JUnitExecutor executor = new JUnitExecutor();
-					executor.execute(descriptionWrapper, executeFileScriptEvent.getFile());
-					System.out.println("Stoping updateUiThread.");
-					updateUiThread.stop();
-				}
-			});
-			executeTestsThread.setDaemon(true);
-			executeTestsThread.start();
+			// Clear de previus test execution
+			treeResult.setRoot(null);
 
-			updateUiThread.start();
+			// Creates a new execution context for the IDE
+			IdeExecutionContext ideExecutionContext = new IdeExecutionContext();
+
+			// Starts threads to update the UI and to execute all the tests from
+			// the received file
+			UpdateResultUiThread.start(ideExecutionContext, cancelButton, printButton, treeResult);
+			ExecuteTestsThread.start(ideExecutionContext, executeFileScriptEvent.getFile());
 		}
 	}
 
-	private void executionFinished() {
-		cancelButton.setDisable(true);
-		printButton.setDisable(false);
-	}
 }

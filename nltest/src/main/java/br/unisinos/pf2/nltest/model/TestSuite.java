@@ -34,7 +34,6 @@ public class TestSuite implements Executable {
 	@Override
 	public void execute(ExecutionContext ctx) {
 		for (TestCase testCase : testCases) {
-			System.out.println("Executing test suite " + description.getDisplayName());
 			testCase.execute(ctx);
 		}
 	}

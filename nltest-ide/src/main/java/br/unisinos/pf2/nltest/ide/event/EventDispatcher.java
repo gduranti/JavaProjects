@@ -30,11 +30,16 @@ public class EventDispatcher {
 		listeners.add(listener);
 	}
 
+	public void unregisterListener(EventListener listener) {
+		logger.debug("Unregistering listener " + listener.getClass().getName());
+		listeners.remove(listener);
+	}
+
 	public void dispatch(Event event) {
 
 		logger.debug("Dispatching event " + event);
 
-		for (EventListener eventListener : listeners) {
+		for (EventListener eventListener : new ArrayList<>(listeners)) {
 			eventListener.handleEvent(event);
 		}
 	}

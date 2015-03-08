@@ -18,8 +18,6 @@ import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
-import br.unisinos.pf2.nltest.ide.event.events.TestExecutionFinishedEvent;
-import br.unisinos.pf2.nltest.ide.event.events.TestExecutionStartedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
@@ -155,13 +153,11 @@ public class ActionPanelController implements EventListener {
 
 	@Override
 	public void handleEvent(Event event) {
-
-		if (event instanceof TestExecutionStartedEvent) {
-			pcConfigLabel.setText("teste iniciado");
-		} else if (event instanceof TestExecutionFinishedEvent) {
-			pcConfigLabel.setText("teste concluido");
-		}
-
+		// if (event instanceof TestExecutionStartedEvent) {
+		// pcConfigLabel.setText("teste iniciado");
+		// } else if (event instanceof TestExecutionFinishedEvent) {
+		// pcConfigLabel.setText("teste concluido");
+		// }
 	}
 
 }

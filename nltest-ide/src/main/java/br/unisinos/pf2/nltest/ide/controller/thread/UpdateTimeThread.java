@@ -30,7 +30,7 @@ public class UpdateTimeThread extends Task<Void> {
 
 			LocalDateTime now = LocalDateTime.now();
 
-			System.out.println("ssss " + now);
+			// System.out.println("ssss " + now);
 
 			Platform.runLater(new Runnable() {
 				@Override

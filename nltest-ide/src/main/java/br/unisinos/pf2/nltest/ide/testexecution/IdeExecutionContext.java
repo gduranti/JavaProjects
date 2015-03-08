@@ -1,13 +1,11 @@
-package br.unisinos.pf2.nltest.ide.controller;
+package br.unisinos.pf2.nltest.ide.testexecution;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.Description;
 
-import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
-
-public class DescriptionWrapper {
+public class IdeExecutionContext {
 
 	private Description rootDescription;
 	private List<ScriptResult> results = new ArrayList<>();
