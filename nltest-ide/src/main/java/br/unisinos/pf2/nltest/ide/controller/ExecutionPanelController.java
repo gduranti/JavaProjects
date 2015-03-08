@@ -53,14 +53,18 @@ public class ExecutionPanelController implements EventListener {
 			ExecuteFileScriptEvent executeFileScriptEvent = (ExecuteFileScriptEvent) event;
 
 			// Clear de previus test execution
-			treeResult.setRoot(null);
+			treeResult.getSelectionModel().clearSelection();
+			// if (treeResult.getRoot() != null) {
+			// treeResult.getRoot().getChildren().clear();
+			// }
+			progressBar.setProgress(0.0);
 
 			// Creates a new execution context for the IDE
 			IdeExecutionContext ideExecutionContext = new IdeExecutionContext();
 
 			// Starts threads to update the UI and to execute all the tests from
 			// the received file
-			UpdateResultUiThread.start(ideExecutionContext, cancelButton, printButton, treeResult);
+			UpdateResultUiThread.start(ideExecutionContext, cancelButton, printButton, progressBar, treeResult);
 			ExecuteTestsThread.start(ideExecutionContext, executeFileScriptEvent.getFile());
 		}
 	}

@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
@@ -23,27 +24,28 @@ import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
 public class UpdateResultUiThread extends AnimationTimer implements EventListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UpdateResultUiThread.class);
-	private static final long UPDATE_INTERVAL = TimeUnit.SECONDS.toNanos(1);
+	private static final long UPDATE_INTERVAL = TimeUnit.MILLISECONDS.toNanos(500);
 
 	private LongProperty lastUpdate;
 	private IdeExecutionContext ideExecutionContext;
+	private ProgressBar progressBar;
 	private Button cancelButton;
 	private Button printButton;
 	private TreeTableView<ScriptResult> treeResult;
 	private boolean stopRequested;
 
-	private UpdateResultUiThread(IdeExecutionContext ideExecutionContext, Button cancelButton, Button printButton,
+	public static void start(IdeExecutionContext ideExecutionContext, Button cancelButton, Button printButton, ProgressBar progressBar,
 			TreeTableView<ScriptResult> treeResult) {
-		this.lastUpdate = new SimpleLongProperty();
-		this.ideExecutionContext = ideExecutionContext;
-		this.cancelButton = cancelButton;
-		this.printButton = printButton;
-		this.treeResult = treeResult;
-		this.stopRequested = false;
-	}
 
-	public static void start(IdeExecutionContext ideExecutionContext, Button cancelButton, Button printButton, TreeTableView<ScriptResult> treeResult) {
-		UpdateResultUiThread updateResultUiThread = new UpdateResultUiThread(ideExecutionContext, cancelButton, printButton, treeResult);
+		UpdateResultUiThread updateResultUiThread = new UpdateResultUiThread();
+		updateResultUiThread.lastUpdate = new SimpleLongProperty();
+		updateResultUiThread.ideExecutionContext = ideExecutionContext;
+		updateResultUiThread.cancelButton = cancelButton;
+		updateResultUiThread.printButton = printButton;
+		updateResultUiThread.progressBar = progressBar;
+		updateResultUiThread.treeResult = treeResult;
+		updateResultUiThread.stopRequested = false;
+
 		EventDispatcher.getInstance().registerListener(updateResultUiThread);
 		updateResultUiThread.start();
 	}
@@ -63,6 +65,8 @@ public class UpdateResultUiThread extends AnimationTimer implements EventListene
 
 			Description rootDescription = ideExecutionContext.getRootDescription();
 			lastUpdate.set(now);
+
+			progressBar.setProgress(ideExecutionContext.getPeComplete());
 
 			if (rootDescription != null) {
 

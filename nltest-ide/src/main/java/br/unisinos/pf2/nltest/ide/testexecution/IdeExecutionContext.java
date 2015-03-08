@@ -41,4 +41,21 @@ public class IdeExecutionContext {
 		return results;
 	}
 
+	public double getPeComplete() {
+		if (rootDescription == null) {
+			return 0.0;
+		}
+		return countCompletedResults() / (double) rootDescription.testCount();
+	}
+
+	private double countCompletedResults() {
+		double count = 0;
+		for (ScriptResult scriptResult : results) {
+			if (scriptResult.getDescription().isTest() && scriptResult.getResult() != null) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 }
