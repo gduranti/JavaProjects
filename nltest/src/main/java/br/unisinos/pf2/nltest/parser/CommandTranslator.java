@@ -27,14 +27,17 @@ public class CommandTranslator {
 		}
 	}
 
-	public Parseable interpret(String strCommand) {
+	public Parseable interpret(String lineCommand) {
 		for (Entry<Object, Object> entry : map.entrySet()) {
-			Matcher matcher = Pattern.compile(entry.getValue().toString()).matcher(strCommand.trim());
+
+			String baseScript = entry.getValue().toString();
+
+			Matcher matcher = Pattern.compile(baseScript).matcher(lineCommand.trim());
 
 			if (matcher.matches()) {
 				String[] args = extractArgs(matcher);
 				String parseableName = entry.getKey().toString();
-				return createInstance(args, parseableName);
+				return createInstance(baseScript, args, parseableName);
 
 			} else {
 
@@ -47,21 +50,21 @@ public class CommandTranslator {
 					while (matcher.find()) {
 						args.add(matcher.group(1));
 					}
-					return createInstance(args.toArray(new String[] {}), parseableName);
+					return createInstance(baseScript, args.toArray(new String[] {}), parseableName);
 				}
 			}
 		}
 
 		Command unknownCommand = new UnknownCommand();
-		unknownCommand.init(strCommand);
+		unknownCommand.init(null, new String[] { lineCommand });
 		return unknownCommand;
 	}
 
-	private Parseable createInstance(String[] args, String parseableName) {
+	private Parseable createInstance(String baseScript, String[] args, String parseableName) {
 		try {
 
 			Parseable parseableInstance = (Parseable) Class.forName(parseableName).newInstance();
-			parseableInstance.init(args);
+			parseableInstance.init(baseScript, args);
 			return parseableInstance;
 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {

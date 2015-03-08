@@ -3,6 +3,7 @@ package br.unisinos.pf2.nltest.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.Description;
@@ -12,11 +13,13 @@ public abstract class Command implements Executable {
 	private Description description;
 	private List<String> simpleParameters;
 	private ParameterSet parametersSet;
+	private String baseScript;
 
 	@Override
-	public void init(String... args) {
-		description = Description.createTestDescription(getClass(), getClass().getSimpleName() + " " + args);
-		simpleParameters = Arrays.asList(args);
+	public void init(String baseScript, String[] args) {
+		this.baseScript = baseScript;
+		this.simpleParameters = Arrays.asList(args);
+		this.description = buildDescription();
 	}
 
 	@Override
@@ -46,12 +49,23 @@ public abstract class Command implements Executable {
 			Command copiedCommand = this.getClass().newInstance();
 			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
 			copiedCommand.parametersSet = parameterSet;
-			copiedCommand.description = Description.createTestDescription(getClass(), getClass().getSimpleName() + " " + parameterSet);
+			copiedCommand.description = copiedCommand.buildDescription();
 			return copiedCommand;
 		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO
 			throw new RuntimeException("Erro ao copiar", e);
 		}
+	}
+
+	private Description buildDescription() {
+
+		String display = baseScript;
+
+		for (int i = 0; i < StringUtils.countMatches(baseScript, "(.*)"); i++) {
+			display = display.replaceFirst("\\(\\.\\*\\)", getParameterValue(i));
+		}
+
+		return Description.createTestDescription(getClass().getName(), display, UUID.randomUUID());
 	}
 
 	@Override

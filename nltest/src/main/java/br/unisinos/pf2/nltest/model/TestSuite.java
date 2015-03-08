@@ -13,7 +13,7 @@ public class TestSuite implements Executable {
 	private List<TestCase> testCases;
 
 	@Override
-	public void init(String... args) {
+	public void init(String baseScript, String[] args) {
 		// TODO tratar args vazio
 		this.description = Description.createSuiteDescription(args[0]);
 		this.testCases = new ArrayList<>();

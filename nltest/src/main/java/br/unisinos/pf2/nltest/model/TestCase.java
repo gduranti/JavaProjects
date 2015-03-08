@@ -14,7 +14,7 @@ public class TestCase implements Executable, Cloneable {
 	private List<Command> commands;
 
 	@Override
-	public void init(String... args) {
+	public void init(String baseScript, String[] args) {
 		// TODO tratar args vazio
 		this.description = Description.createSuiteDescription(args[0]);
 		this.commands = new ArrayList<>();

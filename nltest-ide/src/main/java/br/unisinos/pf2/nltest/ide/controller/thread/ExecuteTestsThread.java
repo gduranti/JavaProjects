@@ -13,13 +13,11 @@ public class ExecuteTestsThread implements Runnable {
 	private IdeExecutionContext ideExecutionContext;
 	private File file;
 
-	private ExecuteTestsThread(IdeExecutionContext ideExecutionContext, File file) {
-		this.ideExecutionContext = ideExecutionContext;
-		this.file = file;
-	}
-
 	public static void start(IdeExecutionContext ideExecutionContext, File file) {
-		ExecuteTestsThread executeTestsThread = new ExecuteTestsThread(ideExecutionContext, file);
+		ExecuteTestsThread executeTestsThread = new ExecuteTestsThread();
+		executeTestsThread.ideExecutionContext = ideExecutionContext;
+		executeTestsThread.file = file;
+
 		Thread thread = new Thread(executeTestsThread);
 		thread.setDaemon(true);
 		thread.start();

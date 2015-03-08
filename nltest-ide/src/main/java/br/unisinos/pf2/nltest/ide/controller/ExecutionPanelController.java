@@ -41,9 +41,9 @@ public class ExecutionPanelController implements EventListener {
 	private void initialize() {
 		cancelButton.setDisable(false);
 		printButton.setDisable(true);
-		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
-		testResultColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("result"));
-		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("message"));
+		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayName"));
+		testResultColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayResult"));
+		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayMessage"));
 	}
 
 	@Override
@@ -54,9 +54,6 @@ public class ExecutionPanelController implements EventListener {
 
 			// Clear de previus test execution
 			treeResult.getSelectionModel().clearSelection();
-			// if (treeResult.getRoot() != null) {
-			// treeResult.getRoot().getChildren().clear();
-			// }
 			progressBar.setProgress(0.0);
 
 			// Creates a new execution context for the IDE

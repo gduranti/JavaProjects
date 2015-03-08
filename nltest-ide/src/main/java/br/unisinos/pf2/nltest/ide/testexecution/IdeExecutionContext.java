@@ -51,7 +51,7 @@ public class IdeExecutionContext {
 	private double countCompletedResults() {
 		double count = 0;
 		for (ScriptResult scriptResult : results) {
-			if (scriptResult.getDescription().isTest() && scriptResult.getResult() != null) {
+			if (scriptResult.getDescription().isTest() && scriptResult.wasExecuted()) {
 				count++;
 			}
 		}

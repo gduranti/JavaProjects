@@ -17,6 +17,10 @@ public class TestCaseBuilder {
 	private List<ParameterSetData> parameterSetDataList;
 	private boolean acceptParameterSet;
 
+	public TestCaseBuilder() {
+		reset();
+	}
+
 	public void setTestCase(TestCase testCase) {
 		this.mainTestCase = testCase;
 		reset();

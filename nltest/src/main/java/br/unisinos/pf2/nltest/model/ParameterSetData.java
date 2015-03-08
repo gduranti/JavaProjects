@@ -8,7 +8,7 @@ public class ParameterSetData implements Parseable {
 	private List<String> values;
 
 	@Override
-	public void init(String... args) {
+	public void init(String baseScript, String[] args) {
 		// TODO tratar args vazio
 		values = Arrays.asList(args);
 	}

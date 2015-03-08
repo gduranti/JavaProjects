@@ -39,7 +39,7 @@
                   <Insets top="2.0" />
                </VBox.margin>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" text="Executar">
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" text="Executar Projeto">
                <VBox.margin>
                   <Insets top="2.0" />
                </VBox.margin>
