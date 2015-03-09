@@ -1,15 +1,14 @@
 package br.unisinos.pf2.nltest.executor;
 
+import org.junit.runner.notification.RunNotifier;
 import org.openqa.selenium.WebDriver;
-
-import br.unisinos.pf2.nltest.runner.TestCaseNotifier;
 
 public class ExecutionContext {
 
-	private TestCaseNotifier notifier;
+	private RunNotifier notifier;
 	private WebDriver driver;
 
-	public ExecutionContext(TestCaseNotifier notifier, WebDriver driver) {
+	public ExecutionContext(RunNotifier notifier, WebDriver driver) {
 		this.notifier = notifier;
 		this.driver = driver;
 	}
@@ -18,7 +17,7 @@ public class ExecutionContext {
 		return driver;
 	}
 
-	public TestCaseNotifier getNotifier() {
+	public RunNotifier getNotifier() {
 		return notifier;
 	}
 

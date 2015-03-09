@@ -20,7 +20,6 @@ public class CommandTranslator {
 	public CommandTranslator() {
 		map = new Properties();
 		try {
-			// TODO extrair caminho do arquivo
 			map.load(getClass().getResourceAsStream("command-map.properties"));
 		} catch (IOException e) {
 			throw new ParseException("Ocorreu erro ao carregar o mapa de comandos: " + e.getMessage(), e);

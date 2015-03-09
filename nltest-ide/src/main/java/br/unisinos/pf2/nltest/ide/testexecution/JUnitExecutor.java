@@ -19,11 +19,6 @@ public class JUnitExecutor {
 		System.setProperty("webdriver.ie.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/IEDriverServer.exe");
 		System.setProperty("webdriver.chrome.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/chromedriver.exe");
 
-		// TODO
-		// IdeTestConfigurator.scriptsPath =
-		// "E:/Java/GitHub/Unisinos/nltest/src/test/resources/scripts-folder-simple";
-		// IdeTestConfigurator.projectName = "Projeto enquanto desenvolvimento";
-
 		IdeTestConfigurator.scriptsPath = file.getAbsolutePath();
 		IdeTestConfigurator.projectName = file.getName();
 

@@ -10,7 +10,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import br.unisinos.pf2.nltest.exception.NLTestException;
 import br.unisinos.pf2.nltest.model.TestSuite;
-import br.unisinos.pf2.nltest.runner.TestCaseNotifier;
 
 public class ScriptsExecutor {
 
@@ -20,8 +19,7 @@ public class ScriptsExecutor {
 		ctx = createContext(junitNotifier, config);
 	}
 
-	private ExecutionContext createContext(RunNotifier junitNotifier, Config config) {
-		TestCaseNotifier notifier = new TestCaseNotifier(junitNotifier);
+	private ExecutionContext createContext(RunNotifier notifier, Config config) {
 		WebDriver driver = createDriver(config);
 		return new ExecutionContext(notifier, driver);
 	}

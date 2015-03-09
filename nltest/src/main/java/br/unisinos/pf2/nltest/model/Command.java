@@ -27,7 +27,6 @@ public abstract class Command implements Executable {
 		return description;
 	}
 
-	// TODO Lancar exception quando nao achar o parametro
 	protected String getParameterValue(int index) {
 		String value = simpleParameters.get(index);
 
@@ -52,8 +51,7 @@ public abstract class Command implements Executable {
 			copiedCommand.description = copiedCommand.buildDescription();
 			return copiedCommand;
 		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO
-			throw new RuntimeException("Erro ao copiar", e);
+			throw new RuntimeException("Erro inesperado ao gerar script.", e);
 		}
 	}
 

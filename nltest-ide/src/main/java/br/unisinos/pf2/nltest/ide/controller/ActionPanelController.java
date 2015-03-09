@@ -11,20 +11,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.stage.DirectoryChooser;
-import br.unisinos.pf2.nltest.ide.MainApp;
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateTimeThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
+import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
 
 public class ActionPanelController implements EventListener {
-
-	private MainApp mainApp;
 
 	@FXML
 	private Label sysdateLabel;
@@ -35,8 +32,6 @@ public class ActionPanelController implements EventListener {
 	@FXML
 	private TreeView<ScriptFile> fileTree;
 
-	private File rootProjectDirectory;
-
 	@FXML
 	private void initialize() {
 		pcConfigLabel.setText(String.format("%s, Java %s", System.getProperty("os.name"), System.getProperty("java.version")));
@@ -44,32 +39,10 @@ public class ActionPanelController implements EventListener {
 		UpdateTimeThread.start(sysdateLabel);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-	}
-
 	@FXML
 	public void handleOpenProject() {
-
-		chooseProjectDirectory();
-
-		if (rootProjectDirectory != null) {
-			ScriptFileTreeBuilder treeBuilder = new ScriptFileTreeBuilder();
-			treeBuilder.build(fileTree, rootProjectDirectory);
-		}
-	}
-
-	private void chooseProjectDirectory() {
-		DirectoryChooser chooser = new DirectoryChooser();
-		chooser.setTitle("JavaFX Projects");
-		File defaultDirectory = new File("E:/Java/GitHub/Unisinos/nltest-ide/test/Project xyz");
-		chooser.setInitialDirectory(defaultDirectory);
-		rootProjectDirectory = chooser.showDialog(mainApp.getPrimaryStage());
-	}
-
-	@FXML
-	public void handleNewProject() {
-		chooseProjectDirectory();
+		ProjectChooser projectChooser = new ProjectChooser();
+		projectChooser.chooseProjectDirectory();
 	}
 
 	@FXML
@@ -82,14 +55,14 @@ public class ActionPanelController implements EventListener {
 			}
 
 			ScriptFileWritter scriptFileWritter = new ScriptFileWritter();
-			scriptFileWritter.write(fileTree, rootProjectDirectory);
+			scriptFileWritter.write(fileTree, IdeSession.getInstance().getProjectDirectory());
 		}
 	}
 
 	@FXML
 	public void handleExecuteProject() {
 		handleSaveProject();
-		EventDispatcher.getInstance().dispatch(new ExecuteFileScriptEvent(rootProjectDirectory));
+		EventDispatcher.getInstance().dispatch(new ExecuteFileScriptEvent(IdeSession.getInstance().getProjectDirectory()));
 	}
 
 	@FXML
@@ -144,7 +117,6 @@ public class ActionPanelController implements EventListener {
 		String fileType = selectedItem.isLeaf() ? "o arquivo" : "a pasta";
 		alert.setContentText(String.format("Tem certeza que deseja remover %s %s?", fileType, selectedItem.getValue()));
 
-		// TODO
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
 			selectedItem.getParent().getChildren().remove(selectedItem);
@@ -153,11 +125,14 @@ public class ActionPanelController implements EventListener {
 
 	@Override
 	public void handleEvent(Event event) {
-		// if (event instanceof TestExecutionStartedEvent) {
-		// pcConfigLabel.setText("teste iniciado");
-		// } else if (event instanceof TestExecutionFinishedEvent) {
-		// pcConfigLabel.setText("teste concluido");
-		// }
+		if (event instanceof ProjectChangedEvent) {
+			ProjectChangedEvent projectChangedEvent = (ProjectChangedEvent) event;
+			File newProjectDirectory = projectChangedEvent.getNewProject();
+			if (newProjectDirectory != null) {
+				ScriptFileTreeBuilder treeBuilder = new ScriptFileTreeBuilder();
+				treeBuilder.build(fileTree, newProjectDirectory);
+			}
+		}
 	}
 
 }

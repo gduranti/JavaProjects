@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.Description;
+import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunNotifier;
 
 import br.unisinos.pf2.nltest.executor.ExecutionContext;
-import br.unisinos.pf2.nltest.runner.TestCaseNotifier;
 
 public class TestCase implements Executable, Cloneable {
 
@@ -15,7 +16,6 @@ public class TestCase implements Executable, Cloneable {
 
 	@Override
 	public void init(String baseScript, String[] args) {
-		// TODO tratar args vazio
 		this.description = Description.createSuiteDescription(args[0]);
 		this.commands = new ArrayList<>();
 	}
@@ -34,14 +34,13 @@ public class TestCase implements Executable, Cloneable {
 	public void execute(ExecutionContext ctx) {
 
 		for (Command command : commands) {
-			TestCaseNotifier notifier = ctx.getNotifier();
+			RunNotifier notifier = ctx.getNotifier();
 			try {
-				notifier.setCurrentDescription(command.getDescription());
-				notifier.started();
+				notifier.fireTestStarted(command.getDescription());
 				command.execute(ctx);
-				notifier.succesful();
+				notifier.fireTestFinished(command.getDescription());
 			} catch (Throwable e) {
-				notifier.failed(e);
+				notifier.fireTestFailure(new Failure(command.getDescription(), e));
 
 				// Quando um comando do caso de teste falha, os comandos
 				// seguites nao sao executados

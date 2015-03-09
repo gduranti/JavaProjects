@@ -9,7 +9,6 @@ public class ParameterSetData implements Parseable {
 
 	@Override
 	public void init(String baseScript, String[] args) {
-		// TODO tratar args vazio
 		values = Arrays.asList(args);
 	}
 

@@ -13,18 +13,17 @@ import org.slf4j.LoggerFactory;
 import br.unisinos.pf2.nltest.ide.controller.ActionPanelController;
 import br.unisinos.pf2.nltest.ide.controller.EditorPanelController;
 import br.unisinos.pf2.nltest.ide.controller.ExecutionPanelController;
+import br.unisinos.pf2.nltest.ide.controller.ProjectChooser;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ScriptChangedEvent;
-import br.unisinos.pf2.nltest.ide.event.events.ShowEditorEvent;
 
 public class MainApp extends Application implements EventListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainApp.class);
 
-	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private AnchorPane editorPane;
 	private BorderPane executionPane;
@@ -33,13 +32,7 @@ public class MainApp extends Application implements EventListener {
 		launch(args);
 	}
 
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
 	public void start(Stage stage) throws Exception {
-
-		this.primaryStage = stage;
 
 		logger.info("Starting NLTest-IDE");
 
@@ -55,7 +48,6 @@ public class MainApp extends Application implements EventListener {
 		FXMLLoader actionPanelLoader = new FXMLLoader();
 		AnchorPane actionPanel = actionPanelLoader.load(getClass().getResourceAsStream("/fxml/ActionPanel.fxml"));
 		ActionPanelController actionPanelController = actionPanelLoader.getController();
-		actionPanelController.setMainApp(this);
 		rootLayout.setLeft(actionPanel);
 
 		FXMLLoader editorPanelLoader = new FXMLLoader();
@@ -72,11 +64,14 @@ public class MainApp extends Application implements EventListener {
 		eventDispatcher.registerListener(actionPanelController);
 		eventDispatcher.registerListener(editorPanelController);
 		eventDispatcher.registerListener(executionPanelController);
+
+		ProjectChooser projectChooser = new ProjectChooser();
+		projectChooser.initialSelection();
 	}
 
 	@Override
 	public void handleEvent(Event event) {
-		if (event instanceof ShowEditorEvent || event instanceof ScriptChangedEvent) {
+		if (event instanceof ScriptChangedEvent) {
 			logger.debug("Event captured " + event);
 			rootLayout.setCenter(editorPane);
 		} else if (event instanceof ExecuteFileScriptEvent) {
