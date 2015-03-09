@@ -17,6 +17,7 @@ import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
+import br.unisinos.pf2.nltest.ide.event.events.TreeChangeEventAdapter;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
