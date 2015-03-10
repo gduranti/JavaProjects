@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
 
-class IdeSession {
+public class IdeSession {
 
 	private Stage primaryStage;
 	private File projectDirectory;

@@ -7,9 +7,8 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 
 import br.unisinos.pf2.nltest.exception.CommonValidator;
-import br.unisinos.pf2.nltest.executor.Config;
+import br.unisinos.pf2.nltest.executor.Browser;
 import br.unisinos.pf2.nltest.executor.ScriptsExecutor;
-import br.unisinos.pf2.nltest.executor.Config.Browser;
 import br.unisinos.pf2.nltest.model.TestSuite;
 import br.unisinos.pf2.nltest.parser.ScriptsParser;
 
@@ -17,41 +16,27 @@ public class NLTestScriptsRunner extends Runner {
 
 	private List<TestSuite> testSuites;
 	private Description description;
-	private Config config;
+	private Browser browser;
 
 	public NLTestScriptsRunner(Class<? extends NLTestConfigurator> testClass) throws Exception {
 		NLTestConfigurator testClassInstance = testClass.newInstance();
-		Config config = new Config();
-		config.setProjectName(testClassInstance.getProjectName());
-		config.setScriptsPath(testClassInstance.getScriptsPath());
-		config.setBrowser(Browser.CHROME);
-		configure(config);
-	}
 
-	public NLTestScriptsRunner(Config config) throws Exception {
-		configure(config);
-	}
+		validate(testClassInstance);
 
-	private void configure(Config config) {
-		
-		validate(config);
-		this.config = config;
-		
 		ScriptsParser parser = new ScriptsParser();
-		testSuites = parser.parse(config.getScriptsPath());
-
-		description = Description.createSuiteDescription(config.getProjectName());
+		testSuites = parser.parse(testClassInstance.getScriptsPath());
+		browser = testClassInstance.getBrowser();
+		description = Description.createSuiteDescription(testClassInstance.getProjectName());
 		for (TestSuite testSuite : testSuites) {
 			description.addChild(testSuite.getDescription());
 		}
 	}
 
-	private void validate(Config config) {
+	private void validate(NLTestConfigurator configurator) {
 		CommonValidator.newValidation()
-			.ifNotNul(config.getBrowser(),     "O browser deve ser informado.")
-			.ifNotNul(config.getProjectName(), "O nome do projeto deve ser informado.")
-			.ifNotNul(config.getScriptsPath(), "A pasta dos scripts deve ser informada.")
-			.validate();
+			.ifNotNul(configurator.getBrowser(),     "O browser deve ser informado.")
+			.ifNotNul(configurator.getProjectName(), "O nome do projeto deve ser informado.")
+			.ifNotNul(configurator.getScriptsPath(), "A pasta dos scripts deve ser informada.").validate();
 	}
 
 	@Override
@@ -61,7 +46,7 @@ public class NLTestScriptsRunner extends Runner {
 
 	@Override
 	public void run(RunNotifier junitNotifier) {
-		ScriptsExecutor executor = new ScriptsExecutor(junitNotifier, config);
+		ScriptsExecutor executor = new ScriptsExecutor(junitNotifier, browser);
 		executor.execute(testSuites);
 	}
 

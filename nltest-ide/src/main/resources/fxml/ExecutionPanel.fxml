@@ -27,8 +27,10 @@
       <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="489.0" spacing="5.0" BorderPane.alignment="TOP_RIGHT">
          <children>
             <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" progress="0.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" text="Cancelar Execução" />
-            <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" text="Imprimir Resultado" />
+            <Button mnemonicParsing="false" onAction="#handleExecuteAgain" text="Executar Novamente" />
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelExecution" text="Cancelar Execução" />
+            <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintResult" text="Imprimir Resultado" />
+            <Button mnemonicParsing="false" onAction="#handleConfig" text="Configurações" />
          </children>
          <BorderPane.margin>
             <Insets bottom="5.0" right="5.0" top="5.0" />

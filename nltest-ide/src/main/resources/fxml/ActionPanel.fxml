@@ -29,7 +29,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </HBox>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" text="Abrir Projeto">
+            <Button fx:id="openProjectButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" text="Abrir Projeto">
                <VBox.margin>
                   <Insets top="2.0" />
                </VBox.margin>

@@ -2,8 +2,6 @@ package br.unisinos.pf2.nltest.ide.controller;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,9 +11,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.DirectoryChooser;
 
 public class ProjectChooser {
-
-	private static final String PREFS_NODE = "br/unisinos/nltest-ide";
-	private static final String LAST_PROJECT_DIR_KEY = "last-project-dir";
 
 	public void initialSelection() {
 
@@ -64,33 +59,10 @@ public class ProjectChooser {
 	private File askProjectDirectory() {
 		DirectoryChooser chooser = new DirectoryChooser();
 		chooser.setTitle("JavaFX Projects");
-		chooser.setInitialDirectory(getLastDirectory());
+		chooser.setInitialDirectory(IdePrefs.getLastDirectory());
 		File rootProjectDirectory = chooser.showDialog(IdeSession.getInstance().getPrimaryStage());
-		saveLastDirectory(rootProjectDirectory);
+		IdePrefs.saveLastDirectory(rootProjectDirectory);
 		return rootProjectDirectory;
-	}
-
-	private void saveLastDirectory(File rootProjectDirectory) {
-		if (rootProjectDirectory != null) {
-			try {
-				Preferences prefs = loadPreferences();
-				prefs.put(LAST_PROJECT_DIR_KEY, rootProjectDirectory.getPath());
-				prefs.flush();
-			} catch (BackingStoreException e) {
-			}
-		}
-	}
-
-	private File getLastDirectory() {
-		String lastDirPath = loadPreferences().get(LAST_PROJECT_DIR_KEY, null);
-		if (lastDirPath != null) {
-			return new File(lastDirPath);
-		}
-		return null;
-	}
-
-	private Preferences loadPreferences() {
-		return Preferences.userRoot().node(PREFS_NODE);
 	}
 
 	public void chooseProjectDirectory() {

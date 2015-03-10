@@ -15,17 +15,17 @@ public class ScriptsExecutor {
 
 	private ExecutionContext ctx;
 
-	public ScriptsExecutor(RunNotifier junitNotifier, Config config) {
-		ctx = createContext(junitNotifier, config);
+	public ScriptsExecutor(RunNotifier junitNotifier, Browser browser) {
+		ctx = createContext(junitNotifier, browser);
 	}
 
-	private ExecutionContext createContext(RunNotifier notifier, Config config) {
-		WebDriver driver = createDriver(config);
+	private ExecutionContext createContext(RunNotifier notifier, Browser browser) {
+		WebDriver driver = createDriver(browser);
 		return new ExecutionContext(notifier, driver);
 	}
 
-	private WebDriver createDriver(Config config) {
-		switch (config.getBrowser()) {
+	private WebDriver createDriver(Browser browser) {
+		switch (browser) {
 			case IE:
 				return new InternetExplorerDriver();
 			case FIREFOX:

@@ -1,21 +1,25 @@
 package br.unisinos.pf2.nltest.ide.controller;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateTimeThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
-import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
+import br.unisinos.pf2.nltest.ide.event.events.ExecuteProjectScriptsEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
 import br.unisinos.pf2.nltest.ide.event.events.TreeChangeEventAdapter;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
@@ -23,6 +27,9 @@ import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
 
 public class ActionPanelController implements EventListener {
+
+	@FXML
+	private Button openProjectButton;
 
 	@FXML
 	private Label sysdateLabel;
@@ -35,6 +42,10 @@ public class ActionPanelController implements EventListener {
 
 	@FXML
 	private void initialize() {
+
+		InputStream resourceAsStream = getClass().getResourceAsStream("gear.png");
+		openProjectButton.setGraphic(new ImageView(new Image(resourceAsStream)));
+
 		pcConfigLabel.setText(String.format("%s, Java %s", System.getProperty("os.name"), System.getProperty("java.version")));
 		fileTree.getSelectionModel().selectedItemProperty().addListener(new TreeChangeEventAdapter());
 		UpdateTimeThread.start(sysdateLabel);
@@ -63,7 +74,7 @@ public class ActionPanelController implements EventListener {
 	@FXML
 	public void handleExecuteProject() {
 		handleSaveProject();
-		EventDispatcher.getInstance().dispatch(new ExecuteFileScriptEvent(IdeSession.getInstance().getProjectDirectory()));
+		EventDispatcher.getInstance().dispatch(new ExecuteProjectScriptsEvent());
 	}
 
 	@FXML

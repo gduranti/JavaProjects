@@ -2,6 +2,7 @@ package br.unisinos.pf2.nltest;
 
 import org.junit.runner.RunWith;
 
+import br.unisinos.pf2.nltest.executor.Browser;
 import br.unisinos.pf2.nltest.runner.NLTestConfigurator;
 import br.unisinos.pf2.nltest.runner.NLTestScriptsRunner;
 
@@ -21,6 +22,11 @@ public class TestClass implements NLTestConfigurator {
 	@Override
 	public String getProjectName() {
 		return "Projeto enquanto desenvolvimento";
+	}
+
+	@Override
+	public Browser getBrowser() {
+		return Browser.CHROME;
 	}
 
 }

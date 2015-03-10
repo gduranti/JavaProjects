@@ -1,16 +1,22 @@
 package br.unisinos.pf2.nltest.ide.controller;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import br.unisinos.pf2.nltest.executor.Browser;
 import br.unisinos.pf2.nltest.ide.controller.thread.ExecuteTestsThread;
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateResultUiThread;
+import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
-import br.unisinos.pf2.nltest.ide.event.events.ExecuteFileScriptEvent;
+import br.unisinos.pf2.nltest.ide.event.events.ExecuteProjectScriptsEvent;
 import br.unisinos.pf2.nltest.ide.testexecution.IdeExecutionContext;
 import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
 
@@ -46,11 +52,36 @@ public class ExecutionPanelController implements EventListener {
 		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayMessage"));
 	}
 
+	@FXML
+	public void handleExecuteAgain() {
+		EventDispatcher.getInstance().dispatch(new ExecuteProjectScriptsEvent());
+	}
+
+	@FXML
+	public void handleCancelExecution() {
+
+	}
+
+	@FXML
+	public void handlePrintResult() {
+
+	}
+
+	@FXML
+	public void handleConfig() {
+		ChoiceDialog<Browser> dialog = new ChoiceDialog<>(IdePrefs.getDefaultBroser(), Arrays.asList(Browser.values()));
+		dialog.setTitle("Configurações");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Browser padrão:");
+
+		Optional<Browser> result = dialog.showAndWait();
+		result.ifPresent(browser -> IdePrefs.saveDefaultBrowser(browser));
+	}
+
 	@Override
 	public void handleEvent(Event event) {
 
-		if (event instanceof ExecuteFileScriptEvent) {
-			ExecuteFileScriptEvent executeFileScriptEvent = (ExecuteFileScriptEvent) event;
+		if (event instanceof ExecuteProjectScriptsEvent) {
 
 			// Clear de previus test execution
 			treeResult.getSelectionModel().clearSelection();
@@ -62,7 +93,7 @@ public class ExecutionPanelController implements EventListener {
 			// Starts threads to update the UI and to execute all the tests from
 			// the received file
 			UpdateResultUiThread.start(ideExecutionContext, cancelButton, printButton, progressBar, treeResult);
-			ExecuteTestsThread.start(ideExecutionContext, executeFileScriptEvent.getFile());
+			ExecuteTestsThread.start(ideExecutionContext);
 		}
 	}
 
