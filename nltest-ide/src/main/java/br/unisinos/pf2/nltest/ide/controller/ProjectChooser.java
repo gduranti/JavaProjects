@@ -9,6 +9,8 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.DirectoryChooser;
+import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
+import br.unisinos.pf2.nltest.ide.event.events.NewProjectEvent;
 
 public class ProjectChooser {
 
@@ -35,6 +37,7 @@ public class ProjectChooser {
 			File rootProjectDirectory = new File(newParentProjectDirectory.getPath() + "\\" + newProjectName);
 			rootProjectDirectory.mkdir();
 			IdeSession.getInstance().setProjectDirectory(rootProjectDirectory);
+			EventDispatcher.getInstance().dispatch(new NewProjectEvent());
 
 		} else {
 			System.exit(0);

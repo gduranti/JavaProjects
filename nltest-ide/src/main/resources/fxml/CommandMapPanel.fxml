@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+
+<TitledPane text="Mapa de Comandos" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.CommandMapController">
+   <content>
+      <VBox>
+         <children>
+            <TableView fx:id="commandTable" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="193.0" text="Comando" />
+                <TableColumn prefWidth="147.0" text="Descrição" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TableView>
+            <Label prefHeight="17.0" prefWidth="342.0" text="Os valores entre chaves são parâmetros para os comandos." wrapText="true">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </content>
+</TitledPane>

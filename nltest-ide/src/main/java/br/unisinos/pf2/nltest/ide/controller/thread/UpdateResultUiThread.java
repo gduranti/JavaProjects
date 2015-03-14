@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
@@ -29,19 +28,14 @@ public class UpdateResultUiThread extends AnimationTimer implements EventListene
 	private LongProperty lastUpdate;
 	private IdeExecutionContext ideExecutionContext;
 	private ProgressBar progressBar;
-	private Button cancelButton;
-	private Button printButton;
 	private TreeTableView<ScriptResult> treeResult;
 	private boolean stopRequested;
 
-	public static void start(IdeExecutionContext ideExecutionContext, Button cancelButton, Button printButton, ProgressBar progressBar,
-			TreeTableView<ScriptResult> treeResult) {
+	public static void start(IdeExecutionContext ideExecutionContext, ProgressBar progressBar, TreeTableView<ScriptResult> treeResult) {
 
 		UpdateResultUiThread updateResultUiThread = new UpdateResultUiThread();
 		updateResultUiThread.lastUpdate = new SimpleLongProperty();
 		updateResultUiThread.ideExecutionContext = ideExecutionContext;
-		updateResultUiThread.cancelButton = cancelButton;
-		updateResultUiThread.printButton = printButton;
 		updateResultUiThread.progressBar = progressBar;
 		updateResultUiThread.treeResult = treeResult;
 		updateResultUiThread.stopRequested = false;
@@ -55,13 +49,11 @@ public class UpdateResultUiThread extends AnimationTimer implements EventListene
 
 		if (stopRequested) {
 			stop();
-			cancelButton.setDisable(true);
-			printButton.setDisable(false);
 			EventDispatcher.getInstance().unregisterListener(this);
 
 		} else if (now - lastUpdate.get() > UPDATE_INTERVAL) {
 
-			LOGGER.debug("Updating UI");
+			LOGGER.debug("Updating UI at: {}", now);
 
 			Description rootDescription = ideExecutionContext.getRootDescription();
 			lastUpdate.set(now);

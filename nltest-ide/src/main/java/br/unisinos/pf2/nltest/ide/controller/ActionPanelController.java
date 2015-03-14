@@ -1,7 +1,7 @@
 package br.unisinos.pf2.nltest.ide.controller;
 
 import java.io.File;
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
@@ -15,11 +15,17 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateTimeThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteProjectScriptsEvent;
+import br.unisinos.pf2.nltest.ide.event.events.NewProjectEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
 import br.unisinos.pf2.nltest.ide.event.events.TreeChangeEventAdapter;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
@@ -28,8 +34,19 @@ import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
 
 public class ActionPanelController implements EventListener {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ActionPanelController.class);
+
 	@FXML
 	private Button openProjectButton;
+
+	@FXML
+	private Button saveProjectButton;
+
+	@FXML
+	private Button runProjectButton;
+
+	@FXML
+	private Button commandMapButton;
 
 	@FXML
 	private Label sysdateLabel;
@@ -43,8 +60,12 @@ public class ActionPanelController implements EventListener {
 	@FXML
 	private void initialize() {
 
-		InputStream resourceAsStream = getClass().getResourceAsStream("gear.png");
-		openProjectButton.setGraphic(new ImageView(new Image(resourceAsStream)));
+		openProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-open-24.png"))));
+		saveProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-save-24.png"))));
+		runProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-play-24.png"))));
+		commandMapButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-about-24.png"))));
+
+		openProjectButton.setStyle("-fx-background-position: left;");
 
 		pcConfigLabel.setText(String.format("%s, Java %s", System.getProperty("os.name"), System.getProperty("java.version")));
 		fileTree.getSelectionModel().selectedItemProperty().addListener(new TreeChangeEventAdapter());
@@ -95,8 +116,6 @@ public class ActionPanelController implements EventListener {
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			TreeItem<ScriptFile> folder = getNearestFolderFromSelection();
-
 			ScriptFile scriptFile;
 			if (directory) {
 				scriptFile = ScriptFile.createDirectory(result.get());
@@ -104,10 +123,16 @@ public class ActionPanelController implements EventListener {
 				scriptFile = ScriptFile.createFile(result.get());
 			}
 
-			TreeItem<ScriptFile> newTreeItem = new TreeItem<ScriptFile>(scriptFile);
-			newTreeItem.setExpanded(true);
-			folder.getChildren().add(newTreeItem);
+			addScript(scriptFile);
 		}
+	}
+
+	private void addScript(ScriptFile scriptFile) {
+		TreeItem<ScriptFile> folder = getNearestFolderFromSelection();
+		TreeItem<ScriptFile> newTreeItem = new TreeItem<ScriptFile>(scriptFile);
+		newTreeItem.setExpanded(true);
+		folder.getChildren().add(newTreeItem);
+		fileTree.getSelectionModel().select(newTreeItem);
 	}
 
 	private TreeItem<ScriptFile> getNearestFolderFromSelection() {
@@ -135,15 +160,39 @@ public class ActionPanelController implements EventListener {
 		}
 	}
 
+	@FXML
+	public void handleShowAbout() {
+		// TODO
+	}
+
 	@Override
 	public void handleEvent(Event event) {
-		if (event instanceof ProjectChangedEvent) {
-			ProjectChangedEvent projectChangedEvent = (ProjectChangedEvent) event;
-			File newProjectDirectory = projectChangedEvent.getNewProject();
-			if (newProjectDirectory != null) {
-				ScriptFileTreeBuilder treeBuilder = new ScriptFileTreeBuilder();
-				treeBuilder.build(fileTree, newProjectDirectory);
-			}
+		if (event instanceof NewProjectEvent) {
+			createExampleScript();
+		} else if (event instanceof ProjectChangedEvent) {
+			buildTree(event);
+		}
+	}
+
+	private void createExampleScript() {
+		try {
+			String scriptContent = new String(IOUtils.toByteArray(getClass().getResourceAsStream("/example.nlt")));
+			addScript(ScriptFile.createFile("Script-1.nlt", scriptContent));
+		} catch (IOException e) {
+			LOGGER.error("Erro ao criar script de exemplo.", e);
+		}
+	}
+
+	private void buildTree(Event event) {
+		ProjectChangedEvent projectChangedEvent = (ProjectChangedEvent) event;
+		File newProjectDirectory = projectChangedEvent.getNewProject();
+		if (newProjectDirectory != null) {
+			ScriptFileTreeBuilder treeBuilder = new ScriptFileTreeBuilder();
+			treeBuilder.build(fileTree, newProjectDirectory);
+		}
+
+		if (fileTree.getRoot() != null) {
+			fileTree.getSelectionModel().select(fileTree.getRoot());
 		}
 	}
 

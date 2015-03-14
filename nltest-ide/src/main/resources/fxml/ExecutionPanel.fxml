@@ -26,11 +26,26 @@
    <top>
       <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="489.0" spacing="5.0" BorderPane.alignment="TOP_RIGHT">
          <children>
-            <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" progress="0.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#handleExecuteAgain" text="Executar Novamente" />
-            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelExecution" text="Cancelar Execução" />
-            <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintResult" text="Imprimir Resultado" />
-            <Button mnemonicParsing="false" onAction="#handleConfig" text="Configurações" />
+            <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" progress="0.0" HBox.hgrow="ALWAYS">
+               <tooltip>
+                  <Tooltip text="Progresso da execução" />
+               </tooltip></ProgressBar>
+            <Button fx:id="runButton" mnemonicParsing="false" onAction="#handleExecuteAgain">
+               <tooltip>
+                  <Tooltip text="Executar o projeto novamente" />
+               </tooltip></Button>
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelExecution">
+               <tooltip>
+                  <Tooltip text="Cancelar a execução" />
+               </tooltip></Button>
+            <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintResult">
+               <tooltip>
+                  <Tooltip text="Imprimir o resultado" />
+               </tooltip></Button>
+            <Button fx:id="configButton" mnemonicParsing="false" onAction="#handleConfig">
+               <tooltip>
+                  <Tooltip text="Configurações de execução" />
+               </tooltip></Button>
          </children>
          <BorderPane.margin>
             <Insets bottom="5.0" right="5.0" top="5.0" />

@@ -1,0 +1,20 @@
+Suíte de Testes: Suite de exemplo
+
+Caso de Teste: Exemplo de caso de teste 1
+
+Abrir a página www.teste.com.br
+Preencher o campo lalala com o valor teste
+Clicar no botão igual
+
+Caso de Teste: Exemplo de caso de teste 2
+
+Abrir a página www.calculator.com
+Preencher o campo tx_multiplicando com o valor <multiplicando>
+Preencher o campo tx_multiplicador com o valor <multiplicador>
+Clicar no botão igual
+Verificar se o vampo value possui o valor <resultado>
+Dados:
+| multiplicando | multiplicador | resultado |
+| 4                     | 3                    | 12            |
+| 1                     | 2                    | 2              |
+| 7                     | 0                    | 0              |
