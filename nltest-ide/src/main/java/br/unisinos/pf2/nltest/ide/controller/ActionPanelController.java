@@ -46,9 +46,6 @@ public class ActionPanelController implements EventListener {
 	private Button runProjectButton;
 
 	@FXML
-	private Button commandMapButton;
-
-	@FXML
 	private Label sysdateLabel;
 
 	@FXML
@@ -63,7 +60,6 @@ public class ActionPanelController implements EventListener {
 		openProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-open-24.png"))));
 		saveProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-save-24.png"))));
 		runProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-play-24.png"))));
-		commandMapButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-about-24.png"))));
 
 		openProjectButton.setStyle("-fx-background-position: left;");
 

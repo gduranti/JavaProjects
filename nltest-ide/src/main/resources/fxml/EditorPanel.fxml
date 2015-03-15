@@ -8,31 +8,50 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.EditorPanelController">
+<AnchorPane prefHeight="470.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unisinos.pf2.nltest.ide.controller.EditorPanelController">
    <children>
-      <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="500.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="470.0" prefWidth="735.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label prefHeight="25.0" prefWidth="60.0" text="Arquivo:">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="fileName" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="200.0" text="Nome do arquivo.nlt" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Button fx:id="executeButton" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="100.0" text="Executar">
-               <tooltip>
-                  <Tooltip text="Executar testes deste arquivo" />
-               </tooltip>
-            </Button>
+            <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="500.0" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="60.0" text="Arquivo:" HBox.hgrow="NEVER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fileName" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="200.0" text="Nome do arquivo.nlt" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ToggleButton fx:id="showCommandMapButton" mnemonicParsing="false" onAction="#handleShowCommandMap" text="Mapa de Comandos" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="editorHBox" layoutY="35.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TextArea fx:id="scriptTextEditor" layoutY="35.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" HBox.hgrow="ALWAYS" />
+                  <TitledPane fx:id="commandMapPane" layoutX="177.0" layoutY="35.0" prefHeight="435.0" prefWidth="282.0" text="Mapa de Comandos" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" VBox.vgrow="ALWAYS">
+                  	<content>
+                  		<VBox alignment="CENTER">
+                  			<children>
+                              <ListView fx:id="commandListView" VBox.vgrow="ALWAYS" />
+      								<Label text="Os valores entre chaves são parâmetros para os comandos." wrapText="true">
+      								   <VBox.margin>
+      								      <Insets top="10.0" />
+      								   </VBox.margin>
+      								</Label>
+                  			</children>
+                  		</VBox>
+                  	</content>
+                  </TitledPane>
+               </children>
+            </HBox>
          </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </HBox>
-      <TextArea fx:id="scriptTextEditor" layoutX="-100.0" layoutY="-40.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" />
+      </VBox>
    </children>
 </AnchorPane>

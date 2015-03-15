@@ -18,9 +18,14 @@ public class CommandTranslator {
 	private Properties map;
 
 	public CommandTranslator() {
-		map = new Properties();
+		map = loadCommandMap();
+	}
+
+	public Properties loadCommandMap() {
 		try {
+			Properties map = new Properties();
 			map.load(getClass().getResourceAsStream("command-map.properties"));
+			return map;
 		} catch (IOException e) {
 			throw new ParseException("Ocorreu erro ao carregar o mapa de comandos: " + e.getMessage(), e);
 		}
