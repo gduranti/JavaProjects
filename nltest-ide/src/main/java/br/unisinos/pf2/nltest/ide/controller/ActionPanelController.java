@@ -188,8 +188,20 @@ public class ActionPanelController implements EventListener {
 		}
 
 		if (fileTree.getRoot() != null) {
-			fileTree.getSelectionModel().select(fileTree.getRoot());
+			TreeItem<ScriptFile> firsLeaf = findFirsLeaf(fileTree.getRoot());
+			fileTree.getSelectionModel().select(firsLeaf);
 		}
+	}
+
+	private TreeItem<ScriptFile> findFirsLeaf(TreeItem<ScriptFile> root) {
+		for (TreeItem<ScriptFile> item : root.getChildren()) {
+			if (item.isLeaf()) {
+				return item;
+			} else {
+				return findFirsLeaf(item);
+			}
+		}
+		return null;
 	}
 
 }

@@ -8,6 +8,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
@@ -38,15 +40,22 @@ public class EditorPanelController implements EventListener {
 	@FXML
 	private void initialize() {
 
+		fillCommandList();
+
+		showCommandMapButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-about-24.png"))));
+
+		scriptTextEditor.setDisable(true);
+		fileName.setText(null);
+		scriptTextEditor.setText(null);
+		handleShowCommandMap();
+	}
+
+	private void fillCommandList() {
 		CommandTranslator commandTranslator = new CommandTranslator();
 		Properties commandMap = commandTranslator.loadCommandMap();
 		for (Object command : commandMap.values()) {
 			commandListView.getItems().add(command.toString());
 		}
-
-		scriptTextEditor.setDisable(true);
-		fileName.setText(null);
-		scriptTextEditor.setText(null);
 	}
 
 	@FXML
