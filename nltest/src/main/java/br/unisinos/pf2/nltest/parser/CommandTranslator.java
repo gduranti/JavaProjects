@@ -1,81 +1,44 @@
 package br.unisinos.pf2.nltest.parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import br.unisinos.pf2.nltest.exception.ParseException;
 import br.unisinos.pf2.nltest.model.Command;
 import br.unisinos.pf2.nltest.model.Parseable;
 import br.unisinos.pf2.nltest.model.commands.UnknownCommand;
 
 public class CommandTranslator {
 
-	private Properties map;
+	private List<CommandMap<?>> mapOfCommands;
 
 	public CommandTranslator() {
-		map = loadCommandMap();
-	}
-
-	public Properties loadCommandMap() {
-		try {
-			Properties map = new Properties();
-			map.load(getClass().getResourceAsStream("command-map.properties"));
-			return map;
-		} catch (IOException e) {
-			throw new ParseException("Ocorreu erro ao carregar o mapa de comandos: " + e.getMessage(), e);
-		}
+		mapOfCommands = CommandMap.load();
 	}
 
 	public Parseable interpret(String lineCommand) {
-		for (Entry<Object, Object> entry : map.entrySet()) {
 
-			String baseScript = entry.getValue().toString();
+		for (CommandMap<?> commandMap : mapOfCommands) {
 
-			Matcher matcher = Pattern.compile(baseScript).matcher(lineCommand.trim());
+			Matcher matcher = commandMap.matcher(lineCommand);
 
 			if (matcher.matches()) {
 				String[] args = extractArgs(matcher);
-				String parseableName = entry.getKey().toString();
-				return createInstance(baseScript, args, parseableName);
+				return commandMap.instantiate(args);
 
-			} else {
-
-				matcher.reset();
-
-				if (matcher.find()) {
-					String parseableName = entry.getKey().toString();
-					List<String> args = new ArrayList<>();
+			} else if (matcher.reset().find()) {
+				List<String> args = new ArrayList<>();
+				args.add(matcher.group(1));
+				while (matcher.find()) {
 					args.add(matcher.group(1));
-					while (matcher.find()) {
-						args.add(matcher.group(1));
-					}
-					return createInstance(baseScript, args.toArray(new String[] {}), parseableName);
 				}
+				return commandMap.instantiate(args.toArray(new String[] {}));
 			}
 		}
 
 		Command unknownCommand = new UnknownCommand();
 		unknownCommand.init(null, new String[] { lineCommand });
 		return unknownCommand;
-	}
-
-	private Parseable createInstance(String baseScript, String[] args, String parseableName) {
-		try {
-
-			Parseable parseableInstance = (Parseable) Class.forName(parseableName).newInstance();
-			parseableInstance.init(baseScript, args);
-			return parseableInstance;
-
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	private String[] extractArgs(Matcher matcher) {

@@ -1,6 +1,6 @@
 package br.unisinos.pf2.nltest.ide.controller;
 
-import java.util.Properties;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,7 +15,7 @@ import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ScriptChangedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
-import br.unisinos.pf2.nltest.parser.CommandTranslator;
+import br.unisinos.pf2.nltest.parser.CommandMap;
 
 public class EditorPanelController implements EventListener {
 
@@ -51,10 +51,9 @@ public class EditorPanelController implements EventListener {
 	}
 
 	private void fillCommandList() {
-		CommandTranslator commandTranslator = new CommandTranslator();
-		Properties commandMap = commandTranslator.loadCommandMap();
-		for (Object command : commandMap.values()) {
-			commandListView.getItems().add(command.toString());
+		List<CommandMap<?>> commands = CommandMap.load();
+		for (CommandMap<?> mappedCommand : commands) {
+			commandListView.getItems().add(mappedCommand.toString());
 		}
 	}
 

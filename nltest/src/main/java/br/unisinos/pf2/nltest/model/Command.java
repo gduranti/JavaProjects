@@ -19,11 +19,13 @@ public abstract class Command implements Executable {
 	public void init(String baseScript, String[] args) {
 		this.baseScript = baseScript;
 		this.simpleParameters = Arrays.asList(args);
-		this.description = buildDescription();
 	}
 
 	@Override
 	public Description getDescription() {
+		if (description == null) {
+			description = buildDescription();
+		}
 		return description;
 	}
 

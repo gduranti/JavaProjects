@@ -14,6 +14,11 @@ import br.unisinos.pf2.nltest.runner.NLTestScriptsRunner;
 @RunWith(NLTestScriptsRunner.class)
 public class TestClass implements NLTestConfigurator {
 
+	public TestClass() {
+		System.setProperty("webdriver.ie.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/IEDriverServer.exe");
+		System.setProperty("webdriver.chrome.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/chromedriver.exe");
+	}
+
 	@Override
 	public String getScriptsPath() {
 		return "E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder";
