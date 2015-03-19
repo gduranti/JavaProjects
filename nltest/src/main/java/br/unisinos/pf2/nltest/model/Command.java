@@ -49,6 +49,7 @@ public abstract class Command implements Executable {
 		try {
 			Command copiedCommand = this.getClass().newInstance();
 			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
+			copiedCommand.baseScript = baseScript;
 			copiedCommand.parametersSet = parameterSet;
 			copiedCommand.description = copiedCommand.buildDescription();
 			return copiedCommand;

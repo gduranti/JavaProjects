@@ -14,7 +14,7 @@
    <children>
       <VBox prefHeight="470.0" prefWidth="735.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="500.0" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="500.0" AnchorPane.bottomAnchor="299.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label prefHeight="25.0" prefWidth="60.0" text="Arquivo:" HBox.hgrow="NEVER">
                      <font>
@@ -35,20 +35,25 @@
             <HBox fx:id="editorHBox" layoutY="35.0" VBox.vgrow="ALWAYS">
                <children>
                   <TextArea fx:id="scriptTextEditor" layoutY="35.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" HBox.hgrow="ALWAYS" />
-                  <TitledPane fx:id="commandMapPane" layoutX="177.0" layoutY="35.0" prefHeight="435.0" prefWidth="282.0" text="Mapa de Comandos" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0" VBox.vgrow="ALWAYS">
-                  	<content>
-                  		<VBox alignment="CENTER">
-                  			<children>
-                              <ListView fx:id="commandListView" VBox.vgrow="ALWAYS" />
-      								<Label text="Os valores entre chaves são parâmetros para os comandos." wrapText="true">
-      								   <VBox.margin>
-      								      <Insets top="10.0" />
-      								   </VBox.margin>
-      								</Label>
-                  			</children>
-                  		</VBox>
-                  	</content>
-                  </TitledPane>
+            		<VBox fx:id="commandMapBox" alignment="CENTER" prefWidth="300.0">
+            			<children>
+                        <ListView fx:id="commandListView" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </ListView>
+								<Label text="*Os valores entre chaves são parâmetros." wrapText="true">
+								   <VBox.margin>
+								      <Insets left="5.0" right="5.0" />
+								   </VBox.margin>
+								</Label>
+                        <Label layoutX="15.0" layoutY="411.0" text="*Duplo clique para utilizar um comando." wrapText="true">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Label>
+            			</children>
+            		</VBox>
                </children>
             </HBox>
          </children>

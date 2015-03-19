@@ -6,11 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import br.unisinos.pf2.nltest.ide.controller.jfxevents.CommandMapClickHandler;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ScriptChangedEvent;
@@ -32,20 +33,18 @@ public class EditorPanelController implements EventListener {
 	private ListView<String> commandListView;
 
 	@FXML
-	private TitledPane commandMapPane;
+	private VBox commandMapBox;
 
 	@FXML
 	private HBox editorHBox;
 
 	@FXML
 	private void initialize() {
-
 		fillCommandList();
-
+		commandListView.setOnMouseClicked(new CommandMapClickHandler(commandListView, scriptTextEditor));
 		showCommandMapButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-about-24.png"))));
-
-		scriptTextEditor.setDisable(true);
 		fileName.setText(null);
+		scriptTextEditor.setDisable(true);
 		scriptTextEditor.setText(null);
 		handleShowCommandMap();
 	}
@@ -62,11 +61,11 @@ public class EditorPanelController implements EventListener {
 	@FXML
 	public void handleShowCommandMap() {
 		if (showCommandMapButton.isSelected()) {
-			if (!editorHBox.getChildren().contains(commandMapPane)) {
-				editorHBox.getChildren().add(commandMapPane);
+			if (!editorHBox.getChildren().contains(commandMapBox)) {
+				editorHBox.getChildren().add(commandMapBox);
 			}
 		} else {
-			editorHBox.getChildren().remove(commandMapPane);
+			editorHBox.getChildren().remove(commandMapBox);
 		}
 	}
 
