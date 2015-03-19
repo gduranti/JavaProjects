@@ -13,7 +13,8 @@ import br.unisinos.pf2.nltest.model.Parseable;
 
 public class CommandMap<T extends Parseable> {
 
-	private String commandRegex;
+	private String template;
+	private String regex;
 	private Class<T> clazz;
 	private boolean executable;
 
@@ -22,13 +23,13 @@ public class CommandMap<T extends Parseable> {
 	}
 
 	public Matcher matcher(String input) {
-		return Pattern.compile(commandRegex).matcher(input.trim());
+		return Pattern.compile(regex).matcher(input.trim());
 	}
 
 	public T instantiate(String[] args) {
 		try {
 			T newInstance = clazz.newInstance();
-			newInstance.init(commandRegex, args);
+			newInstance.init(regex, args);
 			return newInstance;
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -64,41 +65,18 @@ public class CommandMap<T extends Parseable> {
 		String[] split = line.split(";");
 		CommandMap mappedCommands = new CommandMap();
 		mappedCommands.clazz = (Class<? extends Parseable>) Class.forName(split[0]);
-		mappedCommands.commandRegex = split[1];
+		mappedCommands.template = split[1];
+		mappedCommands.regex = formatRegex(split[1]);
 		mappedCommands.executable = Boolean.valueOf(split[2]);
 		return mappedCommands;
 	}
 
-	@Override
-	public String toString() {
-		return commandRegex;
+	private static String formatRegex(String template) {
+		return template.replaceAll("\\{\\w*\\}", "(.*)");
 	}
 
-	// public static void main(String[] args) {
-	//
-	// System.out.println("--------------");
-	// Matcher m =
-	// Pattern.compile("\\|\\s*(\\S+)\\s*").matcher("| email           |");
-	// m.reset();
-	// System.out.println(m.find());
-	//
-	// System.out.println("--------------");
-	// CommandMap<Parseable> commandMap = new CommandMap<>();
-	// commandMap.commandRegex = "\\|\\s*(\\S+)\\s*";
-	// Matcher m2 = commandMap.matcher("| email           |");
-	// System.out.println(m2.matches());
-	// System.out.println(m2.reset().find());
-	//
-	// System.out.println("--------------");
-	// List<CommandMap<?>> list = load();
-	// System.out.println(list.get(3));
-	// System.out.println(list.get(3).matcher("| email           |").matches());
-	// System.out.println(list.get(3).matcher("| email           |").find());
-	//
-	// System.out.println("--------------");
-	// CommandTranslator commandTranslator = new CommandTranslator();
-	// Parseable p = commandTranslator.interpret("| email           |");
-	// System.out.println(p);
-	// }
-
+	@Override
+	public String toString() {
+		return template;
+	}
 }
