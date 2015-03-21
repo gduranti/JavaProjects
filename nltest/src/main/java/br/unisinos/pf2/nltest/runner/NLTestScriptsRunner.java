@@ -34,9 +34,9 @@ public class NLTestScriptsRunner extends Runner {
 
 	private void validate(NLTestConfigurator configurator) {
 		CommonValidator.newValidation()
-			.ifNotNul(configurator.getBrowser(),     "O browser deve ser informado.")
-			.ifNotNul(configurator.getProjectName(), "O nome do projeto deve ser informado.")
-			.ifNotNul(configurator.getScriptsPath(), "A pasta dos scripts deve ser informada.").validate();
+			.ifNull(configurator.getBrowser(),     "O browser deve ser informado.")
+			.ifNull(configurator.getProjectName(), "O nome do projeto deve ser informado.")
+			.ifNull(configurator.getScriptsPath(), "A pasta dos scripts deve ser informada.").validate();
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class CommonValidator {
 		}
 	}
 
-	public CommonValidator ifNotNul(Object object, String message) {
+	public CommonValidator ifNull(Object object, String message) {
 		if (object == null) {
 			exceptions.add(new NLTestException(message));
 		}
