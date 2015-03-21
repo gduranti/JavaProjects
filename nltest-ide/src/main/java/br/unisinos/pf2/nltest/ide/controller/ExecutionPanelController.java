@@ -34,9 +34,6 @@ public class ExecutionPanelController implements EventListener {
 	private Button runButton;
 
 	@FXML
-	private Button cancelButton;
-
-	@FXML
 	private Button printButton;
 
 	@FXML
@@ -58,11 +55,9 @@ public class ExecutionPanelController implements EventListener {
 	private void initialize() {
 
 		runButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-play-24.png"))));
-		cancelButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-play-24.png"))));
 		printButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-print-24.png"))));
 		configButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-gear-24.png"))));
 
-		cancelButton.setDisable(false);
 		printButton.setDisable(true);
 		configButton.setDisable(true);
 		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayName"));
@@ -73,11 +68,6 @@ public class ExecutionPanelController implements EventListener {
 	@FXML
 	public void handleExecuteAgain() {
 		EventDispatcher.getInstance().dispatch(new ExecuteProjectScriptsEvent());
-	}
-
-	@FXML
-	public void handleCancelExecution() {
-
 	}
 
 	@FXML
@@ -100,26 +90,10 @@ public class ExecutionPanelController implements EventListener {
 	public void handleEvent(Event event) {
 
 		if (event instanceof TestExecutionStartedEvent) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					runButton.setDisable(true);
-					cancelButton.setDisable(false);
-					printButton.setDisable(true);
-					configButton.setDisable(true);
-				}
-			});
+			enableActionButtons(true);
 
 		} else if (event instanceof TestExecutionFinishedEvent) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					runButton.setDisable(false);
-					cancelButton.setDisable(true);
-					printButton.setDisable(false);
-					configButton.setDisable(false);
-				}
-			});
+			enableActionButtons(false);
 
 		} else if (event instanceof ExecuteProjectScriptsEvent) {
 
@@ -135,6 +109,17 @@ public class ExecutionPanelController implements EventListener {
 			UpdateResultUiThread.start(ideExecutionContext, progressBar, treeResult);
 			ExecuteTestsThread.start(ideExecutionContext);
 		}
+	}
+
+	private void enableActionButtons(boolean b) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				runButton.setDisable(b);
+				printButton.setDisable(b);
+				configButton.setDisable(b);
+			}
+		});
 	}
 
 }

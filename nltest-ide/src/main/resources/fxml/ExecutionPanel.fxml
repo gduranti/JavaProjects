@@ -34,10 +34,6 @@
                <tooltip>
                   <Tooltip text="Executar o projeto novamente" />
                </tooltip></Button>
-            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelExecution">
-               <tooltip>
-                  <Tooltip text="Cancelar a execução" />
-               </tooltip></Button>
             <Button fx:id="printButton" alignment="CENTER" mnemonicParsing="false" onAction="#handlePrintResult">
                <tooltip>
                   <Tooltip text="Imprimir o resultado" />

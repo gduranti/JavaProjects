@@ -37,7 +37,7 @@ public class CommandTranslator {
 		}
 
 		Command unknownCommand = new UnknownCommand();
-		unknownCommand.init(null, new String[] { lineCommand });
+		unknownCommand.init(">> Comando desconhecido <<", new String[] { lineCommand });
 		return unknownCommand;
 	}
 
