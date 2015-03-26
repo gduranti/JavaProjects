@@ -133,6 +133,11 @@ public class ActionPanelController implements EventListener {
 
 	private TreeItem<ScriptFile> getNearestFolderFromSelection() {
 		TreeItem<ScriptFile> selectedItem = fileTree.getSelectionModel().getSelectedItem();
+
+		if (selectedItem == null) {
+			return fileTree.getRoot();
+		}
+
 		if (selectedItem.getValue().isDirectory()) {
 			return selectedItem;
 		} else {

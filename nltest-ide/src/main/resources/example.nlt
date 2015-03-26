@@ -2,9 +2,11 @@ Suíte de Testes: Suite de exemplo
 
 Caso de Teste: Exemplo de caso de teste 1
 
-Abrir a página www.teste.com.br
-Preencher o campo lalala com o valor teste
-Clicar no botão igual
+Abrir a página https://books.google.com.br
+Preencher o campo hpq com o valor Game of Thrones
+Clicar no botão Pesquisar livros
+Verificar se o título da página é Game of Thrnes - Pesquisa Google
+
 
 Caso de Teste: Exemplo de caso de teste 2
 
