@@ -13,7 +13,7 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import br.unisinos.pf2.nltest.executor.Browser;
+import br.unisinos.pf2.nltest.core.executor.Browser;
 import br.unisinos.pf2.nltest.ide.controller.thread.ExecuteTestsThread;
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateResultUiThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import br.unisinos.pf2.nltest.executor.Browser;
+import br.unisinos.pf2.nltest.core.executor.Browser;
 
 public class IdePrefs {
 

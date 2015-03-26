@@ -1,0 +1,21 @@
+
+# Tokens
+br.unisinos.pf2.nltest.core.model.TestSuite;Suíte de Testes: {nome};true
+br.unisinos.pf2.nltest.core.model.TestCase;Caso de Teste: {nome};true
+br.unisinos.pf2.nltest.core.model.ParameterSetMaker;Dados:;false
+br.unisinos.pf2.nltest.core.model.ParameterSetData;\|\s*(\S+)\s*;false
+
+# Commands
+br.unisinos.pf2.nltest.core.model.commands.OpenPageCommand;Abrir a página {endereco};true
+br.unisinos.pf2.nltest.core.model.commands.FillInputFieldCommand;Preencher o campo {id} com o valor {valor};true
+br.unisinos.pf2.nltest.core.model.commands.ClearFieldValueCommand;Limpar o campo {id};true
+br.unisinos.pf2.nltest.core.model.commands.ClickElementCommand;Clicar no elemento {id};true
+br.unisinos.pf2.nltest.core.model.commands.ClickButtonCommand;Clicar no botão {nome};true
+br.unisinos.pf2.nltest.core.model.commands.ClickLinkCommand;Clicar no link {nome};true
+br.unisinos.pf2.nltest.core.model.commands.AssertFieldValueCommand;Verificar se o campo {id} possui o valor {valor};true
+br.unisinos.pf2.nltest.core.model.commands.AssertPageTitleCommand;Verificar se o título da página é {titulo};true
+br.unisinos.pf2.nltest.core.model.commands.AssertFieldIsEnabledCommand;Verificar se o campo {id} está habilitado;true
+br.unisinos.pf2.nltest.core.model.commands.AssertFieldIsDisabledCommand;Verificar se o campo {id} está desabilitado;true
+br.unisinos.pf2.nltest.core.model.commands.AssertAlertTextCommand;Verificar se o texto do alerta é {texto};true
+br.unisinos.pf2.nltest.core.model.commands.AssertFieldIsEnabledCommand;Aceitar confirmação;true
+br.unisinos.pf2.nltest.core.model.commands.AssertFieldIsDisabledCommand;Negar confirmação;true

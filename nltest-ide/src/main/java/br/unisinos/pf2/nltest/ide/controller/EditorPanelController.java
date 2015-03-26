@@ -11,12 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import br.unisinos.pf2.nltest.core.parser.CommandMap;
 import br.unisinos.pf2.nltest.ide.controller.jfxevents.CommandMapClickHandler;
 import br.unisinos.pf2.nltest.ide.event.EventListener;
 import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ScriptChangedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
-import br.unisinos.pf2.nltest.parser.CommandMap;
 
 public class EditorPanelController implements EventListener {
 

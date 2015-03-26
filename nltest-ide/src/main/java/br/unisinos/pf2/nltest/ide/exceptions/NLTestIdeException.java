@@ -1,6 +1,6 @@
 package br.unisinos.pf2.nltest.ide.exceptions;
 
-import br.unisinos.pf2.nltest.exception.NLTestException;
+import br.unisinos.pf2.nltest.core.exception.NLTestException;
 
 public class NLTestIdeException extends NLTestException {
 
