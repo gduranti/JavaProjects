@@ -4,11 +4,7 @@ import java.util.List;
 
 import org.junit.runner.notification.RunNotifier;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import br.unisinos.pf2.nltest.exception.NLTestException;
 import br.unisinos.pf2.nltest.model.TestSuite;
 
 public class ScriptsExecutor {
@@ -20,21 +16,8 @@ public class ScriptsExecutor {
 	}
 
 	private ExecutionContext createContext(RunNotifier notifier, Browser browser) {
-		WebDriver driver = createDriver(browser);
+		WebDriver driver = browser.getDriver();
 		return new ExecutionContext(notifier, driver);
-	}
-
-	private WebDriver createDriver(Browser browser) {
-		switch (browser) {
-			case IE:
-				return new InternetExplorerDriver();
-			case FIREFOX:
-				return new FirefoxDriver();
-			case CHROME:
-				return new ChromeDriver();
-			default:
-				throw new NLTestException("Browser not supported.");
-		}
 	}
 
 	public void execute(List<TestSuite> testSuites) {

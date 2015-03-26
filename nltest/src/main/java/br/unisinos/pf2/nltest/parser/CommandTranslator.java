@@ -10,15 +10,15 @@ import br.unisinos.pf2.nltest.model.commands.UnknownCommand;
 
 public class CommandTranslator {
 
-	private List<CommandMap<?>> mapOfCommands;
+	private List<CommandMap> mapOfCommands;
 
 	public CommandTranslator() {
-		mapOfCommands = CommandMap.load();
+		mapOfCommands = CommandMap.loadAll();
 	}
 
 	public Parseable interpret(String lineCommand) {
 
-		for (CommandMap<?> commandMap : mapOfCommands) {
+		for (CommandMap commandMap : mapOfCommands) {
 
 			Matcher matcher = commandMap.matcher(lineCommand);
 

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import br.unisinos.pf2.nltest.exception.ParseException;
@@ -13,6 +14,8 @@ import br.unisinos.pf2.nltest.model.Parseable;
 import br.unisinos.pf2.nltest.model.TestSuite;
 
 public class ScriptsParser {
+
+	private static final String[] SCRIPT_FILE_EXTENSIONS = { "nlt" };
 
 	private CommandTranslator commandTranslator;
 
@@ -24,13 +27,18 @@ public class ScriptsParser {
 
 		TestSuitesBuilder builder = new TestSuitesBuilder();
 
-		Collection<File> files = ScriptsLoader.loadFiles(path);
+		Collection<File> files = loadFiles(path);
 		for (File file : files) {
 			System.out.println("Reading file " + file.getName());
 			readFile(builder, file);
 		}
 
 		return builder.getResult();
+	}
+
+	private static Collection<File> loadFiles(String path) {
+		File directory = new File(path);
+		return FileUtils.listFiles(directory, SCRIPT_FILE_EXTENSIONS, true);
 	}
 
 	private void readFile(TestSuitesBuilder builder, File file) {

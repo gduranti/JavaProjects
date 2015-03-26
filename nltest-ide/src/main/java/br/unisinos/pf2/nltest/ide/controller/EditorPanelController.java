@@ -50,8 +50,8 @@ public class EditorPanelController implements EventListener {
 	}
 
 	private void fillCommandList() {
-		List<CommandMap<?>> commands = CommandMap.load();
-		for (CommandMap<?> mappedCommand : commands) {
+		List<CommandMap> commands = CommandMap.loadAll();
+		for (CommandMap mappedCommand : commands) {
 			if (mappedCommand.isExecutable()) {
 				commandListView.getItems().add(mappedCommand.toString());
 			}

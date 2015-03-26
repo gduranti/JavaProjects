@@ -12,7 +12,7 @@ public abstract class Command implements Executable {
 
 	private Description description;
 	private List<String> simpleParameters;
-	private ParameterSet parametersSet;
+	private ParameterSet parameterSet;
 	private String baseScript;
 
 	@Override
@@ -35,7 +35,7 @@ public abstract class Command implements Executable {
 		if (isVariableParameter(value)) {
 			value = StringUtils.removeStart(value, "<");
 			value = StringUtils.removeEnd(value, ">");
-			value = parametersSet.getValue(value);
+			value = parameterSet.getValue(value);
 		}
 
 		return value;
@@ -50,7 +50,7 @@ public abstract class Command implements Executable {
 			Command copiedCommand = this.getClass().newInstance();
 			copiedCommand.simpleParameters = new ArrayList<>(this.simpleParameters);
 			copiedCommand.baseScript = baseScript;
-			copiedCommand.parametersSet = parameterSet;
+			copiedCommand.parameterSet = parameterSet;
 			copiedCommand.description = copiedCommand.buildDescription();
 			return copiedCommand;
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -72,7 +72,7 @@ public abstract class Command implements Executable {
 	@Override
 	public String toString() {
 		String format = "%s. SimpleParameters: %s. ParameterSet: %s.";
-		return String.format(format, getClass().getSimpleName(), simpleParameters, parametersSet);
+		return String.format(format, getClass().getSimpleName(), simpleParameters, parameterSet);
 	}
 
 }

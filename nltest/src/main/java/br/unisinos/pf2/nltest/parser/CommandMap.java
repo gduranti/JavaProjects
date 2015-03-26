@@ -11,11 +11,11 @@ import org.apache.commons.io.IOUtils;
 import br.unisinos.pf2.nltest.exception.ParseException;
 import br.unisinos.pf2.nltest.model.Parseable;
 
-public class CommandMap<T extends Parseable> {
+public class CommandMap {
 
 	private String template;
 	private String regex;
-	private Class<T> clazz;
+	private Class<? extends Parseable> clazz;
 	private boolean executable;
 
 	public boolean isExecutable() {
@@ -26,9 +26,9 @@ public class CommandMap<T extends Parseable> {
 		return Pattern.compile(regex).matcher(input.trim());
 	}
 
-	public T instantiate(String[] args) {
+	public Parseable instantiate(String[] args) {
 		try {
-			T newInstance = clazz.newInstance();
+			Parseable newInstance = clazz.newInstance();
 			newInstance.init(regex, args);
 			return newInstance;
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -37,8 +37,8 @@ public class CommandMap<T extends Parseable> {
 		}
 	}
 
-	public static List<CommandMap<?>> load() {
-		List<CommandMap<?>> commands = new ArrayList<>();
+	public static List<CommandMap> loadAll() {
+		List<CommandMap> commands = new ArrayList<>();
 
 		Scanner scanner = null;
 		try {
@@ -60,7 +60,7 @@ public class CommandMap<T extends Parseable> {
 		return commands;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	private static CommandMap read(String line) throws ClassNotFoundException {
 		String[] split = line.split(";");
 		CommandMap mappedCommands = new CommandMap();

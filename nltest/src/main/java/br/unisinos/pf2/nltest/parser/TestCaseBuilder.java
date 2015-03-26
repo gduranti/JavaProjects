@@ -36,8 +36,8 @@ public class TestCaseBuilder {
 		commands.add(command);
 	}
 
-	public void withParameterSet(boolean acceptParameterSet) {
-		this.acceptParameterSet = acceptParameterSet;
+	public void withParameterSet() {
+		this.acceptParameterSet = true;
 	}
 
 	public void addParameterSetData(ParameterSetData parameterSetData) {

@@ -32,7 +32,7 @@ public class TestSuitesBuilder {
 			testCaseBuilder.addCommand((Command) parseable);
 
 		} else if (parseable instanceof ParameterSetMaker) {
-			testCaseBuilder.withParameterSet(true);
+			testCaseBuilder.withParameterSet();
 
 		} else if (parseable instanceof ParameterSetData) {
 			testCaseBuilder.addParameterSetData((ParameterSetData) parseable);
