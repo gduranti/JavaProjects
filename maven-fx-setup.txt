@@ -1,0 +1,10 @@
+mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype -DarchetypeVersion=2.0.1
+
+
+mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype -DarchetypeVersion=1.3
+
+mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype -DarchetypeVersion=2.0.1 -DgroupId=br.unisinos.pf2 -DartifactId=nltest-ide -Dpackage=br.unisinos.pf2.nltest.ide
+
+http://zenjava.com/javafx/maven/basic-archetype.html
+
+
