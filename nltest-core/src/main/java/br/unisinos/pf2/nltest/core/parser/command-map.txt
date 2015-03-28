@@ -3,7 +3,7 @@
 br.unisinos.pf2.nltest.core.model.TestSuite;Suíte de Testes: {nome};true
 br.unisinos.pf2.nltest.core.model.TestCase;Caso de Teste: {nome};true
 br.unisinos.pf2.nltest.core.model.ParameterSetMaker;Dados:;false
-br.unisinos.pf2.nltest.core.model.ParameterSetData;\|\s*(\S+)\s*;false
+br.unisinos.pf2.nltest.core.model.ParameterSetData;\|([^\|]+);false
 
 # Commands
 br.unisinos.pf2.nltest.core.model.commands.OpenPageCommand;Abrir a página {endereco};true

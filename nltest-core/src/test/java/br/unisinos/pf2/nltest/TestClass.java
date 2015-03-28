@@ -1,14 +1,17 @@
 package br.unisinos.pf2.nltest;
 
+import org.junit.runner.RunWith;
+
 import br.unisinos.pf2.nltest.core.executor.Browser;
 import br.unisinos.pf2.nltest.core.runner.NLTestConfigurator;
+import br.unisinos.pf2.nltest.core.runner.NLTestScriptsRunner;
 
 /**
  *
  * Classe de testes...
  *
  */
-// @RunWith(NLTestScriptsRunner.class)
+@RunWith(NLTestScriptsRunner.class)
 public class TestClass implements NLTestConfigurator {
 
 	public TestClass() {
@@ -18,7 +21,7 @@ public class TestClass implements NLTestConfigurator {
 
 	@Override
 	public String getScriptsPath() {
-		return "E:\\Java\\GitHub\\Unisinos\\nltest\\src\\test\\resources\\scripts-folder";
+		return "E:\\Java\\GitHub\\Unisinos\\nltest-core\\src\\test\\resources\\scripts-folder-simple";
 	}
 
 	@Override

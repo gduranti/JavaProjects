@@ -1,6 +1,6 @@
 package br.unisinos.pf2.nltest.core.model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParameterSetData implements Parseable {
@@ -9,7 +9,10 @@ public class ParameterSetData implements Parseable {
 
 	@Override
 	public void init(String baseScript, String[] args) {
-		values = Arrays.asList(args);
+		values = new ArrayList<>();
+		for (String arg : args) {
+			values.add(arg.trim());
+		}
 	}
 
 	public int indexOf(String value) {

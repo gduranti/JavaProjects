@@ -8,6 +8,9 @@ import br.unisinos.pf2.nltest.core.model.Command;
 import br.unisinos.pf2.nltest.core.model.Parseable;
 import br.unisinos.pf2.nltest.core.model.commands.UnknownCommand;
 
+/**
+ * @see CommandTranslatorTest
+ */
 public class CommandTranslator {
 
 	private List<CommandMap> mapOfCommands;
