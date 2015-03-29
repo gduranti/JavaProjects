@@ -42,7 +42,17 @@
 
 		<finalName>nltest-ide</finalName>
 
+<!-- 		<resources> -->
+<!-- 			<resource> -->
+<!-- 				<directory>webdrivers</directory> -->
+<!-- 				<includes> -->
+<!-- 					<include>*</include> -->
+<!-- 				</includes> -->
+<!-- 			</resource> -->
+<!-- 		</resources> -->
+
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -54,16 +64,11 @@
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>2.0</version>
+				<version>8.1.2</version>
 				<configuration>
-
 					<mainClass>br.unisinos.pf2.nltest.ide.MainApp</mainClass>
-
-					<!-- only required if signing the jar file -->
-					<keyStoreAlias>example-user</keyStoreAlias>
-					<keyStorePassword>example-password</keyStorePassword>
-					<allPermissions>true</allPermissions>
-
+					<needShortcut>true</needShortcut>
+					<vendor>Gabriel Duranti</vendor>
 				</configuration>
 			</plugin>
 

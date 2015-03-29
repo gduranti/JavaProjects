@@ -59,7 +59,6 @@ public class ExecutionPanelController implements EventListener {
 		configButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-gear-24.png"))));
 
 		printButton.setDisable(true);
-		configButton.setDisable(true);
 		testUnityColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayName"));
 		testResultColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayResult"));
 		testMessageColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("displayMessage"));

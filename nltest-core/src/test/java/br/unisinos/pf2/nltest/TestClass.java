@@ -1,17 +1,14 @@
 package br.unisinos.pf2.nltest;
 
-import org.junit.runner.RunWith;
-
 import br.unisinos.pf2.nltest.core.executor.Browser;
 import br.unisinos.pf2.nltest.core.runner.NLTestConfigurator;
-import br.unisinos.pf2.nltest.core.runner.NLTestScriptsRunner;
 
 /**
  *
  * Classe de testes...
  *
  */
-@RunWith(NLTestScriptsRunner.class)
+// @RunWith(NLTestScriptsRunner.class)
 public class TestClass implements NLTestConfigurator {
 
 	public TestClass() {

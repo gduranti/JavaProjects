@@ -1,10 +1,20 @@
 package br.unisinos.pf2.nltest.ide.testexecution;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.junit.runner.JUnitCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.unisinos.pf2.nltest.core.executor.Browser;
+import br.unisinos.pf2.nltest.ide.controller.IdePrefs;
 import br.unisinos.pf2.nltest.ide.controller.thread.ExecuteTestsThread;
+import br.unisinos.pf2.nltest.ide.exceptions.NLTestIdeException;
 
 public class JUnitExecutor {
 
@@ -13,9 +23,7 @@ public class JUnitExecutor {
 	public void execute(IdeExecutionContext ideExecutionContext) {
 		LOGGER.debug("Starting test execution...");
 
-		// TODO
-		System.setProperty("webdriver.ie.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/IEDriverServer.exe");
-		System.setProperty("webdriver.chrome.driver", "E:/Java/GitHub/Unisinos/nltest-ide/src/main/resources/webdrivers/chromedriver.exe");
+		initBrowserSettings();
 
 		JUnitCore jUnitCore = new JUnitCore();
 		jUnitCore.addListener(new LoggingRunListener());
@@ -23,6 +31,51 @@ public class JUnitExecutor {
 		jUnitCore.run(IdeTestConfigurator.class);
 
 		LOGGER.debug("Test execution finished.");
+	}
+
+	private void initBrowserSettings() {
+
+		if (IdePrefs.getDefaultBroser() == Browser.FIREFOX) {
+			return;
+		}
+
+		String driverPath = extractDriver();
+		String driverName = IdePrefs.getDefaultBroser().name().toLowerCase();
+		System.setProperty("webdriver." + driverName + ".driver", driverPath);
+	}
+
+	private String extractDriver() {
+		try {
+			String driverName = IdePrefs.getDefaultBroser().name().toLowerCase() + "driver.exe";
+			String driverFolderPath = System.getProperty("user.dir") + "\\app\\webdrivers";
+			String driverPath = driverFolderPath + "\\" + driverName;
+			File driver = new File(driverPath);
+
+			if (!driver.exists()) {
+				new File(driverFolderPath).mkdirs();
+				extractDriver(driver, driverName);
+			}
+			return driverPath;
+
+		} catch (Exception e) {
+			throw new NLTestIdeException("Ocorreu um erro ao extrair o driver do %s. Por favor, configure a NLTest para utilizar o Firefox.", e);
+		}
+	}
+
+	private void extractDriver(File driver, String driverName) throws IOException {
+		URL resource = getClass().getResource("webdrivers\\" + driverName);
+		InputStream openStream = resource.openStream();
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		baos.write(openStream);
+
+		FileOutputStream fos = new FileOutputStream(driver);
+		fos.write(baos.toByteArray());
+
+		openStream.close();
+		baos.close();
+		fos.flush();
+		fos.close();
 	}
 
 }
