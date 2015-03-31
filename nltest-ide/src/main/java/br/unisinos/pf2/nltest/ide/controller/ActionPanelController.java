@@ -2,6 +2,10 @@ package br.unisinos.pf2.nltest.ide.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
@@ -10,6 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -20,6 +25,10 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.unisinos.pf2.nltest.core.model.Command;
+import br.unisinos.pf2.nltest.core.model.TestCase;
+import br.unisinos.pf2.nltest.core.model.TestSuite;
+import br.unisinos.pf2.nltest.core.parser.ScriptsParser;
 import br.unisinos.pf2.nltest.ide.controller.jfxevents.TreeChangeEventAdapter;
 import br.unisinos.pf2.nltest.ide.controller.thread.UpdateTimeThread;
 import br.unisinos.pf2.nltest.ide.event.EventDispatcher;
@@ -31,6 +40,9 @@ import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
+import br.unisinos.pf2.nltest.ide.report.CommandReportDTO;
+import br.unisinos.pf2.nltest.ide.report.ReportRunner;
+import br.unisinos.pf2.nltest.ide.testexecution.IdeExecutionContext;
 
 public class ActionPanelController implements EventListener {
 
@@ -44,6 +56,9 @@ public class ActionPanelController implements EventListener {
 
 	@FXML
 	private Button runProjectButton;
+
+	@FXML
+	private MenuButton printButton;
 
 	@FXML
 	private Label sysdateLabel;
@@ -60,6 +75,7 @@ public class ActionPanelController implements EventListener {
 		openProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-open-24.png"))));
 		saveProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-save-24.png"))));
 		runProjectButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-play-24.png"))));
+		printButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/icon-print-24.png"))));
 
 		openProjectButton.setStyle("-fx-background-position: left;");
 
@@ -206,6 +222,56 @@ public class ActionPanelController implements EventListener {
 				return findFirsLeaf(item);
 			}
 		}
+		return null;
+	}
+
+	@FXML
+	public void handlePrintTestPlan() {
+
+		List<CommandReportDTO> reportList = buildTestPlanReportList();
+
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("PROJECT_NAME", IdeSession.getInstance().getProjectDirectory().getName());
+		parameters.put("FOOTER_DESCRIPTION", "Relatório de Plano de Testes - Gerado pela ferramenta NLTest");
+		parameters.put("IS_RESULT_REPORT", false);
+
+		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
+	}
+
+	private List<CommandReportDTO> buildTestPlanReportList() {
+		List<CommandReportDTO> reportList = new ArrayList<>();
+
+		ScriptsParser scriptsParser = new ScriptsParser();
+		List<TestSuite> testSuites = scriptsParser.parse(IdeSession.getInstance().getProjectDirectory().getPath());
+
+		for (TestSuite testSuite : testSuites) {
+			for (TestCase testCase : testSuite.getTestCases()) {
+				for (Command command : testCase.getCommands()) {
+					reportList.add(new CommandReportDTO(testSuite, testCase, command));
+				}
+			}
+		}
+		return reportList;
+	}
+
+	@FXML
+	public void handlePrintTestResult() {
+		List<CommandReportDTO> reportList = buildTestResultReportList();
+
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("PROJECT_NAME", IdeSession.getInstance().getProjectDirectory().getName());
+		parameters.put("FOOTER_DESCRIPTION", "Relatório de Resultados da Execução dos Testes - Gerado pela ferramenta NLTest");
+		parameters.put("IS_RESULT_REPORT", true);
+
+		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
+
+	}
+
+	private List<CommandReportDTO> buildTestResultReportList() {
+
+		IdeExecutionContext executionContext = IdeSession.getInstance().getExecutionContext();
+
+		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -9,7 +9,7 @@ import org.junit.runner.notification.RunNotifier;
 
 import br.unisinos.pf2.nltest.core.executor.ExecutionContext;
 
-public class TestCase implements Executable, Cloneable {
+public class TestCase implements Executable {
 
 	private Description description;
 	private List<Command> commands;
@@ -28,6 +28,10 @@ public class TestCase implements Executable, Cloneable {
 	@Override
 	public Description getDescription() {
 		return description;
+	}
+
+	public List<Command> getCommands() {
+		return commands;
 	}
 
 	@Override

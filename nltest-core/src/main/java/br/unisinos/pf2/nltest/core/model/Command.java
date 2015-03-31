@@ -59,14 +59,16 @@ public abstract class Command implements Executable {
 	}
 
 	private Description buildDescription() {
+		String display = getDisplayCommand();
+		return Description.createTestDescription(getClass().getName(), display, UUID.randomUUID());
+	}
 
+	public String getDisplayCommand() {
 		String display = baseScript;
-
 		for (int i = 0; i < StringUtils.countMatches(baseScript, "(.*)"); i++) {
 			display = display.replaceFirst("\\(\\.\\*\\)", getParameterValue(i));
 		}
-
-		return Description.createTestDescription(getClass().getName(), display, UUID.randomUUID());
+		return display;
 	}
 
 	@Override

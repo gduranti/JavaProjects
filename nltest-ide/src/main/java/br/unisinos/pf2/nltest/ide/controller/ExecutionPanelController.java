@@ -101,7 +101,9 @@ public class ExecutionPanelController implements EventListener {
 			progressBar.setProgress(0.0);
 
 			// Creates a new execution context for the IDE
-			IdeExecutionContext ideExecutionContext = new IdeExecutionContext();
+			IdeSession ideSession = IdeSession.getInstance();
+			ideSession.resetExecutionContext();
+			IdeExecutionContext ideExecutionContext = ideSession.getExecutionContext();
 
 			// Starts threads to update the UI and to execute all the tests from
 			// the received file

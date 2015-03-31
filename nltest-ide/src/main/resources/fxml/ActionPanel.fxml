@@ -31,21 +31,30 @@
 						<Insets bottom="5.0" />
 					</VBox.margin>
 				</HBox>
-				<Button fx:id="openProjectButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" text="Abrir Projeto">
+				<Button fx:id="openProjectButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenProject" prefHeight="25.0" text="Abrir Projeto">
 					<VBox.margin>
 						<Insets top="2.0" />
 					</VBox.margin>
 				</Button>
-				<Button fx:id="saveProjectButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSaveProject" prefHeight="25.0" text="Salvar Projeto">
+				<Button fx:id="saveProjectButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSaveProject" prefHeight="25.0" text="Salvar Projeto">
 					<VBox.margin>
 						<Insets top="2.0" />
 					</VBox.margin>
 				</Button>
-				<Button fx:id="runProjectButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" text="Executar Projeto">
+				<Button fx:id="runProjectButton" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleExecuteProject" prefHeight="25.0" text="Executar Projeto">
 					<VBox.margin>
 						<Insets top="2.0" />
 					</VBox.margin>
 				</Button>
+            <MenuButton fx:id="printButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Imprimir" textAlignment="CENTER">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handlePrintTestPlan" text="Plano de Testes" />
+                <MenuItem mnemonicParsing="false" onAction="#handlePrintTestResult" text="Resultado da Execução dos Testes" />
+              </items>
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </MenuButton>
 				<Label fx:id="pcConfigLabel" alignment="CENTER" layoutX="10.0" layoutY="458.0" prefHeight="17.0" prefWidth="173.0" text="Arquivos de script:">
 					<VBox.margin>
 						<Insets top="10.0" />

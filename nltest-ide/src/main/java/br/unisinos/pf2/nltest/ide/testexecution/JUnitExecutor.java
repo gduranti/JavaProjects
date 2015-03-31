@@ -39,31 +39,37 @@ public class JUnitExecutor {
 			return;
 		}
 
-		String driverPath = extractDriver();
+		String driverPath = extractDefaultDriver();
 		String driverName = IdePrefs.getDefaultBroser().name().toLowerCase();
 		System.setProperty("webdriver." + driverName + ".driver", driverPath);
 	}
 
-	private String extractDriver() {
+	private String extractDefaultDriver() {
+		String browserName = IdePrefs.getDefaultBroser().name();
 		try {
-			String driverName = IdePrefs.getDefaultBroser().name().toLowerCase() + "driver.exe";
+			String driverName = browserName.toLowerCase() + "driver.exe";
 			String driverFolderPath = System.getProperty("user.dir") + "\\app\\webdrivers";
 			String driverPath = driverFolderPath + "\\" + driverName;
 			File driver = new File(driverPath);
 
 			if (!driver.exists()) {
-				new File(driverFolderPath).mkdirs();
+				File dir = new File(driverFolderPath);
+				dir.mkdirs();
 				extractDriver(driver, driverName);
 			}
 			return driverPath;
 
 		} catch (Exception e) {
-			throw new NLTestIdeException("Ocorreu um erro ao extrair o driver do %s. Por favor, configure a NLTest para utilizar o Firefox.", e);
+			String msg = String.format("Ocorreu um erro ao extrair o driver do %s. Por favor, configure a NLTest para utilizar o Firefox.",
+					browserName);
+			throw new NLTestIdeException(msg, e);
 		}
 	}
 
 	private void extractDriver(File driver, String driverName) throws IOException {
-		URL resource = getClass().getResource("webdrivers\\" + driverName);
+
+		URL resource = getClass().getResource("/webdrivers/" + driverName);
+
 		InputStream openStream = resource.openStream();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,6 +82,8 @@ public class JUnitExecutor {
 		baos.close();
 		fos.flush();
 		fos.close();
+
+		System.out.println("Arquivo " + driverName + " extraido para " + driver.getPath());
 	}
 
 }

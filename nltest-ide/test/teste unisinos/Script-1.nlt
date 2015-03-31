@@ -1,0 +1,15 @@
+Suíte de Testes: Suite de exemplo
+
+Caso de Teste: dois
+
+Abrir a página E:\Java\GitHub\Unisinos\nltest-core\src\test\resources\scripts-folder-simple\test-page.html
+Preencher o campo txt-nome com o valor teste
+Clicar no botão OK
+Verificar se o título da página é Test Page errado
+
+Caso de Teste: Exemplo de caso de teste 1
+
+Abrir a página https://books.google.com.br
+Preencher o campo hpq com o valor Game of Thrones
+Clicar no botão Pesquisar livros
+Verificar se o título da página é Game of Thrnes - Pesquisa Google

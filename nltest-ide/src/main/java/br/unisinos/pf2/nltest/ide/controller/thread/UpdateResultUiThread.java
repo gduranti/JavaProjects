@@ -48,31 +48,35 @@ public class UpdateResultUiThread extends AnimationTimer implements EventListene
 	public void handle(long now) {
 
 		if (stopRequested) {
+			updateUI(now);
 			stop();
 			EventDispatcher.getInstance().unregisterListener(this);
 
 		} else if (now - lastUpdate.get() > UPDATE_INTERVAL) {
+			updateUI(now);
+		}
+	}
 
-			LOGGER.debug("Updating UI at: {}", now);
+	private void updateUI(long now) {
+		LOGGER.debug("Updating UI at: {}", now);
 
-			Description rootDescription = ideExecutionContext.getRootDescription();
-			lastUpdate.set(now);
+		Description rootDescription = ideExecutionContext.getRootDescription();
+		lastUpdate.set(now);
 
-			progressBar.setProgress(ideExecutionContext.getPeComplete());
+		progressBar.setProgress(ideExecutionContext.getPeComplete());
 
-			if (rootDescription != null) {
+		if (rootDescription != null) {
 
-				TreeItem<ScriptResult> rootTreeItem = treeResult.getRoot();
-				if (rootTreeItem != null) {
-					rootTreeItem.getChildren().clear();
-				} else {
-					ScriptResult scriptResult = new ScriptResult(rootDescription);
-					ideExecutionContext.addResult(scriptResult);
-					rootTreeItem = new TreeItem<ScriptResult>(scriptResult);
-					treeResult.setRoot(rootTreeItem);
-				}
-				buildSubTreeResult(rootDescription, rootTreeItem);
+			TreeItem<ScriptResult> rootTreeItem = treeResult.getRoot();
+			if (rootTreeItem != null) {
+				rootTreeItem.getChildren().clear();
+			} else {
+				ScriptResult scriptResult = new ScriptResult(rootDescription);
+				ideExecutionContext.addResult(scriptResult);
+				rootTreeItem = new TreeItem<ScriptResult>(scriptResult);
+				treeResult.setRoot(rootTreeItem);
 			}
+			buildSubTreeResult(rootDescription, rootTreeItem);
 		}
 	}
 

@@ -30,6 +30,10 @@ public class TestSuite implements Executable {
 		return description;
 	}
 
+	public List<TestCase> getTestCases() {
+		return testCases;
+	}
+
 	@Override
 	public void execute(ExecutionContext ctx) {
 		for (TestCase testCase : testCases) {

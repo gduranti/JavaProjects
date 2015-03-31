@@ -1,0 +1,12 @@
+Suíte de Testes: Suite de exemplo
+
+Caso de Teste: Exemplo de caso de teste 1
+
+Abrir a página https://books.google.com.br
+Preencher o campo hpq com o valor <livro>
+Clicar no botão Pesquisar livros
+Verificar se o título da página é <titulo>
+Dados:
+| livro                      | titulo                                                  |
+| Game of Thrones | Game of Thrones - Pesquisa Google |
+| Sherlock  | Sherlock - Pesquisa Google |

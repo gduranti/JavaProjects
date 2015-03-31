@@ -1,0 +1,15 @@
+Suíte de Testes: Suite Um
+
+Caso de Teste: Teste de título da página
+Abrir a página https://books.google.com.br
+Preencher o campo hpq com o valor Game of Thrones
+Clicar no botão Pesquisar livros
+Verificar se o título da página é Game of Thrnes - Pesquisa Google
+
+Caso de Teste: Teste 2
+Abrir a página lalalala
+Preencher o campo ccc1 com o valor Game of Thrones
+Preencher o campo ccc22 com o valor valor 2
+Preencher o campo ccc3 com o valor valor tres
+Clicar no botão Pesquisar livros
+Verificar se o título da página é Teste 123

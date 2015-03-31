@@ -39,7 +39,7 @@ public class ScriptResult {
 	}
 
 	public String getDisplayResult() {
-		return wasExecuted() ? result.name : null;
+		return wasExecuted() ? result.getName() : null;
 	}
 
 	public String getDisplayMessage() {
@@ -65,6 +65,11 @@ public class ScriptResult {
 		private Result(String name) {
 			this.name = name;
 		}
+
+		public String getName() {
+			return name;
+		}
+
 	}
 
 }
