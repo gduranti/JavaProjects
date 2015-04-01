@@ -25,6 +25,8 @@ public class ScriptsParser {
 
 	public List<TestSuite> parse(String path) {
 
+		UUIDGenerator.getInstace().reset();
+
 		TestSuitesBuilder builder = new TestSuitesBuilder();
 
 		Collection<File> files = loadFiles(path);

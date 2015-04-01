@@ -4,7 +4,7 @@ Caso de Teste: Teste de título da página
 Abrir a página https://books.google.com.br
 Preencher o campo hpq com o valor Game of Thrones
 Clicar no botão Pesquisar livros
-Verificar se o título da página é Game of Thrnes - Pesquisa Google
+Verificar se o título da página é Game of Thrones - Pesquisa Google
 
 Caso de Teste: Teste 2
 Abrir a página lalalala

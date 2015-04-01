@@ -37,12 +37,14 @@ import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteProjectScriptsEvent;
 import br.unisinos.pf2.nltest.ide.event.events.NewProjectEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
+import br.unisinos.pf2.nltest.ide.exceptions.NLTestIdeException;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
 import br.unisinos.pf2.nltest.ide.report.CommandReportDTO;
 import br.unisinos.pf2.nltest.ide.report.ReportRunner;
 import br.unisinos.pf2.nltest.ide.testexecution.IdeExecutionContext;
+import br.unisinos.pf2.nltest.ide.testexecution.ScriptResult;
 
 public class ActionPanelController implements EventListener {
 
@@ -234,6 +236,7 @@ public class ActionPanelController implements EventListener {
 		parameters.put("PROJECT_NAME", IdeSession.getInstance().getProjectDirectory().getName());
 		parameters.put("FOOTER_DESCRIPTION", "Relatório de Plano de Testes - Gerado pela ferramenta NLTest");
 		parameters.put("IS_RESULT_REPORT", false);
+		parameters.put("TITLE", "Plano de Testes");
 
 		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
 	}
@@ -262,6 +265,7 @@ public class ActionPanelController implements EventListener {
 		parameters.put("PROJECT_NAME", IdeSession.getInstance().getProjectDirectory().getName());
 		parameters.put("FOOTER_DESCRIPTION", "Relatório de Resultados da Execução dos Testes - Gerado pela ferramenta NLTest");
 		parameters.put("IS_RESULT_REPORT", true);
+		parameters.put("TITLE", "Resultado da Execução dos Testes");
 
 		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
 
@@ -271,8 +275,21 @@ public class ActionPanelController implements EventListener {
 
 		IdeExecutionContext executionContext = IdeSession.getInstance().getExecutionContext();
 
-		// TODO Auto-generated method stub
-		return null;
+		if (executionContext == null || executionContext.getResults() == null) {
+			throw new NLTestIdeException("Para gerar o relatório com o resultado da execução dos testes, os testes devem ter sido executados.");
+		}
+
+		List<CommandReportDTO> reportList = buildTestPlanReportList();
+
+		for (ScriptResult scriptResult : executionContext.getResults()) {
+			for (CommandReportDTO commandReportDTO : reportList) {
+				if (commandReportDTO.getDescription().equals(scriptResult.getDescription())) {
+					commandReportDTO.withResult(scriptResult);
+				}
+			}
+		}
+
+		return reportList;
 	}
 
 }
