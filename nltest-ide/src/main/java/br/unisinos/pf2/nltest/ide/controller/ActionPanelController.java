@@ -268,7 +268,6 @@ public class ActionPanelController implements EventListener {
 		parameters.put("TITLE", "Resultado da Execução dos Testes");
 
 		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
-
 	}
 
 	private List<CommandReportDTO> buildTestResultReportList() {

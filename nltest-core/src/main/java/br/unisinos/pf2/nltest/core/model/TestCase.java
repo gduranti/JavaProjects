@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.runner.Description;
-import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
 import br.unisinos.pf2.nltest.core.executor.ExecutionContext;
+import br.unisinos.pf2.nltest.core.executor.FailureHandler;
 
 public class TestCase implements Executable {
 
@@ -37,6 +37,8 @@ public class TestCase implements Executable {
 	@Override
 	public void execute(ExecutionContext ctx) {
 
+		FailureHandler failureHandler = new FailureHandler();
+
 		for (Command command : commands) {
 			RunNotifier notifier = ctx.getNotifier();
 			try {
@@ -44,7 +46,7 @@ public class TestCase implements Executable {
 				command.execute(ctx);
 				notifier.fireTestFinished(command.getDescription());
 			} catch (Throwable e) {
-				notifier.fireTestFailure(new Failure(command.getDescription(), e));
+				notifier.fireTestFailure(failureHandler.handleException(command.getDescription(), e));
 
 				// Quando um comando do caso de teste falha, os comandos
 				// seguites nao sao executados

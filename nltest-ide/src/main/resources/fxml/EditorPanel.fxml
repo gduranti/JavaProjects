@@ -26,7 +26,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ToggleButton fx:id="showCommandMapButton" mnemonicParsing="false" onAction="#handleShowCommandMap" text="Mapa de Comandos" />
+                  <ToggleButton fx:id="showCommandMapButton" mnemonicParsing="false" onAction="#handleShowCommandMap" text="Lista de Comandos" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
