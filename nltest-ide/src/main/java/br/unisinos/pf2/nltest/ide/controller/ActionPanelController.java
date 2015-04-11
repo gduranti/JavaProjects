@@ -37,7 +37,6 @@ import br.unisinos.pf2.nltest.ide.event.events.Event;
 import br.unisinos.pf2.nltest.ide.event.events.ExecuteProjectScriptsEvent;
 import br.unisinos.pf2.nltest.ide.event.events.NewProjectEvent;
 import br.unisinos.pf2.nltest.ide.event.events.ProjectChangedEvent;
-import br.unisinos.pf2.nltest.ide.exceptions.NLTestIdeException;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFile;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileTreeBuilder;
 import br.unisinos.pf2.nltest.ide.filemanagement.ScriptFileWritter;
@@ -259,7 +258,17 @@ public class ActionPanelController implements EventListener {
 
 	@FXML
 	public void handlePrintTestResult() {
-		List<CommandReportDTO> reportList = buildTestResultReportList();
+		IdeExecutionContext executionContext = IdeSession.getInstance().getExecutionContext();
+		if (executionContext == null || executionContext.getResults() == null) {
+			Alert dialog = new Alert(AlertType.WARNING);
+			dialog.setTitle("Atenção");
+			dialog.setHeaderText(null);
+			dialog.setContentText("Para gerar o relatório com o resultado da execução dos testes, primeiro os testes devem ter sido executados.");
+			dialog.show();
+			return;
+		}
+
+		List<CommandReportDTO> reportList = buildTestResultReportList(executionContext);
 
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("PROJECT_NAME", IdeSession.getInstance().getProjectDirectory().getName());
@@ -270,13 +279,7 @@ public class ActionPanelController implements EventListener {
 		ReportRunner.runReport("test-plan.jasper", reportList, parameters);
 	}
 
-	private List<CommandReportDTO> buildTestResultReportList() {
-
-		IdeExecutionContext executionContext = IdeSession.getInstance().getExecutionContext();
-
-		if (executionContext == null || executionContext.getResults() == null) {
-			throw new NLTestIdeException("Para gerar o relatório com o resultado da execução dos testes, os testes devem ter sido executados.");
-		}
+	private List<CommandReportDTO> buildTestResultReportList(IdeExecutionContext executionContext) {
 
 		List<CommandReportDTO> reportList = buildTestPlanReportList();
 

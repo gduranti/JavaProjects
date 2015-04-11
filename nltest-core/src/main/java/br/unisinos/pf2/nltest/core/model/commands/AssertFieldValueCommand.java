@@ -16,7 +16,7 @@ public class AssertFieldValueCommand extends Command {
 		WebElement field = ctx.getDriver().findElement(By.id(id));
 
 		String expectedValue = getParameterValue(1);
-		Assert.assertEquals(expectedValue, field.getText());
+		Assert.assertEquals(expectedValue, field.getAttribute("value"));
 
 	}
 

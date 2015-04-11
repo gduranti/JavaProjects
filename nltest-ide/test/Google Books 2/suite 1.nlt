@@ -3,8 +3,14 @@ Suíte de Testes: Suite Um
 Caso de Teste: Teste de título da página
 Abrir a página https://books.google.com.br
 Preencher o campo hpq com o valor Game of Thrones
+Limpar o campo hpq
+Preencher o campo hpq com o valor Game of Thrones 2
+Clicar no elemento gb-logo
+Verificar se o campo hpq possui o valor Game of Thrones 1
 Clicar no botão Pesquisar livros
-Verificar se o título da página é Game of Thrones - Pesquisa Google
+Verificar se o título da página é Game of Thrones 2 - Pesquisa Google
+Verificar se o campo lst-ib está habilitado
+Verificar se o campo lst-ib está desabilitado
 
 Caso de Teste: Teste 2
 Abrir a página lalalala
